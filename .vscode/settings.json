@@ -1,0 +1,8 @@
+{
+  "css.lint.unknownAtRules": "ignore",
+  "css.validate": false,
+  "scss.lint.unknownAtRules": "ignore",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "editor.formatOnSave": true
+}

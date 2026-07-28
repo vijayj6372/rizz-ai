@@ -1,26 +1,399 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────
+   1. Custom font
+───────────────────────────────────────── */
+@font-face {
+  font-family: "LilitaOne";
+  src: url("/fonts/LilitaOne-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─────────────────────────────────────────
+   2. Design-system CSS variables
+───────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand */
+  --color-primary: #f86b6d;
+  --color-primary-dark: #d95657;
+
+  /* Backgrounds – light */
+  --bg-root: #bccffa;
+  --bg-default: #f2f2f2;
+  --bg-secondary: #e6e6e6;
+  --bg-tertiary: #d9d9d9;
+
+  /* Text – light */
+  --text: #11181c;
+  --text-muted: rgba(17, 24, 28, 0.6);
+  --link: #f6766e;
+
+  /* Gradient */
+  --gradient-top: #abbff2;
+  --gradient-bottom: #bccffa;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+  --spacing-2xl: 24px;
+  --spacing-3xl: 32px;
+  --spacing-4xl: 40px;
+  --spacing-5xl: 48px;
+
+  /* Border radius */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 30px;
+  --radius-full: 9999px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+[data-theme="dark"] {
+  --bg-root: #1f2123;
+  --bg-default: #2a2c2e;
+  --bg-secondary: #353739;
+  --bg-tertiary: #404244;
+  --text: #ecedee;
+  --text-muted: rgba(236, 237, 238, 0.6);
+  --link: #f08080;
+  --gradient-top: #1f2123;
+  --gradient-bottom: #2a2c2e;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ─────────────────────────────────────────
+   3. Tailwind v4 theme extension
+   Note: Tailwind v4 reads CSS variables from :root automatically.
+   All custom tokens are already defined above in :root / [data-theme="dark"].
+───────────────────────────────────────── */
+
+/* ─────────────────────────────────────────
+   4. Base resets
+───────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─────────────────────────────────────────
+   5. Splash screen animations
+───────────────────────────────────────── */
+@keyframes splashLogoEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  60% {
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
+@keyframes splashGlowPulse {
+  0% {
+    opacity: 0.6;
+    transform: scale(1.0);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0.5;
+    transform: scale(1.0);
+  }
+}
+
+@keyframes splashFadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+.splash-container {
+  animation: none;
+}
+
+.splash-exit {
+  animation: splashFadeOut 0.5s ease-in forwards;
+}
+
+.splash-glow {
+  position: absolute;
+  width: min(62vw * 1.8, 500px);
+  height: min(62vw * 1.8, 500px);
+  border-radius: 50%;
+  background-color: #c44fdb;
+  box-shadow: 0 0 80px 40px #cc55ff;
+  opacity: 0.6;
+  transform: scale(0.5);
+  animation: none;
+  transition: opacity 0.8s ease-out, transform 0.9s ease-out;
+}
+
+.splash-glow--pulse {
+  animation: splashGlowPulse 0.8s ease-in-out forwards;
+}
+
+.splash-logo {
+  position: relative;
+  filter: drop-shadow(0 0 30px rgba(255, 102, 255, 0.7));
+}
+
+.splash-logo--enter {
+  animation: splashLogoEnter 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+
+.splash-logo--pulse,
+.splash-logo--exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ─────────────────────────────────────────
+   6. Copied toast animation
+───────────────────────────────────────── */
+@keyframes toastSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toastSlideDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.copied-toast {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: none;
+}
+
+.copied-toast--visible {
+  animation: toastSlideUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+    toastSlideDown 0.3s ease-in 2s forwards;
+}
+
+/* ─────────────────────────────────────────
+   7. Scrollbar styling
+───────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.35);
+  border-radius: 3px;
+}
+
+/* ─────────────────────────────────────────
+   8. File input
+───────────────────────────────────────── */
+input[type="file"] {
+  display: none;
+}
+
+/* ─────────────────────────────────────────
+   9. Modal / dialog backdrop
+───────────────────────────────────────── */
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* ─────────────────────────────────────────
+   10. Utility classes
+───────────────────────────────────────── */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: var(--radius-md);
+  padding: 14px 24px;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.btn-primary:hover {
+  opacity: 0.92;
+  transform: scale(0.98);
+}
+
+.btn-primary:active {
+  opacity: 0.85;
+  transform: scale(0.96);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: var(--radius-md);
+  padding: 12px 24px;
+  transition: background-color 0.15s, opacity 0.15s;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(246, 118, 110, 0.08);
+}
+
+.card {
+  background-color: var(--bg-default);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .card {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+.upload-zone {
+  border: 2px dashed rgba(246, 118, 110, 0.5);
+  border-radius: var(--radius-lg);
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+  text-align: center;
+}
+
+.upload-zone:hover {
+  border-color: var(--color-primary);
+  background-color: rgba(246, 118, 110, 0.04);
+}
+
+/* ─────────────────────────────────────────
+   11. Home feature button interactions
+───────────────────────────────────────── */
+.home-feature-btn:hover {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(246, 118, 110, 0.22) !important;
+}
+
+.home-feature-btn:active {
+  transform: scale(0.95);
+}
+
+/* ─────────────────────────────────────────
+   12. Fun Features card interactions
+───────────────────────────────────────── */
+.fun-card:hover {
+  transform: scale(0.97);
+  opacity: 0.92;
+}
+
+.fun-card:active {
+  transform: scale(0.95);
+}
+
+/* ─────────────────────────────────────────
+   13. Mobile-first responsive layout
+───────────────────────────────────────── */
+
+/* Use dynamic viewport height on mobile to avoid address bar issues */
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  height: 100dvh;
+  overscroll-behavior: none;
+}
+
+/* Safe-area padding for notched phones */
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Remove tap highlight on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent horizontal overflow */
+html body {
+  overflow-x: hidden;
+}
+
+/* Touch targets — min 44px */
+button,
+a {
+  min-height: 44px;
+  touch-action: manipulation;
+}
+
+/* Desktop: center the mobile card with subtle background */
+@media (min-width: 481px) {
+  body {
+    background-color: #ABBFF2;
+  }
+
+  [data-theme="dark"] body {
+    background-color: #1f2123;
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+/* ─────────────────────────────────────────
+   14. Hide Next.js Dev Overlay
+───────────────────────────────────────── */
+nextjs-portal,
+#nextjs-portal,
+.__next-feedback,
+.nextjs-toast-errors-parent {
+  display: none !important;
 }

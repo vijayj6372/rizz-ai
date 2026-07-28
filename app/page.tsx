@@ -1,65 +1,408 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React, { useState, useCallback } from "react";
+import Link from "next/link";
+import { Settings, Menu, ScanLine, MessageCircle, Sparkles } from "lucide-react";
+import SplashScreen from "@/components/SplashScreen";
+import { HeaderTitle } from "@/components/HeaderTitle";
+import { useTheme } from "@/hooks/useTheme";
+import { AppColors } from "@/constants/theme";
+
+/* ─────────────────────────────────────────
+   Settings / About bottom sheet
+───────────────────────────────────────── */
+function SettingsSheet({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <>
+      {/* Backdrop */}
+      <div
+        onClick={onClose}
+        aria-hidden="true"
+        style={{
+          position: "fixed",
+          inset: 0,
+          backgroundColor: "rgba(0,0,0,0.45)",
+          zIndex: 998,
+          opacity: isOpen ? 1 : 0,
+          pointerEvents: isOpen ? "all" : "none",
+          transition: "opacity 0.3s ease",
+          backdropFilter: isOpen ? "blur(2px)" : "none",
+        }}
+      />
+
+      {/* Sheet */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Settings"
+        style={{
+          position: "fixed",
+          bottom: 0,
+          left: "50%",
+          transform: `translateX(-50%) translateY(${isOpen ? "0%" : "105%"})`,
+          width: "100%",
+          maxWidth: 480,
+          zIndex: 999,
+          transition: "transform 0.38s cubic-bezier(0.34, 1.26, 0.64, 1)",
+          borderTopLeftRadius: 32,
+          borderTopRightRadius: 32,
+          overflow: "hidden",
+          background: "linear-gradient(180deg, #FF6C6D 0%, #FF865A 50%, #F69C50 100%)",
+          padding: "12px 24px 52px",
+        }}
+      >
+        {/* Drag handle */}
+        <div
+          style={{
+            width: 44,
+            height: 4,
+            borderRadius: 2,
+            backgroundColor: "rgba(255,255,255,0.45)",
+            margin: "0 auto 32px",
+          }}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+
+        {/* Buttons */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          <a
+            href="mailto:vijayj6372@gmail.com"
+            id="settings-email"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#FFFFFF",
+              borderRadius: 999,
+              padding: "17px 24px",
+              fontSize: 16,
+              fontWeight: 700,
+              color: "#1a1a1a",
+              textDecoration: "none",
+              boxShadow: "0 2px 16px rgba(0,0,0,0.12)",
+              transition: "opacity 0.15s",
+            }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.88")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")}
+          >
+            Send us an Email
+          </a>
+
+          <a
+            href="https://x.com/Vijay_Jadav_7"
+            target="_blank"
+            rel="noopener noreferrer"
+            id="settings-about"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#FFFFFF",
+              borderRadius: 999,
+              padding: "17px 24px",
+              fontSize: 16,
+              fontWeight: 700,
+              color: "#1a1a1a",
+              textDecoration: "none",
+              boxShadow: "0 2px 16px rgba(0,0,0,0.12)",
+              transition: "opacity 0.15s",
+            }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.88")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")}
+          >
+            About me
+          </a>
+        </div>
+
+        {/* Privacy Policy */}
+        <div style={{ marginTop: 28, textAlign: "center" }}>
+          <a
+            href="https://sites.google.com/view/rizz-ai-privacy-policy-com/home"
+            target="_blank"
+            rel="noopener noreferrer"
+            id="settings-privacy"
+            style={{
+              fontSize: 14,
+              color: "rgba(255,255,255,0.9)",
+              textDecoration: "underline",
+              fontWeight: 500,
+              letterSpacing: 0.2,
+            }}
+          >
+            Privacy Policy
+          </a>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ─────────────────────────────────────────
+   Feature button icons (matching the photo)
+───────────────────────────────────────── */
+function ScanBracketIcon() {
+  return (
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+      <rect x="5" y="5" width="12" height="4" rx="2.5" fill="white" opacity="0.95" />
+      <rect x="31" y="5" width="12" height="4" rx="2.5" fill="white" opacity="0.95" />
+      <rect x="5" y="5" width="4" height="12" rx="2.5" fill="white" opacity="0.95" />
+      <rect x="39" y="5" width="4" height="12" rx="2.5" fill="white" opacity="0.95" />
+      <rect x="5" y="39" width="12" height="4" rx="2.5" fill="white" opacity="0.95" />
+      <rect x="31" y="39" width="12" height="4" rx="2.5" fill="white" opacity="0.95" />
+      <rect x="5" y="31" width="4" height="12" rx="2.5" fill="white" opacity="0.95" />
+      <rect x="39" y="31" width="4" height="12" rx="2.5" fill="white" opacity="0.95" />
+    </svg>
+  );
+}
+
+function ChatBubbleIcon() {
+  return (
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+      <path
+        d="M8 12C8 9.8 9.8 8 12 8H36C38.2 8 40 9.8 40 12V28C40 30.2 38.2 32 36 32H26L18 40V32H12C9.8 32 8 30.2 8 28V12Z"
+        stroke="white"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+        opacity="0.95"
+      />
+    </svg>
+  );
+}
+
+function FaceSparkleIcon() {
+  return (
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+      <circle cx="24" cy="24" r="13" stroke="white" strokeWidth="3" fill="none" opacity="0.95" />
+      <path
+        d="M18 28C18 28 20 32 24 32C28 32 30 28 30 28"
+        stroke="white"
+        strokeWidth="3"
+        strokeLinecap="round"
+        fill="none"
+        opacity="0.95"
+      />
+      <circle cx="19" cy="22" r="2.2" fill="white" opacity="0.95" />
+      <circle cx="29" cy="22" r="2.2" fill="white" opacity="0.95" />
+      {/* Sparkle top-right */}
+      <path
+        d="M36 8 L37.5 11 L41 12.5 L37.5 14 L36 17 L34.5 14 L31 12.5 L34.5 11 Z"
+        fill="white"
+        opacity="0.85"
+      />
+      <path
+        d="M40 4 L40.8 5.8 L42.5 6.5 L40.8 7.2 L40 9 L39.2 7.2 L37.5 6.5 L39.2 5.8 Z"
+        fill="white"
+        opacity="0.55"
+      />
+    </svg>
+  );
+}
+
+/* ─────────────────────────────────────────
+   Feature button data
+───────────────────────────────────────── */
+const HOME_FEATURES = [
+  {
+    id: "upload-screenshot",
+    href: "/upload-screenshot",
+    icon: <ScanBracketIcon />,
+    label: "Upload Screenshot\nof a Convo",
+    ariaLabel: "Upload a conversation screenshot",
+  },
+  {
+    id: "pickup-line",
+    href: "/pickup-line",
+    icon: <ChatBubbleIcon />,
+    label: "Give me a pickup line",
+    ariaLabel: "Get a pickup line",
+  },
+  {
+    id: "lookmaxing",
+    href: "/lookmaxing",
+    icon: <FaceSparkleIcon />,
+    label: "Lookmaxing",
+    ariaLabel: "Lookmaxing tips",
+  },
+];
+
+/* ─────────────────────────────────────────
+   Home Page
+───────────────────────────────────────── */
+let globalSplashDone = false;
+
+export default function HomePage() {
+  const [splashDone, setSplashDone] = useState(globalSplashDone);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const { isDark, theme } = useTheme();
+
+  const handleSplashFinish = useCallback(() => {
+    globalSplashDone = true;
+    setSplashDone(true);
+  }, []);
+
+  const bg = "linear-gradient(180deg, #ABBFF2 0%, #BCCFFA 100%)";
+
+  return (
+    <>
+      {!splashDone && <SplashScreen onFinish={handleSplashFinish} />}
+
+      <main
+        style={{
+          minHeight: "100dvh",
+          background: bg,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            width: "100%",
+            maxWidth: 420,
+            padding: "env(safe-area-inset-top, 16px) 20px env(safe-area-inset-bottom, 32px)",
+            display: "flex",
+            flexDirection: "column",
+            flex: 1,
+            minHeight: "100dvh",
+          }}
+        >
+          {/* ── Top bar ── */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingTop: 16,
+              paddingBottom: 4,
+            }}
+          >
+            <button
+              onClick={() => setSheetOpen(true)}
+              id="btn-settings"
+              aria-label="Settings"
+              style={{
+                width: 46,
+                height: 46,
+                borderRadius: 14,
+                backgroundColor: "#F86B6D",
+                border: "none",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: "0 4px 0px #D95657, 0 4px 10px rgba(217, 86, 87, 0.3)",
+                flexShrink: 0,
+              }}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              <Settings size={22} color="#FFFFFF" strokeWidth={2.2} />
+            </button>
+
+            <Link
+              href="/fun-features"
+              id="btn-menu"
+              aria-label="Menu"
+              style={{
+                width: 46,
+                height: 46,
+                borderRadius: 14,
+                backgroundColor: "#F86B6D",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: "0 4px 0px #D95657, 0 4px 10px rgba(217, 86, 87, 0.3)",
+                flexShrink: 0,
+                textDecoration: "none",
+              }}
             >
-              Learning
-            </a>{" "}
-            center.
+              <Menu size={22} color="#FFFFFF" strokeWidth={2.2} />
+            </Link>
+          </div>
+
+          {/* ── Title ── */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              paddingTop: 80,
+              paddingBottom: 40,
+            }}
+          >
+            <HeaderTitle title="Rizz AI" fontSize={76} />
+          </div>
+
+          {/* ── Feature buttons ── */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            {HOME_FEATURES.map((feat) => (
+              <Link
+                key={feat.id}
+                href={feat.href}
+                id={`home-btn-${feat.id}`}
+                aria-label={feat.ariaLabel}
+                style={{ textDecoration: "none", display: "block" }}
+              >
+                <div
+                  className="home-feature-btn"
+                  style={{
+                    backgroundColor: "#F86B6D",
+                    borderRadius: 36,
+                    height: 175,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 12,
+                    boxShadow: "0 6px 0px #D95657, 0 6px 14px rgba(217, 86, 87, 0.4)",
+                    cursor: "pointer",
+                    transition: "transform 0.16s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.16s",
+                    userSelect: "none",
+                    WebkitTapHighlightColor: "transparent",
+                  }}
+                >
+                  <div style={{ transform: "scale(1.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    {feat.icon}
+                  </div>
+                  <p
+                    style={{
+                      fontSize: 22,
+                      fontWeight: 800,
+                      color: "#FFFFFF",
+                      margin: 0,
+                      textAlign: "center",
+                      lineHeight: 1.25,
+                      whiteSpace: "pre-line",
+                    }}
+                  >
+                    {feat.label}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* ── Footer ── */}
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: 12,
+              color: "rgba(17,24,28,0.4)",
+              marginTop: "auto",
+              paddingTop: 36,
+            }}
+          >
+            Rizz AI © 2025 · Made with ❤️
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
       </main>
-    </div>
+
+      <SettingsSheet isOpen={sheetOpen} onClose={() => setSheetOpen(false)} />
+    </>
   );
 }
