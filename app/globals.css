@@ -397,3 +397,55 @@ nextjs-portal,
 .nextjs-toast-errors-parent {
   display: none !important;
 }
+
+/* ─────────────────────────────────────────
+   15. Responsive layout helper utilities
+───────────────────────────────────────── */
+
+/* Desktop layout configurations */
+@media (min-width: 768px) {
+  .desktop-row {
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 24px !important;
+  }
+  
+  .desktop-col-left {
+    flex: 1.2 !important;
+    max-width: 450px !important;
+  }
+
+  .desktop-col-right {
+    flex: 1.8 !important;
+    min-width: 0 !important;
+  }
+
+  .desktop-grid-2 {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 20px !important;
+  }
+
+  .desktop-grid-3 {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
+    gap: 24px !important;
+  }
+
+  .desktop-hidden {
+    display: none !important;
+  }
+}
+
+.result-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 360px) {
+  .result-card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

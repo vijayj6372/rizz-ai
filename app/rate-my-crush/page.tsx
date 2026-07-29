@@ -210,11 +210,11 @@ export default function RateMyCrushPage() {
       )}
 
       {/* Screen view content */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", width: "100%", maxWidth: 400, margin: "0 auto", gap: 20 }}>
+      <div className="w-full max-w-[400px] md:max-w-[900px] mx-auto" style={{ flex: 1, display: "flex", flexDirection: "column", width: "100%", gap: 20 }}>
         
         {!hasRated ? (
           /* State 1: Initial Upload Screen */
-          <div className="animate-slide-up" style={{ display: "flex", flexDirection: "column", gap: 24, flex: 1 }}>
+          <div className="animate-slide-up max-w-[400px] mx-auto w-full" style={{ display: "flex", flexDirection: "column", gap: 24, flex: 1 }}>
             <p
               style={{
                 fontSize: 11,
@@ -284,7 +284,7 @@ export default function RateMyCrushPage() {
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "center" }}>
                     <p style={{ fontSize: 18, fontWeight: 800, color: "#FFFFFF", margin: 0, textAlign: "center" }}>
-                      Upload Their Photo
+                      Upload Photo of Your Crush
                     </p>
                     <p style={{ fontSize: 13, color: "rgba(255, 255, 255, 0.45)", margin: 0, textAlign: "center" }}>
                       We&apos;ll give you the honest truth
@@ -339,325 +339,332 @@ export default function RateMyCrushPage() {
           </div>
         ) : (
           /* State 2: Post-Upload Result Screen (Image 1) */
-          <div className="animate-slide-up" style={{ display: "flex", flexDirection: "column", gap: 16, paddingBottom: 40 }}>
+          <div className="animate-slide-up flex flex-col md:flex-row gap-6 w-full items-start" style={{ paddingBottom: 40 }}>
             
-            {/* Card 1: Overall Rating card */}
-            <div
-              className="interactive-card"
-              style={{
-                backgroundColor: "#161622",
-                border: "1px solid rgba(255,255,255,0.06)",
-                borderRadius: 24,
-                padding: 16,
-                display: "flex",
-                flexDirection: "row",
-                gap: 16,
-                position: "relative",
-              }}
-            >
-              {/* Photo Left */}
-              <div style={{ width: 90, height: 100, borderRadius: 16, overflow: "hidden", position: "relative", flexShrink: 0 }}>
-                {imagePreview && (
-                  <Image
-                    src={imagePreview}
-                    alt="Crush photo small"
-                    fill
-                    style={{ objectFit: "cover" }}
-                  />
-                )}
-              </div>
-
-              {/* Stats Right */}
-              <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", flex: 1 }}>
-                <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.4)" }}>
-                  Overall Rating
-                </span>
-                
-                <div style={{ display: "flex", alignItems: "baseline", gap: 3, marginTop: 2 }}>
-                  <span style={{ fontSize: 38, fontWeight: 950, color: "#D946EF", lineHeight: 1 }}>
-                    {score}
-                  </span>
-                  <span style={{ fontSize: 13, color: "rgba(255,255,255,0.35)", fontWeight: 700 }}>/10</span>
+            {/* Left Column: Rating & Actions */}
+            <div className="w-full md:w-[340px] flex-shrink-0 flex flex-col gap-4">
+              {/* Card 1: Overall Rating card */}
+              <div
+                className="interactive-card"
+                style={{
+                  backgroundColor: "#161622",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  borderRadius: 24,
+                  padding: 16,
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: 16,
+                  position: "relative",
+                }}
+              >
+                {/* Photo Left */}
+                <div style={{ width: 90, height: 100, borderRadius: 16, overflow: "hidden", position: "relative", flexShrink: 0 }}>
+                  {imagePreview && (
+                    <Image
+                      src={imagePreview}
+                      alt="Crush photo small"
+                      fill
+                      style={{ objectFit: "cover" }}
+                    />
+                  )}
                 </div>
 
-                {/* Star rating icons */}
-                <div style={{ display: "flex", gap: 3, marginTop: 4 }}>
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <span
-                      key={s}
-                      style={{
-                        fontSize: 16,
-                        color: s <= Math.round(score / 2) ? "#D946EF" : "rgba(255,255,255,0.12)"
-                      }}
-                    >
-                      ★
+                {/* Stats Right */}
+                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", flex: 1 }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.4)" }}>
+                    Overall Rating
+                  </span>
+                  
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 3, marginTop: 2 }}>
+                    <span style={{ fontSize: 38, fontWeight: 950, color: "#D946EF", lineHeight: 1 }}>
+                      {score}
                     </span>
+                    <span style={{ fontSize: 13, color: "rgba(255,255,255,0.35)", fontWeight: 700 }}>/10</span>
+                  </div>
+
+                  {/* Star rating icons */}
+                  <div style={{ display: "flex", gap: 3, marginTop: 4 }}>
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <span
+                        key={s}
+                        style={{
+                          fontSize: 16,
+                          color: s <= Math.round(score / 2) ? "#D946EF" : "rgba(255,255,255,0.12)"
+                        }}
+                      >
+                        ★
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Energy Badge Top-Right */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 14,
+                    right: 14,
+                    backgroundColor: "rgba(217, 70, 239, 0.15)",
+                    border: "1.5px solid rgba(217, 70, 239, 0.4)",
+                    color: "#D946EF",
+                    borderRadius: 12,
+                    padding: "4px 10px",
+                    fontSize: 11,
+                    fontWeight: 800,
+                    letterSpacing: 0.2,
+                  }}
+                >
+                  {badge}
+                </div>
+              </div>
+
+              {/* Dating Potential Row */}
+              <div
+                className="interactive-card"
+                style={{
+                  backgroundColor: "#161622",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  borderRadius: 18,
+                  padding: "14px 18px",
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 12,
+                }}
+              >
+                <span style={{ fontSize: 13, fontWeight: 800, color: "rgba(255,255,255,0.65)" }}>
+                  Dating Potential
+                </span>
+
+                {/* Slider Track */}
+                <div style={{ flex: 1, height: 8, borderRadius: 4, backgroundColor: "rgba(255,255,255,0.06)", overflow: "hidden" }}>
+                  <div
+                    style={{
+                      height: "100%",
+                      width: animateBars ? `${datingPotential}%` : "0%",
+                      backgroundColor: "#D946EF",
+                      borderRadius: 4,
+                      transition: "width 1s cubic-bezier(0.25, 1, 0.5, 1)",
+                    }}
+                  />
+                </div>
+
+                <span style={{ fontSize: 13, fontWeight: 900, color: "#D946EF" }}>
+                  {datingPotential}%
+                </span>
+              </div>
+
+              {/* Actions dual buttons */}
+              <div style={{ display: "flex", flexDirection: "row", gap: 12, marginTop: 4 }}>
+                {/* Try another */}
+                <button
+                  onClick={reset}
+                  style={{
+                    flex: 1,
+                    paddingTop: 16,
+                    paddingBottom: 16,
+                    borderRadius: 18,
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    backgroundColor: "rgba(255,255,255,0.04)",
+                    color: "#FFFFFF",
+                    fontSize: 16,
+                    fontWeight: 800,
+                    cursor: "pointer",
+                    transition: "background-color 0.15s",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.08)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.04)")}
+                >
+                  Try Another
+                </button>
+
+                {/* Re-Rate */}
+                <button
+                  onClick={handleAnalyze}
+                  style={{
+                    flex: 1,
+                    paddingTop: 16,
+                    paddingBottom: 16,
+                    borderRadius: 18,
+                    backgroundColor: "#D946EF",
+                    border: "none",
+                    color: "#FFFFFF",
+                    fontSize: 16,
+                    fontWeight: 800,
+                    cursor: "pointer",
+                    boxShadow: "0 4px 14px rgba(217, 70, 239, 0.35)",
+                    transition: "all 0.15s",
+                  }}
+                  onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.97)")}
+                  onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                >
+                  Re-Rate
+                </button>
+              </div>
+            </div>
+
+            {/* Right Column: Breakdown & analysis cards */}
+            <div className="flex-1 w-full flex flex-col gap-4">
+              {/* Card 2: AI Recommendation Card */}
+              <div
+                className="interactive-card"
+                style={{
+                  backgroundColor: "#161622",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  borderRadius: 24,
+                  padding: 16,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  gap: 6,
+                }}
+              >
+                <span style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.45)", letterSpacing: 1.5 }}>
+                  AI RECOMMENDATION
+                </span>
+                <h3 style={{ fontSize: 24, fontWeight: 950, color: "#D946EF", margin: 0, letterSpacing: 0.5 }}>
+                  {verdict}
+                </h3>
+                <p style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", fontWeight: 500, margin: 0 }}>
+                  {verdictDesc}
+                </p>
+              </div>
+
+              {/* Card 3: Detailed Breakdown Card */}
+              <div
+                className="interactive-card"
+                style={{
+                  backgroundColor: "#161622",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  borderRadius: 24,
+                  padding: "20px 18px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 16,
+                }}
+              >
+                <h4 style={{ fontSize: 15, fontWeight: 900, color: "#FFFFFF", margin: 0 }}>
+                  Detailed Breakdown
+                </h4>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                  {breakdown.map((item) => (
+                    <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      {/* Label */}
+                      <span style={{ width: 100, fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.45)" }}>
+                        {item.label}
+                      </span>
+
+                      {/* Progress Fill bar */}
+                      <div style={{ flex: 1, height: 6, borderRadius: 3, backgroundColor: "rgba(255,255,255,0.04)", overflow: "hidden" }}>
+                        <div
+                          style={{
+                            height: "100%",
+                            width: animateBars ? `${item.val * 10}%` : "0%",
+                            backgroundColor: "#D946EF",
+                            borderRadius: 3,
+                            transition: "width 1.2s cubic-bezier(0.25, 1, 0.5, 1)",
+                          }}
+                        />
+                      </div>
+
+                      {/* Score */}
+                      <span style={{ width: 24, fontSize: 12, fontWeight: 900, color: "#D946EF", textAlign: "right" }}>
+                        {item.val.toFixed(1)}
+                      </span>
+                    </div>
                   ))}
                 </div>
               </div>
 
-              {/* Energy Badge Top-Right */}
+              {/* Card 4: AI Analysis speech bubble card */}
               <div
+                className="interactive-card"
                 style={{
-                  position: "absolute",
-                  top: 14,
-                  right: 14,
-                  backgroundColor: "rgba(217, 70, 239, 0.15)",
-                  border: "1.5px solid rgba(217, 70, 239, 0.4)",
-                  color: "#D946EF",
-                  borderRadius: 12,
-                  padding: "4px 10px",
-                  fontSize: 11,
-                  fontWeight: 800,
-                  letterSpacing: 0.2,
+                  backgroundColor: "#161622",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  borderRadius: 24,
+                  padding: 16,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 12,
                 }}
               >
-                {badge}
-              </div>
-            </div>
-
-            {/* Dating Potential Row */}
-            <div
-              className="interactive-card"
-              style={{
-                backgroundColor: "#161622",
-                border: "1px solid rgba(255,255,255,0.06)",
-                borderRadius: 18,
-                padding: "14px 18px",
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 12,
-              }}
-            >
-              <span style={{ fontSize: 13, fontWeight: 800, color: "rgba(255,255,255,0.65)" }}>
-                Dating Potential
-              </span>
-
-              {/* Slider Track */}
-              <div style={{ flex: 1, height: 8, borderRadius: 4, backgroundColor: "rgba(255,255,255,0.06)", overflow: "hidden" }}>
-                <div
-                  style={{
-                    height: "100%",
-                    width: animateBars ? `${datingPotential}%` : "0%",
-                    backgroundColor: "#D946EF",
-                    borderRadius: 4,
-                    transition: "width 1s cubic-bezier(0.25, 1, 0.5, 1)",
-                  }}
-                />
-              </div>
-
-              <span style={{ fontSize: 13, fontWeight: 900, color: "#D946EF" }}>
-                {datingPotential}%
-              </span>
-            </div>
-
-            {/* Card 2: AI Recommendation Card */}
-            <div
-              className="interactive-card"
-              style={{
-                backgroundColor: "#161622",
-                border: "1px solid rgba(255,255,255,0.06)",
-                borderRadius: 24,
-                padding: 16,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
-                gap: 6,
-              }}
-            >
-              <span style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.45)", letterSpacing: 1.5 }}>
-                AI RECOMMENDATION
-              </span>
-              <h3 style={{ fontSize: 24, fontWeight: 950, color: "#D946EF", margin: 0, letterSpacing: 0.5 }}>
-                {verdict}
-              </h3>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", fontWeight: 500, margin: 0 }}>
-                {verdictDesc}
-              </p>
-            </div>
-
-            {/* Card 3: Detailed Breakdown Card */}
-            <div
-              className="interactive-card"
-              style={{
-                backgroundColor: "#161622",
-                border: "1px solid rgba(255,255,255,0.06)",
-                borderRadius: 24,
-                padding: "20px 18px",
-                display: "flex",
-                flexDirection: "column",
-                gap: 16,
-              }}
-            >
-              <h4 style={{ fontSize: 15, fontWeight: 900, color: "#FFFFFF", margin: 0 }}>
-                Detailed Breakdown
-              </h4>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                {breakdown.map((item) => (
-                  <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                    {/* Label */}
-                    <span style={{ width: 100, fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.45)" }}>
-                      {item.label}
-                    </span>
-
-                    {/* Progress Fill bar */}
-                    <div style={{ flex: 1, height: 6, borderRadius: 3, backgroundColor: "rgba(255,255,255,0.04)", overflow: "hidden" }}>
-                      <div
-                        style={{
-                          height: "100%",
-                          width: animateBars ? `${item.val * 10}%` : "0%",
-                          backgroundColor: "#D946EF",
-                          borderRadius: 3,
-                          transition: "width 1.2s cubic-bezier(0.25, 1, 0.5, 1)",
-                        }}
-                      />
-                    </div>
-
-                    {/* Score */}
-                    <span style={{ width: 24, fontSize: 12, fontWeight: 900, color: "#D946EF", textAlign: "right" }}>
-                      {item.val.toFixed(1)}
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <MessageSquare size={15} color="rgba(255,255,255,0.45)" />
+                    <span style={{ fontSize: 12, fontWeight: 800, color: "rgba(255,255,255,0.45)", letterSpacing: 0.2 }}>
+                      AI Analysis
                     </span>
                   </div>
-                ))}
-              </div>
-            </div>
 
-            {/* Card 4: AI Analysis speech bubble card */}
-            <div
-              className="interactive-card"
-              style={{
-                backgroundColor: "#161622",
-                border: "1px solid rgba(255,255,255,0.06)",
-                borderRadius: 24,
-                padding: 16,
-                display: "flex",
-                flexDirection: "column",
-                gap: 12,
-              }}
-            >
-              <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <MessageSquare size={15} color="rgba(255,255,255,0.45)" />
-                  <span style={{ fontSize: 12, fontWeight: 800, color: "rgba(255,255,255,0.45)", letterSpacing: 0.2 }}>
-                    AI Analysis
-                  </span>
+                  {/* Small tap-to-copy button */}
+                  <button
+                    onClick={() => handleCopyText(comment)}
+                    style={{
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      backgroundColor: "rgba(255,255,255,0.04)",
+                      color: "rgba(255,255,255,0.45)",
+                      borderRadius: 8,
+                      padding: "3px 8px",
+                      fontSize: 11,
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      transition: "all 0.1s",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 4,
+                    }}
+                    onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.95)")}
+                    onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                  >
+                    <Copy size={10} />
+                    Tap to copy
+                  </button>
                 </div>
 
-                {/* Small tap-to-copy button */}
-                <button
-                  onClick={() => handleCopyText(comment)}
-                  style={{
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    backgroundColor: "rgba(255,255,255,0.04)",
-                    color: "rgba(255,255,255,0.45)",
-                    borderRadius: 8,
-                    padding: "3px 8px",
-                    fontSize: 11,
-                    fontWeight: 700,
-                    cursor: "pointer",
-                    transition: "all 0.1s",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 4,
-                  }}
-                  onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.95)")}
-                  onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
-                >
-                  <Copy size={10} />
-                  Tap to copy
-                </button>
+                <p style={{ fontSize: 14, color: "rgba(255,255,255,0.9)", lineHeight: 1.55, fontWeight: 500, margin: 0 }}>
+                  {comment}
+                </p>
               </div>
 
-              <p style={{ fontSize: 14, color: "rgba(255,255,255,0.9)", lineHeight: 1.55, fontWeight: 500, margin: 0 }}>
-                {comment}
-              </p>
-            </div>
-
-            {/* Tap to copy full verdict button */}
-            <button
-              onClick={() => handleCopyText(fullVerdictString)}
-              style={{
-                width: "100%",
-                paddingTop: 14,
-                paddingBottom: 14,
-                borderRadius: 16,
-                border: "1px solid rgba(217, 70, 239, 0.25)",
-                backgroundColor: "rgba(217, 70, 239, 0.03)",
-                color: "#D946EF",
-                fontSize: 14,
-                fontWeight: 700,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 8,
-                transition: "all 0.12s",
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(217, 70, 239, 0.08)")}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(217, 70, 239, 0.03)")}
-            >
-              <Copy size={13} />
-              Tap to copy full verdict
-            </button>
-
-            {/* Rating count info */}
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, opacity: 0.35, marginTop: 4 }}>
-              <span style={{ fontSize: 12 }}>👥</span>
-              <span style={{ fontSize: 11, fontWeight: 700, color: "#fff" }}>
-                2,745 people rated crushes today
-              </span>
-            </div>
-
-            {/* Actions dual buttons */}
-            <div style={{ display: "flex", flexDirection: "row", gap: 12, marginTop: 8 }}>
-              {/* Try another */}
+              {/* Tap to copy full verdict button */}
               <button
-                onClick={reset}
+                onClick={() => handleCopyText(fullVerdictString)}
                 style={{
-                  flex: 1,
-                  paddingTop: 16,
-                  paddingBottom: 16,
-                  borderRadius: 18,
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  backgroundColor: "rgba(255,255,255,0.04)",
-                  color: "#FFFFFF",
-                  fontSize: 16,
-                  fontWeight: 800,
+                  width: "100%",
+                  paddingTop: 14,
+                  paddingBottom: 14,
+                  borderRadius: 16,
+                  border: "1px solid rgba(217, 70, 239, 0.25)",
+                  backgroundColor: "rgba(217, 70, 239, 0.03)",
+                  color: "#D946EF",
+                  fontSize: 14,
+                  fontWeight: 700,
                   cursor: "pointer",
-                  transition: "background-color 0.15s",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 8,
+                  transition: "all 0.12s",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.08)")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.04)")}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(217, 70, 239, 0.08)")}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(217, 70, 239, 0.03)")}
               >
-                Try Another
+                <Copy size={13} />
+                Tap to copy full verdict
               </button>
 
-              {/* Re-Rate */}
-              <button
-                onClick={handleAnalyze}
-                style={{
-                  flex: 1,
-                  paddingTop: 16,
-                  paddingBottom: 16,
-                  borderRadius: 18,
-                  backgroundColor: "#D946EF",
-                  border: "none",
-                  color: "#FFFFFF",
-                  fontSize: 16,
-                  fontWeight: 800,
-                  cursor: "pointer",
-                  boxShadow: "0 4px 14px rgba(217, 70, 239, 0.35)",
-                  transition: "all 0.15s",
-                }}
-                onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.97)")}
-                onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
-              >
-                Re-Rate
-              </button>
+              {/* Rating count info */}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, opacity: 0.35, marginTop: 4 }}>
+                <span style={{ fontSize: 12 }}>👥</span>
+                <span style={{ fontSize: 11, fontWeight: 700, color: "#fff" }}>
+                  2,745 people rated crushes today
+                </span>
+              </div>
             </div>
+            
           </div>
         )}
       </div>

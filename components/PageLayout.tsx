@@ -61,9 +61,9 @@ export function PageLayout({
     >
       {/* Inner container */}
       <div
+        className={fullWidth ? "" : "max-w-[480px] md:max-w-[960px] mx-auto"}
         style={{
           width: "100%",
-          maxWidth: fullWidth ? "100%" : 480,
           padding: "16px 16px 40px",
           display: "flex",
           flexDirection: "column",

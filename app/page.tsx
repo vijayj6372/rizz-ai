@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback } from "react";
 import Link from "next/link";
-import { Settings, Menu, ScanLine, MessageCircle, Sparkles } from "lucide-react";
+import { Settings, Menu, ScanLine, MessageCircle, Sparkles, Plus } from "lucide-react";
 import SplashScreen from "@/components/SplashScreen";
 import { HeaderTitle } from "@/components/HeaderTitle";
 import { useTheme } from "@/hooks/useTheme";
@@ -224,11 +224,11 @@ const HOME_FEATURES = [
     ariaLabel: "Get a pickup line",
   },
   {
-    id: "lookmaxing",
-    href: "/lookmaxing",
+    id: "looksmaxing",
+    href: "/looksmaxing",
     icon: <FaceSparkleIcon />,
-    label: "Lookmaxing",
-    ariaLabel: "Lookmaxing tips",
+    label: "Looksmaxing",
+    ariaLabel: "Looksmaxing tips",
   },
 ];
 
@@ -263,9 +263,8 @@ export default function HomePage() {
         }}
       >
         <div
+          className="w-full max-w-[420px] md:max-w-[900px]"
           style={{
-            width: "100%",
-            maxWidth: 420,
             padding: "env(safe-area-inset-top, 16px) 20px env(safe-area-inset-bottom, 32px)",
             display: "flex",
             flexDirection: "column",
@@ -339,7 +338,7 @@ export default function HomePage() {
           </div>
 
           {/* ── Feature buttons ── */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-[20px]">
             {HOME_FEATURES.map((feat) => (
               <Link
                 key={feat.id}
@@ -385,6 +384,200 @@ export default function HomePage() {
                 </div>
               </Link>
             ))}
+          </div>
+
+          {/* ── Bottom Navigation Bar ── */}
+          <div
+            id="bottom-navbar"
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+              alignItems: "center",
+              backgroundColor: "rgba(255, 255, 255, 0.45)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              border: "1px solid rgba(255, 255, 255, 0.55)",
+              borderRadius: 24,
+              padding: "10px 14px",
+              boxShadow: "0 10px 30px rgba(0, 0, 0, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.3)",
+              width: "100%",
+              maxWidth: 420,
+              margin: "32px auto 16px",
+              gap: 8,
+            }}
+          >
+            {/* 1) Home */}
+            <Link
+              href="/"
+              id="nav-home"
+              aria-label="Home"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 48,
+                height: 48,
+                borderRadius: 16,
+                backgroundColor: "rgba(255, 255, 255, 0.65)",
+                fontSize: 24,
+                textDecoration: "none",
+                transition: "all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.15) translateY(-2px)";
+                e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.9)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "none";
+                e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.65)";
+              }}
+            >
+              🏠
+            </Link>
+
+            {/* 2) Love Test */}
+            <Link
+              href="/lovetest"
+              id="nav-love-test"
+              aria-label="Love Test"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 48,
+                height: 48,
+                borderRadius: 16,
+                fontSize: 24,
+                textDecoration: "none",
+                transition: "all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.15) translateY(-2px)";
+                e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "none";
+                e.currentTarget.style.backgroundColor = "transparent";
+              }}
+            >
+              ❤️
+            </Link>
+
+            {/* 3) Plus (Fun Features) */}
+            <Link
+              href="/fun-features"
+              id="nav-fun-features"
+              aria-label="Fun Features"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 48,
+                height: 48,
+                borderRadius: 16,
+                backgroundColor: "#F86B6D",
+                color: "#FFFFFF",
+                textDecoration: "none",
+                transition: "all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                boxShadow: "0 4px 12px rgba(248, 107, 109, 0.3)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.2) rotate(90deg)";
+                e.currentTarget.style.boxShadow = "0 6px 16px rgba(248, 107, 109, 0.4)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "none";
+                e.currentTarget.style.boxShadow = "0 4px 12px rgba(248, 107, 109, 0.3)";
+              }}
+            >
+              <Plus size={24} color="#FFF" strokeWidth={3} />
+            </Link>
+
+            {/* 4) Roast My Selfie */}
+            <Link
+              href="/roast-my-selfie"
+              id="nav-roast-selfie"
+              aria-label="Roast My Selfie"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 48,
+                height: 48,
+                borderRadius: 16,
+                fontSize: 24,
+                textDecoration: "none",
+                transition: "all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.15) translateY(-2px)";
+                e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "none";
+                e.currentTarget.style.backgroundColor = "transparent";
+              }}
+            >
+              🔥
+            </Link>
+
+            {/* 5) Pickup Line */}
+            <Link
+              href="/pickup-line"
+              id="nav-pickup-line"
+              aria-label="Pickup Line"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 48,
+                height: 48,
+                borderRadius: 16,
+                fontSize: 24,
+                textDecoration: "none",
+                transition: "all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.15) translateY(-2px)";
+                e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "none";
+                e.currentTarget.style.backgroundColor = "transparent";
+              }}
+            >
+              💋
+            </Link>
+
+            {/* 6) Hot or Not */}
+            <Link
+              href="/hot-or-not"
+              id="nav-hot-or-not"
+              aria-label="Hot or Not"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 48,
+                height: 48,
+                borderRadius: 16,
+                fontSize: 24,
+                textDecoration: "none",
+                transition: "all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.15) translateY(-2px)";
+                e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "none";
+                e.currentTarget.style.backgroundColor = "transparent";
+              }}
+            >
+              🎮
+            </Link>
           </div>
 
           {/* ── Footer ── */}

@@ -7,10 +7,10 @@ import { AppColors } from "@/constants/theme";
 
 export type ErrorFallbackProps = {
   error: Error;
-  resetError: () => void;
+  resetErrorAction: () => void;
 };
 
-export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
+export function ErrorFallback({ error, resetErrorAction }: ErrorFallbackProps) {
   const { theme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -30,7 +30,7 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
     try {
       window.location.reload();
     } catch {
-      resetError();
+      resetErrorAction();
     }
   };
 

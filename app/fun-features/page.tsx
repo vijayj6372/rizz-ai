@@ -231,14 +231,14 @@ const features: FeatureCardProps[] = [
     href: "/hot-or-not",
   },
   {
-    title: "Lookmaxing Tips",
+    title: "Looksmaxing Tips",
     subtitle: "GLOW-UP GUIDE · LEVEL UP FAST",
     desc: "200+ science-backed tips to maximize your looks",
     badge: "✨✨",
     glowColor: "#00CFA8",
     gradColors: ["#26D0CE", "#1A2980"],
     icon: <Sparkles size={32} color="#fff" />,
-    href: "/lookmaxing/tips",
+    href: "/looksmaxing/tips",
   },
 ];
 
@@ -292,9 +292,8 @@ export default function FunFeaturesPage() {
 
       {/* Content container */}
       <div
+        className="w-full max-w-[480px] md:max-w-[960px]"
         style={{
-          width: "100%",
-          maxWidth: 480,
           display: "flex",
           flexDirection: "column",
           flex: 1,
@@ -457,9 +456,11 @@ export default function FunFeaturesPage() {
           </div>
 
           {/* Feature cards */}
-          {features.map((f) => (
-            <FeatureCard key={f.title} {...f} />
-          ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-[14px]">
+            {features.map((f) => (
+              <FeatureCard key={f.title} {...f} />
+            ))}
+          </div>
 
           {/* Footer */}
           <div

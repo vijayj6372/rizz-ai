@@ -201,7 +201,7 @@ export default function RoastMySelfiePage() {
       )}
 
       {/* Main Container */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", width: "100%", maxWidth: 400, margin: "0 auto", gap: 16 }}>
+      <div className="w-full max-w-[400px] md:max-w-[900px] mx-auto" style={{ flex: 1, display: "flex", flexDirection: "column", width: "100%", gap: 16 }}>
         
         {/* Roast Intensity Selector (Always visible at the top) */}
         <div style={{ display: "flex", flexDirection: "row", gap: 8, padding: "0 4px" }}>
@@ -240,7 +240,7 @@ export default function RoastMySelfiePage() {
 
         {!hasRoasted ? (
           /* State 1: Initial Upload Screen */
-          <div className="animate-slide-up" style={{ display: "flex", flexDirection: "column", gap: 20, flex: 1, marginTop: 12 }}>
+          <div className="animate-slide-up max-w-[400px] mx-auto w-full" style={{ display: "flex", flexDirection: "column", gap: 20, flex: 1, marginTop: 12 }}>
             
             {/* Dashed upload zone */}
             <div
@@ -358,286 +358,293 @@ export default function RoastMySelfiePage() {
           </div>
         ) : (
           /* State 2: Result Screen (Image 2 & 3) */
-          <div className="animate-slide-up" style={{ display: "flex", flexDirection: "column", gap: 16, paddingBottom: 40, marginTop: 4 }}>
+          <div className="animate-slide-up flex flex-col md:flex-row gap-6 w-full items-start" style={{ paddingBottom: 40, marginTop: 4 }}>
             
-            {/* Mode & Roast Stats row */}
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 4px" }}>
+            {/* Left Column: Image preview & Actions */}
+            <div className="w-full md:w-[340px] flex-shrink-0 flex flex-col gap-4">
+              {/* Mode & Roast Stats row */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 4px" }}>
+                <div
+                  style={{
+                    backgroundColor: "rgba(255, 255, 255, 0.05)",
+                    border: `1.5px solid ${activeModeDetails.color}60`,
+                    color: activeModeDetails.color,
+                    borderRadius: 14,
+                    padding: "6px 12px",
+                    fontSize: 11,
+                    fontWeight: 900,
+                    letterSpacing: 0.5,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 4,
+                  }}
+                >
+                  <Flame size={11} fill={activeModeDetails.color} stroke={activeModeDetails.color} />
+                  {selectedMode.toUpperCase()} MODE
+                </div>
+                <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.3)" }}>
+                  👥 1,935 roasted today
+                </span>
+              </div>
+
+              {/* Picture Display with Attractiveness Overlay */}
               <div
                 style={{
-                  backgroundColor: "rgba(255, 255, 255, 0.05)",
-                  border: `1.5px solid ${activeModeDetails.color}60`,
-                  color: activeModeDetails.color,
-                  borderRadius: 14,
-                  padding: "6px 12px",
-                  fontSize: 11,
-                  fontWeight: 900,
-                  letterSpacing: 0.5,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 4,
+                  position: "relative",
+                  width: "100%",
+                  aspectRatio: "1/1",
+                  borderRadius: 24,
+                  overflow: "hidden",
+                  border: "1px solid rgba(255,255,255,0.06)",
                 }}
               >
-                <Flame size={11} fill={activeModeDetails.color} stroke={activeModeDetails.color} />
-                {selectedMode.toUpperCase()} MODE
+                {imagePreview && (
+                  <Image
+                    src={imagePreview}
+                    alt="Selfie rating display"
+                    fill
+                    style={{ objectFit: "cover" }}
+                  />
+                )}
+                
+                {/* Attractiveness rating overlay at bottom-left */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: 16,
+                    left: 16,
+                    display: "flex",
+                    flexDirection: "column",
+                    zIndex: 2,
+                  }}
+                >
+                  <span style={{ fontSize: 10, fontWeight: 800, color: "#FFFFFF", opacity: 0.75, letterSpacing: 0.5, textTransform: "uppercase" }}>
+                    Attractiveness
+                  </span>
+                  
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 2, marginTop: 1 }}>
+                    <span style={{ fontSize: 32, fontWeight: 950, color: "#FF9F1C", lineHeight: 1 }}>
+                      {score}
+                    </span>
+                    <span style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", fontWeight: 700 }}>/10</span>
+                  </div>
+                </div>
+
+                {/* Bottom vignette overlay to make text pop */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: "40%",
+                    background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%)",
+                    pointerEvents: "none",
+                  }}
+                />
               </div>
-              <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.3)" }}>
-                👥 1,935 roasted today
-              </span>
+
+              {/* Actions dual buttons */}
+              <div style={{ display: "flex", flexDirection: "row", gap: 12, marginTop: 4 }}>
+                {/* New Selfie */}
+                <button
+                  onClick={reset}
+                  style={{
+                    flex: 1,
+                    paddingTop: 16,
+                    paddingBottom: 16,
+                    borderRadius: 18,
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    backgroundColor: "rgba(255,255,255,0.04)",
+                    color: "#FFFFFF",
+                    fontSize: 16,
+                    fontWeight: 800,
+                    cursor: "pointer",
+                    transition: "background-color 0.15s",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.08)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.04)")}
+                >
+                  New Selfie
+                </button>
+
+                {/* Roast Again */}
+                <button
+                  onClick={handleRoast}
+                  style={{
+                    flex: 1,
+                    paddingTop: 16,
+                    paddingBottom: 16,
+                    borderRadius: 18,
+                    backgroundColor: activeModeDetails.color,
+                    border: "none",
+                    color: "#FFFFFF",
+                    fontSize: 16,
+                    fontWeight: 800,
+                    cursor: "pointer",
+                    boxShadow: `0 4px 14px ${activeModeDetails.color}35`,
+                    transition: "all 0.15s",
+                  }}
+                  onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.97)")}
+                  onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                >
+                  Roast Again
+                </button>
+              </div>
             </div>
 
-            {/* Picture Display with Attractiveness Overlay */}
-            <div
-              style={{
-                position: "relative",
-                width: "100%",
-                aspectRatio: "1/1",
-                borderRadius: 24,
-                overflow: "hidden",
-                border: "1px solid rgba(255,255,255,0.06)",
-              }}
-            >
-              {imagePreview && (
-                <Image
-                  src={imagePreview}
-                  alt="Selfie rating display"
-                  fill
-                  style={{ objectFit: "cover" }}
-                />
-              )}
-              
-              {/* Attractiveness rating overlay at bottom-left */}
+            {/* Right Column: Breakdown & Roast details */}
+            <div className="flex-1 w-full flex flex-col gap-4">
+              {/* Card 1: Face Breakdown */}
               <div
+                className="interactive-card"
                 style={{
-                  position: "absolute",
-                  bottom: 16,
-                  left: 16,
+                  backgroundColor: "#161622",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  borderRadius: 24,
+                  padding: "20px 18px",
                   display: "flex",
                   flexDirection: "column",
-                  zIndex: 2,
+                  gap: 16,
                 }}
               >
-                <span style={{ fontSize: 10, fontWeight: 800, color: "#FFFFFF", opacity: 0.75, letterSpacing: 0.5, textTransform: "uppercase" }}>
-                  Attractiveness
-                </span>
-                
-                <div style={{ display: "flex", alignItems: "baseline", gap: 2, marginTop: 1 }}>
-                  <span style={{ fontSize: 32, fontWeight: 950, color: "#FF9F1C", lineHeight: 1 }}>
-                    {score}
-                  </span>
-                  <span style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", fontWeight: 700 }}>/10</span>
+                <h4 style={{ fontSize: 15, fontWeight: 900, color: "#FFFFFF", margin: 0 }}>
+                  Face Breakdown
+                </h4>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                  {breakdown.map((item) => (
+                    <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      {/* Label */}
+                      <span style={{ width: 80, fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.45)" }}>
+                        {item.label}
+                      </span>
+
+                      {/* Progress Fill bar */}
+                      <div style={{ flex: 1, height: 6, borderRadius: 3, backgroundColor: "rgba(255,255,255,0.04)", overflow: "hidden" }}>
+                        <div
+                          style={{
+                            height: "100%",
+                            width: animateBars ? `${item.val * 10}%` : "0%",
+                            backgroundColor: activeModeDetails.color,
+                            borderRadius: 3,
+                            transition: "width 1.2s cubic-bezier(0.25, 1, 0.5, 1)",
+                          }}
+                        />
+                      </div>
+
+                      {/* Score */}
+                      <span style={{ width: 24, fontSize: 12, fontWeight: 900, color: activeModeDetails.color, textAlign: "right" }}>
+                        {item.val.toFixed(1)}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              {/* Bottom vignette overlay to make text pop */}
+              {/* Card 2: Roast bubble card */}
               <div
+                className="interactive-card"
                 style={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  height: "40%",
-                  background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%)",
-                  pointerEvents: "none",
+                  backgroundColor: "#161622",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  borderRadius: 24,
+                  padding: 16,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 12,
                 }}
-              />
-            </div>
-
-            {/* Card 1: Face Breakdown */}
-            <div
-              className="interactive-card"
-              style={{
-                backgroundColor: "#161622",
-                border: "1px solid rgba(255,255,255,0.06)",
-                borderRadius: 24,
-                padding: "20px 18px",
-                display: "flex",
-                flexDirection: "column",
-                gap: 16,
-              }}
-            >
-              <h4 style={{ fontSize: 15, fontWeight: 900, color: "#FFFFFF", margin: 0 }}>
-                Face Breakdown
-              </h4>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                {breakdown.map((item) => (
-                  <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                    {/* Label */}
-                    <span style={{ width: 80, fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.45)" }}>
-                      {item.label}
-                    </span>
-
-                    {/* Progress Fill bar */}
-                    <div style={{ flex: 1, height: 6, borderRadius: 3, backgroundColor: "rgba(255,255,255,0.04)", overflow: "hidden" }}>
-                      <div
-                        style={{
-                          height: "100%",
-                          width: animateBars ? `${item.val * 10}%` : "0%",
-                          backgroundColor: activeModeDetails.color,
-                          borderRadius: 3,
-                          transition: "width 1.2s cubic-bezier(0.25, 1, 0.5, 1)",
-                        }}
-                      />
-                    </div>
-
-                    {/* Score */}
-                    <span style={{ width: 24, fontSize: 12, fontWeight: 900, color: activeModeDetails.color, textAlign: "right" }}>
-                      {item.val.toFixed(1)}
+              >
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <MessageSquare size={15} color="rgba(255,255,255,0.45)" />
+                    <span style={{ fontSize: 12, fontWeight: 800, color: "rgba(255,255,255,0.45)", letterSpacing: 0.2 }}>
+                      AI Roast
                     </span>
                   </div>
-                ))}
-              </div>
-            </div>
 
-            {/* Card 2: Roast bubble card */}
-            <div
-              className="interactive-card"
-              style={{
-                backgroundColor: "#161622",
-                border: "1px solid rgba(255,255,255,0.06)",
-                borderRadius: 24,
-                padding: 16,
-                display: "flex",
-                flexDirection: "column",
-                gap: 12,
-              }}
-            >
-              <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <MessageSquare size={15} color="rgba(255,255,255,0.45)" />
-                  <span style={{ fontSize: 12, fontWeight: 800, color: "rgba(255,255,255,0.45)", letterSpacing: 0.2 }}>
-                    AI Roast
-                  </span>
+                  {/* Small tap-to-copy button */}
+                  <button
+                    onClick={() => handleCopyText(roastText)}
+                    style={{
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      backgroundColor: "rgba(255,255,255,0.04)",
+                      color: "rgba(255,255,255,0.45)",
+                      borderRadius: 8,
+                      padding: "3px 8px",
+                      fontSize: 11,
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      transition: "all 0.1s",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 4,
+                    }}
+                    onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.95)")}
+                    onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                  >
+                    <Copy size={10} />
+                    Tap to copy
+                  </button>
                 </div>
 
-                {/* Small tap-to-copy button */}
-                <button
-                  onClick={() => handleCopyText(roastText)}
-                  style={{
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    backgroundColor: "rgba(255,255,255,0.04)",
-                    color: "rgba(255,255,255,0.45)",
-                    borderRadius: 8,
-                    padding: "3px 8px",
-                    fontSize: 11,
-                    fontWeight: 700,
-                    cursor: "pointer",
-                    transition: "all 0.1s",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 4,
-                  }}
-                  onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.95)")}
-                  onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
-                >
-                  <Copy size={10} />
-                  Tap to copy
-                </button>
+                <p style={{ fontSize: 14, color: "rgba(255,255,255,0.9)", lineHeight: 1.55, fontWeight: 500, margin: 0 }}>
+                  {roastText}
+                </p>
               </div>
 
-              <p style={{ fontSize: 14, color: "rgba(255,255,255,0.9)", lineHeight: 1.55, fontWeight: 500, margin: 0 }}>
-                {roastText}
-              </p>
-            </div>
+              {/* Card 3: Glow-Up Tip Card */}
+              <div
+                className="interactive-card"
+                style={{
+                  backgroundColor: "#161622",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  borderRadius: 24,
+                  padding: 16,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 12,
+                }}
+              >
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <Flame size={15} color="#FF9F1C" fill="#FF9F1C" />
+                    <span style={{ fontSize: 12, fontWeight: 800, color: "#FF9F1C", letterSpacing: 0.2 }}>
+                      Glow-Up Tip:
+                    </span>
+                  </div>
 
-            {/* Card 3: Glow-Up Tip Card */}
-            <div
-              className="interactive-card"
-              style={{
-                backgroundColor: "#161622",
-                border: "1px solid rgba(255,255,255,0.06)",
-                borderRadius: 24,
-                padding: 16,
-                display: "flex",
-                flexDirection: "column",
-                gap: 12,
-              }}
-            >
-              <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <Flame size={15} color="#FF9F1C" fill="#FF9F1C" />
-                  <span style={{ fontSize: 12, fontWeight: 800, color: "#FF9F1C", letterSpacing: 0.2 }}>
-                    Glow-Up Tip:
-                  </span>
+                  {/* Small tap-to-copy button */}
+                  <button
+                    onClick={() => handleCopyText(glowUpTip)}
+                    style={{
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      backgroundColor: "rgba(255,255,255,0.04)",
+                      color: "rgba(255,255,255,0.45)",
+                      borderRadius: 8,
+                      padding: "3px 8px",
+                      fontSize: 11,
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      transition: "all 0.1s",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 4,
+                    }}
+                    onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.95)")}
+                    onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                  >
+                    <Copy size={10} />
+                    Tap to copy
+                  </button>
                 </div>
 
-                {/* Small tap-to-copy button */}
-                <button
-                  onClick={() => handleCopyText(glowUpTip)}
-                  style={{
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    backgroundColor: "rgba(255,255,255,0.04)",
-                    color: "rgba(255,255,255,0.45)",
-                    borderRadius: 8,
-                    padding: "3px 8px",
-                    fontSize: 11,
-                    fontWeight: 700,
-                    cursor: "pointer",
-                    transition: "all 0.1s",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 4,
-                  }}
-                  onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.95)")}
-                  onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
-                >
-                  <Copy size={10} />
-                  Tap to copy
-                </button>
+                <p style={{ fontSize: 14, color: "rgba(255,255,255,0.9)", lineHeight: 1.55, fontWeight: 500, margin: 0, fontStyle: "italic" }}>
+                  &ldquo;{glowUpTip}&rdquo;
+                </p>
               </div>
-
-              <p style={{ fontSize: 14, color: "rgba(255,255,255,0.9)", lineHeight: 1.55, fontWeight: 500, margin: 0, fontStyle: "italic" }}>
-                &ldquo;{glowUpTip}&rdquo;
-              </p>
             </div>
-
-            {/* Actions dual buttons */}
-            <div style={{ display: "flex", flexDirection: "row", gap: 12, marginTop: 12 }}>
-              {/* New Selfie */}
-              <button
-                onClick={reset}
-                style={{
-                  flex: 1,
-                  paddingTop: 16,
-                  paddingBottom: 16,
-                  borderRadius: 18,
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  backgroundColor: "rgba(255,255,255,0.04)",
-                  color: "#FFFFFF",
-                  fontSize: 16,
-                  fontWeight: 800,
-                  cursor: "pointer",
-                  transition: "background-color 0.15s",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.08)")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.04)")}
-              >
-                New Selfie
-              </button>
-
-              {/* Roast Again */}
-              <button
-                onClick={handleRoast}
-                style={{
-                  flex: 1,
-                  paddingTop: 16,
-                  paddingBottom: 16,
-                  borderRadius: 18,
-                  backgroundColor: activeModeDetails.color,
-                  border: "none",
-                  color: "#FFFFFF",
-                  fontSize: 16,
-                  fontWeight: 800,
-                  cursor: "pointer",
-                  boxShadow: `0 4px 14px ${activeModeDetails.color}35`,
-                  transition: "all 0.15s",
-                }}
-                onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.97)")}
-                onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
-              >
-                Roast Again
-              </button>
-            </div>
+            
           </div>
         )}
       </div>

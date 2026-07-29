@@ -53,10 +53,10 @@ const FACE_SHP_DATA = [
   { v: "Triangle", e: "🧑" },
 ];
 const JAW_DATA = [
-  { v: "Wide & Angular", e: "🫚" },
-  { v: "Medium", e: "🫚" },
-  { v: "Narrow", e: "🫚" },
-  { v: "Strong", e: "🫚" },
+  { v: "Wide & Angular", e: "🗿" },
+  { v: "Medium", e: "🗿" },
+  { v: "Narrow", e: "🗿" },
+  { v: "Strong", e: "🗿" },
 ];
 const NOSE_DATA = [
   { v: "Roman", e: "👃" },
@@ -110,12 +110,12 @@ function gen100(): number {
   return 40 + Math.floor(Math.random() * 10);
 }
 
-function getTier(s: number): { label: string; color: string; emoji: string } {
-  if (s >= 90) return { label: "Chad", color: "#22C55E", emoji: "🔥" };
-  if (s >= 80) return { label: "Chadlite", color: "#86EFAC", emoji: "⚡" };
-  if (s >= 70) return { label: "High-Tier Normie", color: "#FACC15", emoji: "✨" };
-  if (s >= 60) return { label: "Normie", color: "#F97316", emoji: "👍" };
-  return { label: "Below Average", color: "#EF4444", emoji: "📈" };
+function getTier(s: number): { label: string; color: string; textColor: string; emoji: string } {
+  if (s >= 90) return { label: "Chad", color: "#10B981", textColor: "#065F46", emoji: "👑" };
+  if (s >= 80) return { label: "Chadlite", color: "#3B82F6", textColor: "#1E40AF", emoji: "⚡" };
+  if (s >= 70) return { label: "High-Tier Normie", color: "#F59E0B", textColor: "#92400E", emoji: "⭐" };
+  if (s >= 60) return { label: "Normie", color: "#EC4899", textColor: "#9D174D", emoji: "👍" };
+  return { label: "Below Average", color: "#EF4444", textColor: "#991B1B", emoji: "📈" };
 }
 
 function barColors(s: number): [string, string] {
@@ -177,8 +177,8 @@ function MetricCard({ label, score }: { label: string; score: number }) {
           {score}
         </span>
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <div style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: tier.color }} />
-          <span style={{ fontSize: 13, fontWeight: 700, color: "#6B7280" }}>{tier.label}</span>
+          <span style={{ fontSize: 14 }}>{tier.emoji}</span>
+          <span style={{ fontSize: 13, fontWeight: 800, color: tier.textColor }}>{tier.label}</span>
         </div>
         <div style={{ height: 10, backgroundColor: "rgba(180,195,230,0.4)", borderRadius: 5, overflow: "hidden", marginTop: 4 }}>
           <div
@@ -383,18 +383,19 @@ function BellCurveView({ percentile, accentColor }: { percentile: number; accent
 const CARD_METRICS = [
   { label: "Overall", emoji: "🏆", key: "overall" },
   { label: "Potential", emoji: "⭐", key: "potential" },
-  { label: "Jawline", emoji: "💎", key: "jawline" },
+  { label: "Jawline", emoji: "🗿", key: "jawline" },
   { label: "Cheekbones", emoji: "🧬", key: "cheekBones" },
   { label: "Eyes", emoji: "👀", key: "skinQuality" },
   { label: "Masculinity", emoji: "💪", key: "masculinity" },
 ] as const;
 
-function ShareableCard({ photoUri, scores }: { photoUri: string | null; scores: Scores }) {
+function ShareableCard({ photoUri, scores, cardRef }: { photoUri: string | null; scores: Scores; cardRef?: React.RefObject<HTMLDivElement | null> }) {
   const tier = getTier(scores.overall);
   const tenthScore = Math.round(scores.overall / 10);
 
   return (
     <div
+      ref={cardRef}
       style={{
         borderRadius: 24,
         padding: 22,
@@ -443,16 +444,17 @@ function ShareableCard({ photoUri, scores }: { photoUri: string | null; scores: 
           );
         })}
       </div>
-      <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 10, fontWeight: "600", textAlign: "center", margin: 0 }}>
-        rizz-ai.app · get yours free
+      <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 16, fontWeight: "700", textAlign: "center", margin: 0 }}>
+        rizzai.space · get yours free wingman
       </p>
     </div>
   );
 }
 
-/* ─── Main Lookmaxing Page ─── */
-export default function LookmaxingPage() {
+/* ─── Main Looksmaxing Page ─── */
+export default function LooksmaxingPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const cardRef = useRef<HTMLDivElement | null>(null);
   const [photoUri, setPhotoUri] = useState<string | null>(null);
   const [phase, setPhase] = useState<"upload" | "loading" | "result">("upload");
   const [loadStage, setLoadStage] = useState(0);
@@ -466,6 +468,72 @@ export default function LookmaxingPage() {
   const [saving, setSaving] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
+  const [showShareModal, setShowShareModal] = useState(false);
+
+  const [showWebcam, setShowWebcam] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+      }
+    };
+  }, []);
+
+  const startWebcam = async () => {
+    try {
+      setShowWebcam(true);
+      setTimeout(async () => {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: "user" },
+            audio: false,
+          });
+          streamRef.current = stream;
+          if (videoRef.current) {
+            videoRef.current.srcObject = stream;
+          }
+        } catch (err) {
+          console.error("Error accessing webcam:", err);
+          showToast("❌ Could not access camera. Please check permissions.");
+          setShowWebcam(false);
+        }
+      }, 100);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const stopWebcam = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
+    }
+    setShowWebcam(false);
+  };
+
+  const captureSelfie = () => {
+    if (videoRef.current) {
+      const video = videoRef.current;
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth || 640;
+      canvas.height = video.videoHeight || 480;
+      
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        ctx.translate(canvas.width, 0);
+        ctx.scale(-1, 1);
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        
+        const dataUrl = canvas.toDataURL("image/jpeg");
+        setPhotoUri(dataUrl);
+        stopWebcam();
+        runAnalysis();
+      }
+    }
+  };
 
   const showToast = (msg: string) => {
     setToastMsg(msg);
@@ -557,6 +625,50 @@ export default function LookmaxingPage() {
     showToast("✅ Analysis saved successfully!");
   };
 
+  const downloadCardImage = async () => {
+    if (!cardRef.current) return;
+    try {
+      showToast("⏳ Exporting card image...");
+      const { toPng } = await import("html-to-image");
+      const dataUrl = await toPng(cardRef.current, {
+        cacheBust: true,
+        pixelRatio: 2,
+        style: {
+          transform: "scale(1)",
+        }
+      });
+      const link = document.createElement("a");
+      link.download = `rizz-ai-lookscore-${scores?.overall || "card"}.png`;
+      link.href = dataUrl;
+      link.click();
+      showToast("✅ Image saved successfully!");
+      saveAnalysisLocally();
+    } catch (err) {
+      console.error("Error saving card image:", err);
+      showToast("❌ Failed to save image. Please try again.");
+    }
+  };
+
+  const handleShareScore = async () => {
+    const text = `My Rizz AI Look Score is ${scores?.overall}/100! Check yours at rizzai.space 🔥`;
+    const url = "https://rizzai.space";
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Rizz AI Look Score",
+          text: text,
+          url: url,
+        });
+        return;
+      } catch (err) {
+        console.log("Native share cancelled/failed, showing custom share modal:", err);
+      }
+    }
+    // Fallback: show custom modal
+    setShowShareModal(true);
+  };
+
   const handleReset = () => {
     setPhotoUri(null);
     setScores(null);
@@ -579,7 +691,7 @@ export default function LookmaxingPage() {
             </span>
           </div>
         ) : (
-          <HeaderTitle title="Lookmaxing" />
+          <HeaderTitle title="Looksmaxing" />
         )
       }
     >
@@ -590,152 +702,221 @@ export default function LookmaxingPage() {
         accept="image/*"
         style={{ display: "none" }}
         onChange={handleFileChange}
-        id="lookmaxing-file-uploader"
-        aria-label="Upload photo for lookmaxing analysis"
+        id="looksmaxing-file-uploader"
+        aria-label="Upload photo for looksmaxing analysis"
       />
 
       {/* ─── UPLOAD PHASE ─── */}
       {phase === "upload" && (
-        <div style={{ display: "flex", flexDirection: "column", gap: 20, paddingTop: 12 }}>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, position: "relative" }}>
-            <div
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 50,
-                background: "linear-gradient(135deg, #FF6C6D 0%, #FF865A 50%, #F69C50 100%)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: "0 8px 24px rgba(246,118,110,0.35)",
-                zIndex: 1,
-              }}
-            >
-              <Sparkles size={48} color="#fff" />
+        <div className="w-full max-w-[400px] mx-auto" style={{ display: "flex", flexDirection: "column", gap: 20, paddingTop: 12 }}>
+          
+          {showWebcam ? (
+            /* Webcam Stream View */
+            <div className="w-full bg-[#161622] rounded-3xl overflow-hidden p-4 flex flex-col gap-4 border border-white/10" style={{ animation: "fadeIn 0.3s ease-out" }}>
+              <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden bg-zinc-950 border border-white/5">
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  playsInline
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    transform: "scaleX(-1)", // Mirror effect
+                  }}
+                />
+                {/* Oval guide overlay */}
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: "20px",
+                    border: "3px dashed rgba(248, 107, 109, 0.5)",
+                    borderRadius: "50%",
+                    pointerEvents: "none",
+                  }}
+                />
+              </div>
+
+              <div className="flex flex-row gap-3">
+                <button
+                  onClick={captureSelfie}
+                  style={{
+                    flex: 1,
+                    paddingTop: 14,
+                    paddingBottom: 14,
+                    borderRadius: 18,
+                    border: "none",
+                    background: "linear-gradient(135deg, #FF6C6D 0%, #FF865A 100%)",
+                    color: "#FFFFFF",
+                    fontSize: 15,
+                    fontWeight: 800,
+                    cursor: "pointer",
+                    boxShadow: "0 6px 16px rgba(246,118,110,0.3)",
+                  }}
+                  id="capture-selfie-btn"
+                >
+                  Capture
+                </button>
+                <button
+                  onClick={stopWebcam}
+                  style={{
+                    paddingTop: 14,
+                    paddingBottom: 14,
+                    paddingLeft: 20,
+                    paddingRight: 20,
+                    borderRadius: 18,
+                    border: "1.5px solid rgba(255, 255, 255, 0.15)",
+                    background: "rgba(255, 255, 255, 0.05)",
+                    color: "#FFFFFF",
+                    fontSize: 15,
+                    fontWeight: 800,
+                    cursor: "pointer",
+                  }}
+                  id="cancel-webcam-btn"
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
-            <div style={{ position: "absolute", width: 120, height: 120, borderRadius: 60, border: "2px dashed #FF865A", opacity: 0.35 }} />
-          </div>
+          ) : (
+            /* Upload layout cards */
+            <>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, position: "relative" }}>
+                <div
+                  style={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: 50,
+                    background: "linear-gradient(135deg, #FF6C6D 0%, #FF865A 50%, #F69C50 100%)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    boxShadow: "0 8px 24px rgba(246,118,110,0.35)",
+                    zIndex: 1,
+                  }}
+                >
+                  <Sparkles size={48} color="#fff" />
+                </div>
+                <div style={{ position: "absolute", width: 120, height: 120, borderRadius: 60, border: "2px dashed #FF865A", opacity: 0.35 }} />
+              </div>
 
-          <div style={{ textAlign: "center", display: "flex", flexDirection: "column", gap: 6 }}>
-            <h2 style={{ fontSize: 28, fontWeight: 900, color: "#1F1A3A", margin: "0 0 4px" }}>Get Your Ratings</h2>
-            <p style={{ fontSize: 13.5, color: "#3730A3", fontWeight: 600, margin: 0, lineHeight: 1.45 }}>
-              AI analyzes 6 facial metrics and gives you an honest attractiveness score
-            </p>
-          </div>
+              <div style={{ textAlign: "center", display: "flex", flexDirection: "column", gap: 6 }}>
+                <h2 style={{ fontSize: 28, fontWeight: 900, color: "#1F1A3A", margin: "0 0 4px" }}>Get Your Ratings</h2>
+                <p style={{ fontSize: 13.5, color: "#3730A3", fontWeight: 600, margin: 0, lineHeight: 1.45 }}>
+                  AI analyzes 6 facial metrics and gives you an honest attractiveness score
+                </p>
+              </div>
 
-          {/* Positioning frame */}
-          <div
-            onClick={() => {
-              if (fileInputRef.current) {
-                fileInputRef.current.removeAttribute("capture");
-                fileInputRef.current.click();
-              }
-            }}
-            style={{
-              border: "2px dashed rgba(248,107,109,0.45)",
-              borderRadius: 24,
-              padding: "48px 24px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 12,
-              cursor: "pointer",
-              backgroundColor: "#FFFFFF",
-              boxShadow: "0 8px 24px rgba(0, 0, 0, 0.04)",
-              transition: "border-color 0.2s",
-            }}
-          >
-            <Eye size={56} color="#F86B6D" />
-            <span style={{ fontSize: 14, fontWeight: 800, color: "#1F1A3A" }}>Position your face here</span>
-          </div>
-
-          {/* Grid Stats */}
-          <div style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-            {[
-              { val: "6", lbl: "Metrics" },
-              { val: "100", lbl: "Max Score" },
-              { val: "0%", lbl: "Data Sent" },
-            ].map((stat) => (
+              {/* Positioning frame */}
               <div
-                key={stat.lbl}
+                onClick={() => {
+                  if (fileInputRef.current) {
+                    fileInputRef.current.removeAttribute("capture");
+                    fileInputRef.current.click();
+                  }
+                }}
                 style={{
-                  flex: 1,
+                  border: "2px dashed rgba(248,107,109,0.45)",
+                  borderRadius: 24,
+                  padding: "48px 24px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 12,
+                  cursor: "pointer",
                   backgroundColor: "#FFFFFF",
-                  border: "1px solid rgba(31, 26, 58, 0.08)",
-                  borderRadius: 16,
-                  padding: 12,
-                  textAlign: "center",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.02)",
+                  boxShadow: "0 8px 24px rgba(0, 0, 0, 0.04)",
+                  transition: "border-color 0.2s",
                 }}
               >
-                <p style={{ fontSize: 20, fontWeight: 950, color: "#F86B6D", margin: "0 0 2px" }}>{stat.val}</p>
-                <p style={{ fontSize: 11, color: "#475569", fontWeight: 800, textTransform: "uppercase", letterSpacing: 0.5, margin: 0 }}>{stat.lbl}</p>
+                <Eye size={56} color="#F86B6D" />
+                <span style={{ fontSize: 14, fontWeight: 800, color: "#1F1A3A" }}>Position your face here</span>
               </div>
-            ))}
-          </div>
 
-          {/* CTAs */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {/* Upload Photo Button */}
-            <button
-              onClick={() => {
-                if (fileInputRef.current) {
-                  fileInputRef.current.removeAttribute("capture");
-                  fileInputRef.current.click();
-                }
-              }}
-              style={{
-                width: "100%",
-                paddingTop: 16,
-                paddingBottom: 16,
-                borderRadius: 18,
-                border: "none",
-                background: "linear-gradient(135deg, #FF6C6D 0%, #FF865A 100%)",
-                color: "#FFFFFF",
-                fontSize: 16,
-                fontWeight: 800,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 10,
-                boxShadow: "0 6px 16px rgba(246,118,110,0.3)",
-              }}
-            >
-              <ImageIcon size={20} color="#fff" />
-              Upload Photo
-            </button>
+              {/* Grid Stats */}
+              <div style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+                {[
+                  { val: "6", lbl: "Metrics" },
+                  { val: "100", lbl: "Max Score" },
+                  { val: "0%", lbl: "Data Sent" },
+                ].map((stat) => (
+                  <div
+                    key={stat.lbl}
+                    style={{
+                      flex: 1,
+                      backgroundColor: "#FFFFFF",
+                      border: "1px solid rgba(31, 26, 58, 0.08)",
+                      borderRadius: 16,
+                      padding: 12,
+                      textAlign: "center",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.02)",
+                    }}
+                  >
+                    <p style={{ fontSize: 20, fontWeight: 950, color: "#F86B6D", margin: "0 0 2px" }}>{stat.val}</p>
+                    <p style={{ fontSize: 11, color: "#475569", fontWeight: 800, textTransform: "uppercase", letterSpacing: 0.5, margin: 0 }}>{stat.lbl}</p>
+                  </div>
+                ))}
+              </div>
 
-            {/* Take a Selfie Button */}
-            <button
-              onClick={() => {
-                if (fileInputRef.current) {
-                  fileInputRef.current.setAttribute("capture", "user");
-                  fileInputRef.current.click();
-                }
-              }}
-              style={{
-                width: "100%",
-                paddingTop: 14,
-                paddingBottom: 14,
-                borderRadius: 18,
-                border: "1.5px solid rgba(31, 26, 58, 0.15)",
-                background: "rgba(255, 255, 255, 0.45)",
-                color: "#1F1A3A",
-                fontSize: 15,
-                fontWeight: 800,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 10,
-              }}
-            >
-              <Camera size={18} color="#1F1A3A" />
-              Take a Selfie
-            </button>
-          </div>
+              {/* CTAs */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {/* Upload Photo Button */}
+                <button
+                  onClick={() => {
+                    if (fileInputRef.current) {
+                      fileInputRef.current.removeAttribute("capture");
+                      fileInputRef.current.click();
+                    }
+                  }}
+                  style={{
+                    width: "100%",
+                    paddingTop: 16,
+                    paddingBottom: 16,
+                    borderRadius: 18,
+                    border: "none",
+                    background: "linear-gradient(135deg, #FF6C6D 0%, #FF865A 100%)",
+                    color: "#FFFFFF",
+                    fontSize: 16,
+                    fontWeight: 800,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 10,
+                    boxShadow: "0 6px 16px rgba(246,118,110,0.3)",
+                  }}
+                >
+                  <ImageIcon size={20} color="#fff" />
+                  Upload Photo
+                </button>
+
+                {/* Take a Selfie Button */}
+                <button
+                  onClick={startWebcam}
+                  style={{
+                    width: "100%",
+                    paddingTop: 14,
+                    paddingBottom: 14,
+                    borderRadius: 18,
+                    border: "1.5px solid rgba(31, 26, 58, 0.15)",
+                    background: "rgba(255, 255, 255, 0.45)",
+                    color: "#1F1A3A",
+                    fontSize: 15,
+                    fontWeight: 800,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 10,
+                  }}
+                >
+                  <Camera size={18} color="#1F1A3A" />
+                  Take a Selfie
+                </button>
+              </div>
+            </>
+          )}
         </div>
       )}
 
@@ -819,93 +1000,94 @@ export default function LookmaxingPage() {
 
       {/* ─── RESULT PHASE ─── */}
       {phase === "result" && scores && faceData && tier && (
-        <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-          {/* Tab Page Controller */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              backgroundColor: "rgba(255,255,255,0.08)",
-              borderRadius: 14,
-              padding: 4,
-              gap: 4,
-              overflowX: "auto",
-            }}
-          >
-            {PAGE_LABELS.map((lbl, idx) => (
-              <button
-                key={lbl}
-                id={`lookmax-tab-${lbl.toLowerCase().replace(/\s+/g, "-")}`}
-                onClick={() => setCurrentPage(idx)}
-                style={{
-                  flex: 1,
-                  padding: "8px 10px",
-                  borderRadius: 10,
-                  border: "none",
-                  backgroundColor: currentPage === idx ? "#F86B6D" : "transparent",
-                  color: "#fff",
-                  fontSize: 12,
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  whiteSpace: "nowrap",
-                  transition: "background-color 0.2s",
-                }}
-              >
-                {lbl}
-              </button>
-            ))}
-          </div>
+        <div className="w-full max-w-[600px] mx-auto flex flex-col gap-4">
+            {/* Tab Page Controller */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                backgroundColor: "rgba(255, 255, 255, 0.45)",
+                border: "1px solid rgba(31, 26, 58, 0.08)",
+                borderRadius: 14,
+                padding: 4,
+                gap: 4,
+                overflowX: "auto",
+              }}
+            >
+              {PAGE_LABELS.map((lbl, idx) => (
+                <button
+                  key={lbl}
+                  id={`lookmax-tab-${lbl.toLowerCase().replace(/\s+/g, "-")}`}
+                  onClick={() => setCurrentPage(idx)}
+                  style={{
+                    flex: 1,
+                    padding: "8px 10px",
+                    borderRadius: 10,
+                    border: "none",
+                    backgroundColor: currentPage === idx ? "#F86B6D" : "transparent",
+                    color: currentPage === idx ? "#fff" : "#1F1A3A",
+                    fontSize: 12,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    whiteSpace: "nowrap",
+                    transition: "all 0.2s",
+                  }}
+                >
+                  {lbl}
+                </button>
+              ))}
+            </div>
 
-          {/* PAGE CONTENT CONTAINER */}
-          <div style={{ minHeight: 380 }}>
-            {/* ── PAGE 0: RATINGS ── */}
-            {currentPage === 0 && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                {/* Hero section */}
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-                  <div
-                    style={{
-                      width: 96,
-                      height: 96,
-                      borderRadius: 48,
-                      border: `4px solid ${tier.color}`,
-                      overflow: "hidden",
-                      boxShadow: `0 0 16px ${tier.color}66`,
-                      position: "relative",
-                    }}
-                  >
-                    {photoUri ? (
-                      <Image src={photoUri} alt="Selfie" fill style={{ objectFit: "cover" }} />
-                    ) : (
-                      <div style={{ width: "100%", height: "100%", backgroundColor: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 38 }}>
-                        👤
-                      </div>
-                    )}
-                  </div>
+            {/* PAGE CONTENT CONTAINER */}
+            <div style={{ minHeight: 380 }}>
+              {/* ── PAGE 0: RATINGS ── */}
+              {currentPage === 0 && (
+                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                  {/* Hero section */}
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, marginBottom: 12 }}>
+                    <div
+                      style={{
+                        width: 96,
+                        height: 96,
+                        borderRadius: 48,
+                        border: `4px solid ${tier.color}`,
+                        overflow: "hidden",
+                        boxShadow: `0 0 16px ${tier.color}66`,
+                        position: "relative",
+                      }}
+                    >
+                      {photoUri ? (
+                        <Image src={photoUri} alt="Selfie" fill style={{ objectFit: "cover" }} />
+                      ) : (
+                        <div style={{ width: "100%", height: "100%", backgroundColor: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 38 }}>
+                          👤
+                        </div>
+                      )}
+                    </div>
 
-                  <div style={{ display: "flex", flexDirection: "row", alignItems: "baseline", gap: 4 }}>
-                    <span style={{ fontSize: 68, fontWeight: 900, color: "var(--text)", lineHeight: 1 }}>
-                      {scores.overall}
-                    </span>
-                    <span style={{ fontSize: 20, fontWeight: 700, color: "var(--text-muted)" }}>/100</span>
-                  </div>
+                    <div style={{ display: "flex", flexDirection: "row", alignItems: "baseline", gap: 4 }}>
+                      <span style={{ fontSize: 68, fontWeight: 900, color: "var(--text)", lineHeight: 1 }}>
+                        {scores.overall}
+                      </span>
+                      <span style={{ fontSize: 20, fontWeight: 700, color: "var(--text-muted)" }}>/100</span>
+                    </div>
 
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: 8,
-                      padding: "8px 20px",
-                      borderRadius: 24,
-                      border: `1.5px solid ${tier.color}90`,
-                      backgroundColor: `${tier.color}15`,
-                    }}
-                  >
-                    <div style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: tier.color }} />
-                    <span style={{ fontSize: 15, fontWeight: 900, color: tier.color }}>{tier.label}</span>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 8,
+                        padding: "8px 20px",
+                        borderRadius: 24,
+                        border: `1.5px solid ${tier.color}90`,
+                        backgroundColor: `${tier.color}15`,
+                      }}
+                    >
+                      <span style={{ fontSize: 16 }}>{tier.emoji}</span>
+                      <span style={{ fontSize: 15, fontWeight: 900, color: tier.textColor }}>{tier.label}</span>
+                    </div>
                   </div>
-                </div>
 
                 <div style={{ marginTop: 8 }}>
                   <span style={{ fontSize: 11, fontWeight: 900, color: "#F86B6D", letterSpacing: 2 }}>
@@ -934,12 +1116,12 @@ export default function LookmaxingPage() {
             {/* ── PAGE 1: LOOK SCORE CARD ── */}
             {currentPage === 1 && (
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                <ShareableCard photoUri={photoUri} scores={scores} />
+                <ShareableCard photoUri={photoUri} scores={scores} cardRef={cardRef} />
 
                 {/* Save + Share CTA */}
                 <div style={{ display: "flex", flexDirection: "row", gap: 10 }}>
                   <button
-                    onClick={saveAnalysisLocally}
+                    onClick={downloadCardImage}
                     style={{
                       flex: 1,
                       paddingTop: 14,
@@ -961,10 +1143,7 @@ export default function LookmaxingPage() {
                     Save Score
                   </button>
                   <button
-                    onClick={() => {
-                      navigator.clipboard.writeText(`My Rizz AI Look Score is ${scores.overall}/100! 🔥`);
-                      showToast("Score copied to clipboard!");
-                    }}
+                    onClick={handleShareScore}
                     style={{
                       flex: 1,
                       paddingTop: 14,
@@ -1011,30 +1190,6 @@ export default function LookmaxingPage() {
                     />
                   ))}
                 </div>
-
-                <button
-                  onClick={saveAnalysisLocally}
-                  style={{
-                    width: "100%",
-                    paddingTop: 16,
-                    paddingBottom: 16,
-                    borderRadius: 16,
-                    border: "none",
-                    background: "linear-gradient(135deg, #7C3AED 0%, #9333EA 100%)",
-                    color: "#fff",
-                    fontSize: 15,
-                    fontWeight: 800,
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 8,
-                    boxShadow: "0 4px 12px rgba(124,58,237,0.25)",
-                  }}
-                >
-                  <Bookmark size={18} />
-                  Save Analysis Offline
-                </button>
               </div>
             )}
 
@@ -1138,36 +1293,193 @@ export default function LookmaxingPage() {
               </div>
             )}
           </div>
-
+          
           {/* Try another button */}
-          <button
-            onClick={handleReset}
-            style={{
-              marginTop: 12,
-              width: "100%",
-              paddingTop: 16,
-              paddingBottom: 16,
-              borderRadius: 18,
-              border: "none",
-              background: "linear-gradient(135deg, #FF6C6D 0%, #FF865A 100%)",
-              color: "#FFFFFF",
-              fontSize: 16,
-              fontWeight: 700,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 10,
-              boxShadow: "0 4px 16px rgba(246,118,110,0.35)",
-            }}
-          >
-            <Camera size={20} color="#fff" />
-            Try Another Photo
-          </button>
+          <div className="w-full">
+            <button
+              onClick={handleReset}
+              style={{
+                marginTop: 12,
+                width: "100%",
+                paddingTop: 16,
+                paddingBottom: 16,
+                borderRadius: 18,
+                border: "none",
+                background: "linear-gradient(135deg, #FF6C6D 0%, #FF865A 100%)",
+                color: "#FFFFFF",
+                fontSize: 16,
+                fontWeight: 700,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 10,
+                boxShadow: "0 4px 16px rgba(246,118,110,0.35)",
+              }}
+            >
+              <Camera size={20} color="#fff" />
+              Try Another Photo
+            </button>
+          </div>
         </div>
       )}
 
       <CopiedToast visible={toastVisible} onHide={() => setToastVisible(false)} message={toastMsg} />
+
+      {showShareModal && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            backgroundColor: "rgba(0,0,0,0.65)",
+            backdropFilter: "blur(12px)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 9999,
+            padding: 16,
+          }}
+          onClick={() => setShowShareModal(false)}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 400,
+              backgroundColor: "#161622",
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: 28,
+              padding: 24,
+              display: "flex",
+              flexDirection: "column",
+              gap: 20,
+              boxShadow: "0 20px 40px rgba(0,0,0,0.5)",
+              color: "#fff",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+              <span style={{ fontSize: 18, fontWeight: 900 }}>Share Your Score</span>
+              <button
+                onClick={() => setShowShareModal(false)}
+                style={{
+                  border: "none",
+                  background: "transparent",
+                  color: "rgba(255,255,255,0.5)",
+                  fontSize: 20,
+                  cursor: "pointer",
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", margin: 0, lineHeight: 1.45 }}>
+              Choose a platform to share your score or copy the rating to post manually!
+            </p>
+
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              {/* WhatsApp */}
+              <button
+                onClick={() => {
+                  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(`My Rizz AI Look Score is ${scores?.overall}/100! Check yours at https://rizzai.space 🔥`)}`, "_blank");
+                }}
+                style={{
+                  padding: "12px 8px",
+                  borderRadius: 16,
+                  border: "1px solid rgba(34, 197, 94, 0.2)",
+                  backgroundColor: "rgba(34, 197, 94, 0.05)",
+                  color: "#22C55E",
+                  fontWeight: 800,
+                  fontSize: 14,
+                  cursor: "pointer",
+                }}
+              >
+                💬 WhatsApp
+              </button>
+
+              {/* Twitter / X */}
+              <button
+                onClick={() => {
+                  window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(`My Rizz AI Look Score is ${scores?.overall}/100! Check yours at https://rizzai.space 🔥`)}`, "_blank");
+                }}
+                style={{
+                  padding: "12px 8px",
+                  borderRadius: 16,
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  backgroundColor: "rgba(255, 255, 255, 0.03)",
+                  color: "#FFF",
+                  fontWeight: 800,
+                  fontSize: 14,
+                  cursor: "pointer",
+                }}
+              >
+                𝕏 Twitter / X
+              </button>
+
+              {/* Facebook */}
+              <button
+                onClick={() => {
+                  window.open(`https://www.facebook.com/sharer/sharer.php?u=https://rizzai.space`, "_blank");
+                }}
+                style={{
+                  padding: "12px 8px",
+                  borderRadius: 16,
+                  border: "1px solid rgba(59, 130, 246, 0.2)",
+                  backgroundColor: "rgba(59, 130, 246, 0.05)",
+                  color: "#3B82F6",
+                  fontWeight: 800,
+                  fontSize: 14,
+                  cursor: "pointer",
+                }}
+              >
+                👥 Facebook
+              </button>
+
+              {/* Copy Rating */}
+              <button
+                onClick={async () => {
+                  try {
+                    await navigator.clipboard.writeText(`My Rizz AI Look Score is ${scores?.overall}/100! Check yours at https://rizzai.space 🔥`);
+                    showToast("📋 Copied to clipboard!");
+                  } catch (e) {
+                    console.error(e);
+                  }
+                }}
+                style={{
+                  padding: "12px 8px",
+                  borderRadius: 16,
+                  border: "1px solid rgba(245, 158, 11, 0.2)",
+                  backgroundColor: "rgba(245, 158, 11, 0.05)",
+                  color: "#F59E0B",
+                  fontWeight: 800,
+                  fontSize: 14,
+                  cursor: "pointer",
+                }}
+              >
+                🔗 Copy Rating
+              </button>
+            </div>
+
+            {/* Photo Sharing Info (Instagram, Snapchat, TikTok, YouTube) */}
+            <div
+              style={{
+                backgroundColor: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.05)",
+                borderRadius: 18,
+                padding: 14,
+                display: "flex",
+                flexDirection: "column",
+                gap: 6,
+              }}
+            >
+              <span style={{ fontSize: 12, fontWeight: 900, color: "#FF6C6D" }}>📸 INSTAGRAM / SNAPCHAT / TIKTOK / YOUTUBE</span>
+              <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.6)", margin: 0, lineHeight: 1.4 }}>
+                These platforms do not support direct web link sharing. Download your card image using the **Save Score** button and upload it to your stories, posts, or feeds!
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </PageLayout>
   );
 }

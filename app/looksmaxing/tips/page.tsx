@@ -756,7 +756,7 @@ function triggerHaptic() {
 
 const FEATURED_TIP = TIPS[Math.floor(Math.random() * TIPS.length)];
 
-export default function LookmaxingTipsPage() {
+export default function LooksmaxingTipsPage() {
   const { theme, isDark } = useTheme();
   const [impactFilter, setImpactFilter] = useState<Impact | "All">("All");
   const [categoryFilter, setCategoryFilter] = useState<string>("All");

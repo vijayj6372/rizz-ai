@@ -19,12 +19,12 @@ export const metadata: Metadata = {
     template: "%s | Rizz AI",
   },
   description:
-    "AI-powered pickup lines, lookmaxing tips, selfie roasts, and dating advice. Level up your rizz game with Rizz AI.",
+    "AI-powered pickup lines, looksmaxing tips, selfie roasts, and dating advice. Level up your rizz game with Rizz AI.",
   keywords: [
     "rizz",
     "pickup lines",
     "dating tips",
-    "lookmaxing",
+    "looksmaxing",
     "AI",
     "flirting",
     "roast my selfie",
@@ -32,10 +32,10 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Rizz AI" }],
   creator: "Rizz AI",
-  metadataBase: new URL("https://rizz-ai.app"),
+  metadataBase: new URL("https://rizzai.space"),
   openGraph: {
     title: "Rizz AI — Perfect Pickup Lines & Dating Tips",
-    description: "AI-powered pickup lines, lookmaxing tips & selfie roasts.",
+    description: "AI-powered pickup lines, looksmaxing tips & selfie roasts.",
     type: "website",
     locale: "en_US",
     siteName: "Rizz AI",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Rizz AI",
-    description: "AI-powered pickup lines, lookmaxing tips & selfie roasts.",
+    description: "AI-powered pickup lines, looksmaxing tips & selfie roasts.",
     creator: "@Vijay_Jadav_7",
   },
   robots: {

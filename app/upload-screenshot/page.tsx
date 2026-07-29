@@ -276,11 +276,11 @@ export default function UploadScreenshotPage() {
       )}
 
       {/* Main Area */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", minHeight: "calc(100vh - 120px)" }}>
+      <div className="w-full max-w-[400px] md:max-w-[900px] mx-auto" style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", minHeight: "calc(100vh - 120px)" }}>
         
         {!hasUploaded ? (
           /* Initial State - Dashed Upload Zone + Slider + Generate button */
-          <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", flex: 1, animation: "fadeIn 0.3s ease-out" }}>
+          <div className="max-w-[400px] mx-auto w-full" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", flex: 1, animation: "fadeIn 0.3s ease-out" }}>
             <div
               onClick={triggerUpload}
               className="upload-zone-btn"
@@ -401,26 +401,72 @@ export default function UploadScreenshotPage() {
           </div>
         ) : (
           /* Result Area (iMessage + Slider + Action) */
-          <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", flex: 1, animation: "fadeIn 0.3s ease-out" }}>
-            {/* iMessage Stack */}
-            <div className="imessage-container">
-              {lines.map((line, idx) => (
-                <div
-                  key={`${line}-${idx}`}
-                  className="imessage-bubble"
-                  style={{ animationDelay: `${idx * 150}ms` }}
-                  onClick={() => handleCopy(line)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => e.key === "Enter" && handleCopy(line)}
-                >
-                  {line}
-                </div>
-              ))}
+          <div className="flex flex-col md:flex-row gap-6 w-full items-start" style={{ animation: "fadeIn 0.3s ease-out", flex: 1 }}>
+            
+            {/* Left Column: Stats/Controls */}
+            <div className="w-full md:w-[320px] order-last md:order-first flex-shrink-0 flex flex-col gap-4 bg-white/40 dark:bg-white/[0.04] p-5 rounded-[24px] border border-black/[0.04] dark:border-white/[0.05] items-center">
+              <div style={{ fontSize: 44 }}>💬</div>
+              <h3 style={{ fontSize: 18, fontWeight: 900, color: "var(--text)", margin: 0, textAlign: "center" }}>Screenshot Analyzed!</h3>
+              <p style={{ fontSize: 13, color: "var(--text-muted)", margin: 0, textAlign: "center", lineHeight: 1.4 }}>
+                We&apos;ve scanned the conversation. Adjust the spice levels below to match your vibe.
+              </p>
+
+              {/* Chilly Slider */}
+              <ChiliSlider value={sliderValue} onChange={setSliderValue} />
+
+              {/* gimme another Button */}
+              <button
+                onClick={handleGimmeAnother}
+                style={{
+                  width: "100%",
+                  height: 52,
+                  borderRadius: 26,
+                  backgroundColor: "#F86B6D",
+                  color: "#FFFFFF",
+                  fontSize: 16,
+                  fontWeight: 800,
+                  border: "none",
+                  cursor: "pointer",
+                  boxShadow: "0 4px 0px #D95657, 0 4px 10px rgba(248, 107, 109, 0.25)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "transform 0.1s, box-shadow 0.1s",
+                  marginTop: 10,
+                }}
+                onMouseDown={(e) => {
+                  e.currentTarget.style.transform = "translateY(4px)";
+                  e.currentTarget.style.boxShadow = "0 2px 0px #D95657, 0 2px 6px rgba(248, 107, 109, 0.25)";
+                }}
+                onMouseUp={(e) => {
+                  e.currentTarget.style.transform = "translateY(0px)";
+                  e.currentTarget.style.boxShadow = "0 4px 0px #D95657, 0 4px 10px rgba(248, 107, 109, 0.25)";
+                }}
+                id="gimme-another-btn"
+              >
+                gimme another
+              </button>
             </div>
 
-            {/* Action Elements Stack */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24, marginTop: 40, marginBottom: 20 }}>
+            {/* Right Column: iMessage Chat Bubbles */}
+            <div className="flex-1 w-full order-first md:order-last flex flex-col gap-4">
+              {/* iMessage Stack */}
+              <div className="imessage-container" style={{ margin: "10px auto 0", width: "100%", maxWidth: "100%" }}>
+                {lines.map((line, idx) => (
+                  <div
+                    key={`${line}-${idx}`}
+                    className="imessage-bubble"
+                    style={{ animationDelay: `${idx * 150}ms` }}
+                    onClick={() => handleCopy(line)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => e.key === "Enter" && handleCopy(line)}
+                  >
+                    {line}
+                  </div>
+                ))}
+              </div>
+
               {/* Copy Instruction Label */}
               <div
                 style={{
@@ -431,48 +477,14 @@ export default function UploadScreenshotPage() {
                   color: "rgba(100, 116, 139, 0.75)",
                   fontSize: 14,
                   fontWeight: 700,
+                  marginTop: 10,
                 }}
               >
                 <span>💡</span>
                 <span>Tap or press any line to copy</span>
               </div>
-
-              {/* Chilly Slider */}
-              <ChiliSlider value={sliderValue} onChange={setSliderValue} />
-
-              {/* gimme another Button */}
-              <button
-                onClick={handleGimmeAnother}
-                style={{
-                  width: "100%",
-                  maxWidth: 360,
-                  height: 56,
-                  borderRadius: 28,
-                  backgroundColor: "#F86B6D",
-                  color: "#FFFFFF",
-                  fontSize: 18,
-                  fontWeight: 800,
-                  border: "none",
-                  cursor: "pointer",
-                  boxShadow: "0 6px 0px #D95657, 0 6px 12px rgba(248, 107, 109, 0.25)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  transition: "transform 0.1s, box-shadow 0.1s",
-                }}
-                onMouseDown={(e) => {
-                  e.currentTarget.style.transform = "translateY(4px)";
-                  e.currentTarget.style.boxShadow = "0 2px 0px #D95657, 0 2px 6px rgba(248, 107, 109, 0.25)";
-                }}
-                onMouseUp={(e) => {
-                  e.currentTarget.style.transform = "translateY(0px)";
-                  e.currentTarget.style.boxShadow = "0 6px 0px #D95657, 0 6px 12px rgba(248, 107, 109, 0.25)";
-                }}
-                id="gimme-another-btn"
-              >
-                gimme another
-              </button>
             </div>
+
           </div>
         )}
       </div>
