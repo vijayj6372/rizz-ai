@@ -31,6 +31,8 @@ const RECOMMENDATIONS = [
 export default function RateMyCrushPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [yourName, setYourName] = useState("");
+  const [crushName, setCrushName] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [hasRated, setHasRated] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
@@ -228,6 +230,30 @@ export default function RateMyCrushPage() {
             >
               HONEST RATING · 1–10 · NO SUGARCOATING
             </p>
+
+            {/* Optional Names Input */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-white/5 p-3.5 rounded-2xl border border-white/10">
+              <div className="space-y-1">
+                <label className="text-[11px] font-bold text-slate-300">Your Name</label>
+                <input
+                  type="text"
+                  value={yourName}
+                  onChange={(e) => setYourName(e.target.value)}
+                  placeholder="Enter your name"
+                  className="w-full bg-slate-950/80 border border-white/15 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-rose-400 transition-colors"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-[11px] font-bold text-slate-300">Crush's Name</label>
+                <input
+                  type="text"
+                  value={crushName}
+                  onChange={(e) => setCrushName(e.target.value)}
+                  placeholder="Enter your crush's name"
+                  className="w-full bg-slate-950/80 border border-white/15 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-rose-400 transition-colors"
+                />
+              </div>
+            </div>
 
             {/* Dash container upload zone */}
             <div

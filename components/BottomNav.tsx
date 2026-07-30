@@ -26,26 +26,27 @@ export function BottomNav({ currentPath, variant = "dark" }: BottomNavProps) {
   ];
 
   return (
-    <div
+    <nav
+      aria-label="Bottom Navigation"
       style={{
         position: "fixed",
-        bottom: 16,
+        bottom: "max(12px, env(safe-area-inset-bottom, 12px))",
         left: "50%",
         transform: "translateX(-50%)",
-        zIndex: 50,
+        zIndex: 9999,
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: isDark ? "rgba(14, 8, 32, 0.82)" : "rgba(255, 255, 255, 0.75)",
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
-        border: isDark ? "1px solid rgba(255, 255, 255, 0.18)" : "1px solid rgba(255, 255, 255, 0.55)",
+        justifyContent: "space-between",
+        backgroundColor: isDark ? "rgba(14, 8, 32, 0.92)" : "rgba(255, 255, 255, 0.92)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        border: isDark ? "1px solid rgba(255, 255, 255, 0.18)" : "1px solid rgba(255, 255, 255, 0.65)",
         borderRadius: 24,
-        padding: "8px 10px",
-        boxShadow: "0 10px 30px rgba(0, 0, 0, 0.35)",
-        width: "calc(100% - 32px)",
-        maxWidth: 420,
-        gap: 6,
+        padding: "6px 8px",
+        boxShadow: isDark ? "0 10px 30px rgba(0, 0, 0, 0.5)" : "0 10px 30px rgba(0, 0, 0, 0.12)",
+        width: "calc(100% - 24px)",
+        maxWidth: 400,
+        gap: 4,
       }}
     >
       {navItems.map((item) => {
@@ -62,24 +63,19 @@ export function BottomNav({ currentPath, variant = "dark" }: BottomNavProps) {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                width: 44,
-                height: 44,
+                width: "clamp(38px, 11.5vw, 44px)",
+                height: "clamp(38px, 11.5vw, 44px)",
                 borderRadius: 16,
                 backgroundColor: "#F86B6D",
                 color: "#FFFFFF",
                 textDecoration: "none",
                 transition: "all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
                 boxShadow: "0 4px 12px rgba(248, 107, 109, 0.4)",
-                transform: isActive ? "scale(1.1)" : "none",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.18) rotate(90deg)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = isActive ? "scale(1.1)" : "none";
+                transform: isActive ? "scale(1.08)" : "none",
+                flexShrink: 0,
               }}
             >
-              <Plus size={22} color="#FFF" strokeWidth={3} />
+              <Plus size={20} color="#FFF" strokeWidth={3} />
             </Link>
           );
         }
@@ -94,10 +90,10 @@ export function BottomNav({ currentPath, variant = "dark" }: BottomNavProps) {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              width: 44,
-              height: 44,
+              width: "clamp(38px, 11.5vw, 44px)",
+              height: "clamp(38px, 11.5vw, 44px)",
               borderRadius: 16,
-              fontSize: 22,
+              fontSize: "clamp(18px, 5.5vw, 22px)",
               textDecoration: "none",
               backgroundColor: isActive
                 ? isDark
@@ -106,26 +102,13 @@ export function BottomNav({ currentPath, variant = "dark" }: BottomNavProps) {
                 : "transparent",
               transition: "all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
               border: isActive ? "1px solid rgba(255, 255, 255, 0.3)" : "1px solid transparent",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "scale(1.15) translateY(-2px)";
-              e.currentTarget.style.backgroundColor = isDark
-                ? "rgba(255, 255, 255, 0.2)"
-                : "rgba(255, 255, 255, 0.6)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "none";
-              e.currentTarget.style.backgroundColor = isActive
-                ? isDark
-                  ? "rgba(255, 255, 255, 0.22)"
-                  : "rgba(255, 255, 255, 0.85)"
-                : "transparent";
+              flexShrink: 0,
             }}
           >
             {item.icon}
           </Link>
         );
       })}
-    </div>
+    </nav>
   );
 }

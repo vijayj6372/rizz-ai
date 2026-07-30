@@ -218,9 +218,9 @@ export default function FireFunPage() {
   const currentModeConfig =
     FEATURE_MODES.find((m) => m.id === selectedMode) || FEATURE_MODES[3];
 
-  // Inputs
-  const [name1, setName1] = useState("Alex Jean");
-  const [name2, setName2] = useState("Emma Dubois");
+  // Inputs - Empty by default with clear hint placeholders
+  const [name1, setName1] = useState("");
+  const [name2, setName2] = useState("");
   const [photo1, setPhoto1] = useState<string | undefined>();
   const [photo2, setPhoto2] = useState<string | undefined>();
 
@@ -237,6 +237,29 @@ export default function FireFunPage() {
   const [isCalculating, setIsCalculating] = useState(false);
   const [result, setResult] = useState<LoveLifeResult | null>(null);
   const [displayScore, setDisplayScore] = useState(0);
+
+  // Dynamic Label Helpers
+  const p2PhotoLabel =
+    selectedMode === "rate-crush"
+      ? "Upload crush photo"
+      : selectedMode === "rate-bf"
+      ? "Upload boyfriend photo"
+      : selectedMode === "rate-gf"
+      ? "Upload girlfriend photo"
+      : selectedMode.includes("ex")
+      ? "Upload ex photo"
+      : "Upload partner photo";
+
+  const p2NamePlaceholder =
+    selectedMode === "rate-crush"
+      ? "Enter your crush's name"
+      : selectedMode === "rate-bf"
+      ? "Enter your boyfriend's name"
+      : selectedMode === "rate-gf"
+      ? "Enter your girlfriend's name"
+      : selectedMode.includes("ex")
+      ? "Enter your ex's name"
+      : "Enter your partner's name";
 
   // Results Dashboard Active Tab
   const [activeSuperTab, setActiveSuperTab] = useState<
@@ -288,14 +311,27 @@ export default function FireFunPage() {
   // Calculate Action
   const handleCalculate = useCallback(
     (customAnswers?: Record<string, string>) => {
-      if (!name1.trim()) return;
+      const calcName1 = name1.trim() || "You";
+      const defaultP2 =
+        selectedMode === "rate-crush"
+          ? "Crush"
+          : selectedMode === "rate-bf"
+          ? "Boyfriend"
+          : selectedMode === "rate-gf"
+          ? "Girlfriend"
+          : selectedMode.includes("ex")
+          ? "Ex"
+          : "Partner";
+      const calcName2 = currentModeConfig.showPerson2
+        ? name2.trim() || defaultP2
+        : "";
 
       setIsCalculating(true);
       setTimeout(() => {
         const answers = customAnswers || quizAnswers;
         const res = calculateLoveLife(
-          name1,
-          currentModeConfig.showPerson2 ? name2 : "",
+          calcName1,
+          calcName2,
           selectedMode,
           photo1,
           photo2,
@@ -459,82 +495,90 @@ export default function FireFunPage() {
           {/* Name & Photo Slots Grid */}
           <div className={`grid gap-4 ${currentModeConfig.showPerson2 ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"}`}>
             {/* Person A Slot */}
-            <div className="space-y-2 bg-white/5 p-3.5 rounded-2xl border border-white/10">
+            <div className="space-y-2 bg-slate-950/40 p-3.5 rounded-2xl border border-white/10 hover:border-white/20 transition-all">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-semibold text-slate-300">
+                <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                  <User size={13} className="text-rose-400" />
                   {currentModeConfig.person1Label}
                 </label>
                 <button
                   type="button"
                   onClick={() => fileInputRef1.current?.click()}
-                  className="text-[11px] text-rose-300 hover:text-rose-200 flex items-center gap-1 bg-rose-500/10 px-2 py-0.5 rounded-md"
+                  className="text-[11px] font-semibold text-rose-300 hover:text-white flex items-center gap-1.5 bg-rose-500/15 hover:bg-rose-500/30 border border-rose-500/30 px-2.5 py-1 rounded-lg transition-all"
                 >
-                  <Camera size={12} /> Photo
+                  <Camera size={13} />
+                  <span>Upload your photo</span>
                 </button>
               </div>
-              <div className="flex items-center gap-2">
-                {photo1 ? (
-                  <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-rose-400 flex-shrink-0">
-                    <img src={photo1} alt="Person A" className="w-full h-full object-cover" />
-                    <button
-                      onClick={() => setPhoto1(undefined)}
-                      className="absolute inset-0 bg-black/50 text-white flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity"
-                    >
-                      <X size={12} />
-                    </button>
-                  </div>
-                ) : (
-                  <div className="w-10 h-10 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center flex-shrink-0 text-slate-400">
-                    <User size={18} />
-                  </div>
-                )}
+              <div className="flex items-center gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => fileInputRef1.current?.click()}
+                  className="group relative w-11 h-11 rounded-xl overflow-hidden border-2 border-dashed border-rose-400/40 hover:border-rose-400 bg-slate-800/80 flex items-center justify-center flex-shrink-0 transition-all"
+                  title="Upload your photo"
+                >
+                  {photo1 ? (
+                    <>
+                      <img src={photo1} alt="Your photo" className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                        <X size={14} className="text-white" />
+                      </div>
+                    </>
+                  ) : (
+                    <User size={18} className="text-rose-300 group-hover:scale-110 transition-transform" />
+                  )}
+                </button>
                 <input
                   type="text"
                   value={name1}
                   onChange={(e) => setName1(e.target.value)}
-                  placeholder="Enter name..."
-                  className="w-full bg-slate-950/80 border border-white/15 rounded-xl px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-rose-400 transition-colors"
+                  placeholder="Enter your name"
+                  className="w-full bg-slate-950/90 border border-white/15 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-400/70 focus:outline-none focus:border-rose-400 focus:ring-1 focus:ring-rose-400/40 transition-all"
                 />
               </div>
             </div>
 
             {/* Person B Slot (if applicable) */}
             {currentModeConfig.showPerson2 && (
-              <div className="space-y-2 bg-white/5 p-3.5 rounded-2xl border border-white/10">
+              <div className="space-y-2 bg-slate-950/40 p-3.5 rounded-2xl border border-white/10 hover:border-white/20 transition-all">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-semibold text-slate-300">
+                  <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                    <Heart size={13} className="text-pink-400" />
                     {currentModeConfig.person2Label}
                   </label>
                   <button
                     type="button"
                     onClick={() => fileInputRef2.current?.click()}
-                    className="text-[11px] text-rose-300 hover:text-rose-200 flex items-center gap-1 bg-rose-500/10 px-2 py-0.5 rounded-md"
+                    className="text-[11px] font-semibold text-rose-300 hover:text-white flex items-center gap-1.5 bg-rose-500/15 hover:bg-rose-500/30 border border-rose-500/30 px-2.5 py-1 rounded-lg transition-all"
                   >
-                    <Camera size={12} /> Photo
+                    <Camera size={13} />
+                    <span>{p2PhotoLabel}</span>
                   </button>
                 </div>
-                <div className="flex items-center gap-2">
-                  {photo2 ? (
-                    <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-rose-400 flex-shrink-0">
-                      <img src={photo2} alt="Person B" className="w-full h-full object-cover" />
-                      <button
-                        onClick={() => setPhoto2(undefined)}
-                        className="absolute inset-0 bg-black/50 text-white flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity"
-                      >
-                        <X size={12} />
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="w-10 h-10 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center flex-shrink-0 text-slate-400">
-                      <Heart size={18} />
-                    </div>
-                  )}
+                <div className="flex items-center gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef2.current?.click()}
+                    className="group relative w-11 h-11 rounded-xl overflow-hidden border-2 border-dashed border-pink-400/40 hover:border-pink-400 bg-slate-800/80 flex items-center justify-center flex-shrink-0 transition-all"
+                    title={p2PhotoLabel}
+                  >
+                    {photo2 ? (
+                      <>
+                        <img src={photo2} alt="Partner photo" className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                          <X size={14} className="text-white" />
+                        </div>
+                      </>
+                    ) : (
+                      <Heart size={18} className="text-pink-300 group-hover:scale-110 transition-transform" />
+                    )}
+                  </button>
                   <input
                     type="text"
                     value={name2}
                     onChange={(e) => setName2(e.target.value)}
-                    placeholder="Enter partner name..."
-                    className="w-full bg-slate-950/80 border border-white/15 rounded-xl px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-rose-400 transition-colors"
+                    placeholder={p2NamePlaceholder}
+                    className="w-full bg-slate-950/90 border border-white/15 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-400/70 focus:outline-none focus:border-rose-400 focus:ring-1 focus:ring-rose-400/40 transition-all"
                   />
                 </div>
               </div>
@@ -554,7 +598,7 @@ export default function FireFunPage() {
                   }}
                   className="text-xs bg-white/5 hover:bg-rose-500/20 hover:text-rose-300 text-slate-300 border border-white/10 px-2.5 py-1 rounded-full transition-colors"
                 >
-                  {c.n1} & {c.n2}
+                  {c.n1} &amp; {c.n2}
                 </button>
               ))}
             </div>
@@ -575,7 +619,7 @@ export default function FireFunPage() {
 
             <button
               onClick={() => handleCalculate()}
-              disabled={isCalculating || !name1.trim()}
+              disabled={isCalculating}
               className="md:col-span-2 bg-gradient-to-r from-rose-500 via-pink-500 to-indigo-600 hover:from-rose-600 hover:to-indigo-700 text-white font-extrabold py-3.5 rounded-2xl text-sm flex items-center justify-center gap-2 shadow-lg shadow-rose-500/25 disabled:opacity-50 transition-all hover:scale-[1.01]"
             >
               {isCalculating ? (

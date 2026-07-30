@@ -35,9 +35,9 @@ const PRESET_COUPLES = [
 ];
 
 export default function LoveLifePage() {
-  // Input States
-  const [name1, setName1] = useState("Alex Jean");
-  const [name2, setName2] = useState("Emma Dubois");
+  // Input States - Empty by default with clear hint placeholders
+  const [name1, setName1] = useState("");
+  const [name2, setName2] = useState("");
 
   // Calculation state & results
   const [isCalculating, setIsCalculating] = useState(false);
@@ -84,11 +84,12 @@ export default function LoveLifePage() {
 
   // Calculate Action
   const handleCalculate = useCallback(() => {
-    if (!name1.trim() || !name2.trim()) return;
+    const calcName1 = name1.trim() || "Partner 1";
+    const calcName2 = name2.trim() || "Partner 2";
 
     setIsCalculating(true);
     setTimeout(() => {
-      const res = calculateLoveLife(name1, name2, "rate-couple");
+      const res = calculateLoveLife(calcName1, calcName2, "rate-couple");
       setResult(res);
       setIsCalculating(false);
       setActiveStepTab("score");
@@ -175,8 +176,8 @@ export default function LoveLifePage() {
                 type="text"
                 value={name1}
                 onChange={(e) => setName1(e.target.value)}
-                placeholder="Name 1..."
-                className="w-full bg-slate-950/80 border border-white/15 rounded-xl px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-rose-400 transition-colors"
+                placeholder="Enter your name"
+                className="w-full bg-slate-950/80 border border-white/15 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-rose-400 transition-colors"
               />
             </div>
 
@@ -198,8 +199,8 @@ export default function LoveLifePage() {
                 type="text"
                 value={name2}
                 onChange={(e) => setName2(e.target.value)}
-                placeholder="Name 2..."
-                className="w-full bg-slate-950/80 border border-white/15 rounded-xl px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-rose-400 transition-colors"
+                placeholder="Enter your partner's name"
+                className="w-full bg-slate-950/80 border border-white/15 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-rose-400 transition-colors"
               />
             </div>
           </div>
@@ -217,7 +218,7 @@ export default function LoveLifePage() {
                   }}
                   className="text-xs bg-white/5 hover:bg-rose-500/20 hover:text-rose-300 text-slate-300 border border-white/10 px-2.5 py-1 rounded-full transition-colors"
                 >
-                  {c.n1} & {c.n2}
+                  {c.n1} &amp; {c.n2}
                 </button>
               ))}
             </div>
@@ -226,7 +227,7 @@ export default function LoveLifePage() {
           {/* Calculate Button */}
           <button
             onClick={handleCalculate}
-            disabled={isCalculating || !name1.trim() || !name2.trim()}
+            disabled={isCalculating}
             className="w-full bg-gradient-to-r from-rose-500 via-pink-500 to-indigo-600 hover:from-rose-600 hover:to-indigo-700 text-white font-extrabold py-3.5 rounded-2xl text-sm flex items-center justify-center gap-2 shadow-lg shadow-rose-500/25 disabled:opacity-50 transition-all hover:scale-[1.01]"
           >
             {isCalculating ? (

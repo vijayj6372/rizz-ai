@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Settings, Menu, ScanLine, MessageCircle, Sparkles, Plus } from "lucide-react";
 import SplashScreen from "@/components/SplashScreen";
 import { HeaderTitle } from "@/components/HeaderTitle";
+import { BottomNav } from "@/components/BottomNav";
 import { useTheme } from "@/hooks/useTheme";
 import { AppColors } from "@/constants/theme";
 
@@ -330,15 +331,15 @@ export default function HomePage() {
             style={{
               display: "flex",
               justifyContent: "center",
-              paddingTop: 80,
-              paddingBottom: 40,
+              paddingTop: 16,
+              paddingBottom: 20,
             }}
           >
-            <HeaderTitle title="Rizz AI" fontSize={76} />
+            <HeaderTitle title="Rizz AI" fontSize={70} />
           </div>
 
           {/* ── Feature buttons ── */}
-          <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-[20px]">
+          <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 my-1">
             {HOME_FEATURES.map((feat) => (
               <Link
                 key={feat.id}
@@ -351,13 +352,13 @@ export default function HomePage() {
                   className="home-feature-btn"
                   style={{
                     backgroundColor: "#F86B6D",
-                    borderRadius: 36,
-                    height: 175,
+                    borderRadius: 32,
+                    height: 152,
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
-                    gap: 12,
+                    gap: 10,
                     boxShadow: "0 6px 0px #D95657, 0 6px 14px rgba(217, 86, 87, 0.4)",
                     cursor: "pointer",
                     transition: "transform 0.16s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.16s",
@@ -365,17 +366,17 @@ export default function HomePage() {
                     WebkitTapHighlightColor: "transparent",
                   }}
                 >
-                  <div style={{ transform: "scale(1.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <div style={{ transform: "scale(1.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     {feat.icon}
                   </div>
                   <p
                     style={{
-                      fontSize: 22,
+                      fontSize: 20,
                       fontWeight: 800,
                       color: "#FFFFFF",
                       margin: 0,
                       textAlign: "center",
-                      lineHeight: 1.25,
+                      lineHeight: 1.2,
                       whiteSpace: "pre-line",
                     }}
                   >
@@ -386,212 +387,165 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* ── Bottom Navigation Bar ── */}
-          <div
-            id="bottom-navbar"
+          {/* ── Fixed Floating Bottom Navigation Bar ── */}
+          <BottomNav currentPath="/" variant="light" />
+
+          {/* ── Professional Footer with Footer Ruler ── */}
+          <footer
             style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-around",
-              alignItems: "center",
-              backgroundColor: "rgba(255, 255, 255, 0.45)",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-              border: "1px solid rgba(255, 255, 255, 0.55)",
-              borderRadius: 24,
-              padding: "10px 14px",
-              boxShadow: "0 10px 30px rgba(0, 0, 0, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.3)",
               width: "100%",
-              maxWidth: 420,
-              margin: "32px auto 16px",
-              gap: 8,
-            }}
-          >
-            {/* 1) Home */}
-            <Link
-              href="/"
-              id="nav-home"
-              aria-label="Home"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 48,
-                height: 48,
-                borderRadius: 16,
-                backgroundColor: "rgba(255, 255, 255, 0.65)",
-                fontSize: 24,
-                textDecoration: "none",
-                transition: "all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
-                boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.15) translateY(-2px)";
-                e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.9)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "none";
-                e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.65)";
-              }}
-            >
-              🏠
-            </Link>
-
-            {/* 2) Love Test */}
-            <Link
-              href="/lovetest"
-              id="nav-love-test"
-              aria-label="Love Test"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 48,
-                height: 48,
-                borderRadius: 16,
-                fontSize: 24,
-                textDecoration: "none",
-                transition: "all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.15) translateY(-2px)";
-                e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "none";
-                e.currentTarget.style.backgroundColor = "transparent";
-              }}
-            >
-              ❤️
-            </Link>
-
-            {/* 3) Plus (Fun Features) */}
-            <Link
-              href="/fun-features"
-              id="nav-fun-features"
-              aria-label="Fun Features"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 48,
-                height: 48,
-                borderRadius: 16,
-                backgroundColor: "#F86B6D",
-                color: "#FFFFFF",
-                textDecoration: "none",
-                transition: "all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
-                boxShadow: "0 4px 12px rgba(248, 107, 109, 0.3)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.2) rotate(90deg)";
-                e.currentTarget.style.boxShadow = "0 6px 16px rgba(248, 107, 109, 0.4)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "none";
-                e.currentTarget.style.boxShadow = "0 4px 12px rgba(248, 107, 109, 0.3)";
-              }}
-            >
-              <Plus size={24} color="#FFF" strokeWidth={3} />
-            </Link>
-
-            {/* 4) FireFun AI */}
-            <Link
-              href="/firefun"
-              id="nav-firefun"
-              aria-label="FireFun AI"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 48,
-                height: 48,
-                borderRadius: 16,
-                fontSize: 24,
-                textDecoration: "none",
-                transition: "all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.15) translateY(-2px)";
-                e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "none";
-                e.currentTarget.style.backgroundColor = "transparent";
-              }}
-            >
-              🔥
-            </Link>
-
-            {/* 5) Love Life (Marriage & Children Predictor) */}
-            <Link
-              href="/lovelife"
-              id="nav-lovelife"
-              aria-label="Love Life Predictor"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 48,
-                height: 48,
-                borderRadius: 16,
-                fontSize: 24,
-                textDecoration: "none",
-                transition: "all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.15) translateY(-2px)";
-                e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "none";
-                e.currentTarget.style.backgroundColor = "transparent";
-              }}
-            >
-              💋
-            </Link>
-
-            {/* 6) Couple Games */}
-            <Link
-              href="/couple-games"
-              id="nav-couple-games"
-              aria-label="Couple Games"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 48,
-                height: 48,
-                borderRadius: 16,
-                fontSize: 24,
-                textDecoration: "none",
-                transition: "all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.15) translateY(-2px)";
-                e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "none";
-                e.currentTarget.style.backgroundColor = "transparent";
-              }}
-            >
-              🎮
-            </Link>
-          </div>
-
-          {/* ── Footer ── */}
-          <p
-            style={{
-              textAlign: "center",
-              fontSize: 12,
-              color: "rgba(17,24,28,0.4)",
               marginTop: "auto",
               paddingTop: 36,
+              paddingBottom: 140,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 16,
             }}
           >
-            Rizz AI © 2025 · Made with ❤️
-          </p>
+            {/* Footer Ruler (Gradient Divider) */}
+            <div
+              style={{
+                width: "100%",
+                maxWidth: 640,
+                height: 2,
+                borderRadius: 999,
+                background:
+                  "linear-gradient(90deg, rgba(248, 107, 109, 0) 0%, rgba(248, 107, 109, 0.6) 25%, rgba(168, 85, 247, 0.7) 50%, rgba(99, 102, 241, 0.6) 75%, rgba(99, 102, 241, 0) 100%)",
+                boxShadow: "0 0 12px rgba(248, 107, 109, 0.25)",
+                margin: "0 auto 8px",
+              }}
+            />
+
+            {/* Footer Branding */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 4,
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  fontSize: "1.35rem",
+                  fontWeight: 900,
+                  color: "#111827",
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                <div
+                  style={{
+                    width: 30,
+                    height: 30,
+                    borderRadius: 10,
+                    background: "linear-gradient(135deg, #F86B6D, #A855F7)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#FFF",
+                    fontSize: 15,
+                    boxShadow: "0 4px 12px rgba(248, 107, 109, 0.35)",
+                  }}
+                >
+                  ❤️
+                </div>
+                <span>Rizz AI</span>
+              </div>
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: "rgba(17,24,28,0.55)",
+                  textAlign: "center",
+                }}
+              >
+                Your AI Dating &amp; Relationship Companion
+              </p>
+            </div>
+
+            {/* Larger Navigation Links */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 16,
+                flexWrap: "wrap",
+                fontSize: 14,
+                fontWeight: 700,
+              }}
+            >
+              <Link
+                href="/about"
+                style={{
+                  color: "#E11D48",
+                  textDecoration: "none",
+                  padding: "4px 8px",
+                  borderRadius: 8,
+                  transition: "all 0.2s",
+                }}
+              >
+                About
+              </Link>
+              <span style={{ color: "rgba(17,24,28,0.25)", fontSize: 16 }}>•</span>
+              <Link
+                href="/contact"
+                style={{
+                  color: "#E11D48",
+                  textDecoration: "none",
+                  padding: "4px 8px",
+                  borderRadius: 8,
+                  transition: "all 0.2s",
+                }}
+              >
+                Contact
+              </Link>
+              <span style={{ color: "rgba(17,24,28,0.25)", fontSize: 16 }}>•</span>
+              <Link
+                href="/privacy"
+                style={{
+                  color: "#E11D48",
+                  textDecoration: "none",
+                  padding: "4px 8px",
+                  borderRadius: 8,
+                  transition: "all 0.2s",
+                }}
+              >
+                Privacy Policy
+              </Link>
+              <span style={{ color: "rgba(17,24,28,0.25)", fontSize: 16 }}>•</span>
+              <Link
+                href="/terms"
+                style={{
+                  color: "#E11D48",
+                  textDecoration: "none",
+                  padding: "4px 8px",
+                  borderRadius: 8,
+                  transition: "all 0.2s",
+                }}
+              >
+                Terms of Service
+              </Link>
+            </div>
+
+            {/* Larger Copyright Line */}
+            <p
+              style={{
+                fontSize: 14,
+                fontWeight: 700,
+                color: "rgba(17,24,28,0.6)",
+                margin: 0,
+                letterSpacing: "-0.01em",
+              }}
+            >
+              Rizz AI © 2025 · Made with ❤️
+            </p>
+          </footer>
         </div>
       </main>
 
