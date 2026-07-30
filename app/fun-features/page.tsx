@@ -240,6 +240,26 @@ const features: FeatureCardProps[] = [
     icon: <Sparkles size={32} color="#fff" />,
     href: "/looksmaxing/tips",
   },
+  {
+    title: "FireFun AI",
+    subtitle: "RELATIONSHIP ANALYZER · SOULMATES",
+    desc: "Marriage odds, who falls first, who loves more & ex roasts",
+    badge: "🔥💖",
+    glowColor: "#F43F5E",
+    gradColors: ["#F43F5E", "#8B5CF6"],
+    icon: <Sparkles size={32} color="#fff" />,
+    href: "/firefun",
+  },
+  {
+    title: "LoveLife Predictor",
+    subtitle: "MARRIAGE & CHILDREN FORECAST",
+    desc: "Predict your exact wedding date & future children timeline",
+    badge: "💒🍼",
+    glowColor: "#EC4899",
+    gradColors: ["#EC4899", "#8B5CF6"],
+    icon: <Heart size={32} color="#fff" />,
+    href: "/lovelife",
+  },
 ];
 
 /* ─────────────────────────────────────────

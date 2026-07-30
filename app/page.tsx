@@ -495,11 +495,11 @@ export default function HomePage() {
               <Plus size={24} color="#FFF" strokeWidth={3} />
             </Link>
 
-            {/* 4) Roast My Selfie */}
+            {/* 4) FireFun AI */}
             <Link
-              href="/roast-my-selfie"
-              id="nav-roast-selfie"
-              aria-label="Roast My Selfie"
+              href="/firefun"
+              id="nav-firefun"
+              aria-label="FireFun AI"
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -523,11 +523,11 @@ export default function HomePage() {
               🔥
             </Link>
 
-            {/* 5) Pickup Line */}
+            {/* 5) Love Life (Marriage & Children Predictor) */}
             <Link
-              href="/pickup-line"
-              id="nav-pickup-line"
-              aria-label="Pickup Line"
+              href="/lovelife"
+              id="nav-lovelife"
+              aria-label="Love Life Predictor"
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -551,11 +551,11 @@ export default function HomePage() {
               💋
             </Link>
 
-            {/* 6) Hot or Not */}
+            {/* 6) Couple Games */}
             <Link
-              href="/hot-or-not"
-              id="nav-hot-or-not"
-              aria-label="Hot or Not"
+              href="/couple-games"
+              id="nav-couple-games"
+              aria-label="Couple Games"
               style={{
                 display: "flex",
                 alignItems: "center",
