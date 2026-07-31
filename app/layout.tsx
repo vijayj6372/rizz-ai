@@ -173,6 +173,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  verification: {
+    google: "Dc3uCozuXOMGTsKUWOyzpX2VokIgnkfoSKsfRmg9I1U",
+  },
 };
 
 /* ─── Viewport (mobile-first) ─── */
@@ -232,6 +235,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         
+        {/* Google Site Verification */}
+        <meta name="google-site-verification" content="Dc3uCozuXOMGTsKUWOyzpX2VokIgnkfoSKsfRmg9I1U" />
+
         {/* Mobile & PWA meta tags */}
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
