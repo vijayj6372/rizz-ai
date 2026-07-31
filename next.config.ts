@@ -1,15 +1,19 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  compress: true,
+  poweredByHeader: false,
+  reactStrictMode: true,
+
   /* ─── Image optimization ─── */
   images: {
     formats: ["image/avif", "image/webp"],
-    minimumCacheTTL: 86400, // 24 h
+    minimumCacheTTL: 31536000, // 1 year
     deviceSizes: [375, 414, 480, 768, 1080],
     imageSizes: [64, 128, 256],
   },
 
-  /* ─── Performance headers ─── */
+  /* ─── Performance & Security Headers ─── */
   async headers() {
     return [
       {
@@ -21,13 +25,13 @@ const nextConfig: NextConfig = {
       {
         source: "/images/:path*",
         headers: [
-          { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" },
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
         ],
       },
       {
         source: "/audio/:path*",
         headers: [
-          { key: "Cache-Control", value: "public, max-age=86400" },
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
         ],
       },
       {
@@ -42,7 +46,7 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  /* ─── Bundle optimizations ─── */
+  /* ─── Bundle Optimizations ─── */
   experimental: {
     optimizePackageImports: ["lucide-react"],
   },

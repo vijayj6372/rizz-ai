@@ -1480,6 +1480,36 @@ export default function LooksmaxingPage() {
           </div>
         </div>
       )}
+
+      {/* SEO Keyword & Guide Section */}
+      <section
+        aria-label="Looksmaxing AI & PSL Scale Guide"
+        style={{
+          marginTop: 40,
+          marginBottom: 20,
+          padding: "24px",
+          backgroundColor: "#1A1A2E",
+          borderRadius: 24,
+          border: "1px solid rgba(255, 108, 109, 0.2)",
+          color: "#E2E8F0",
+        }}
+      >
+        <h1 style={{ fontSize: 24, fontWeight: 900, color: "#FF6C6D", marginBottom: 10 }}>
+          Looksmaxing AI & PSL Scale Face Rating App
+        </h1>
+        <p style={{ fontSize: 13.5, lineHeight: 1.6, color: "rgba(255, 255, 255, 0.7)", marginBottom: 16 }}>
+          Want to test your <strong>face attractiveness test</strong> score or learn <strong>how to looksmax</strong>? Rizz AI provides a free <strong>looksmaxing scale app</strong> based on the <strong>PSL scale</strong> (Popular Male & Female Aesthetics Standard). Our <strong>AI face rater</strong> analyzes facial bone structure, jawline definition, eye symmetry, and skin texture to give you instant <strong>glow up tips</strong>.
+        </p>
+
+        <h2 style={{ fontSize: 18, fontWeight: 800, color: "#FFFFFF", marginTop: 16, marginBottom: 8 }}>
+          How to Glow Up & Improve Your PSL Rating
+        </h2>
+        <ul style={{ fontSize: 13, color: "rgba(255, 255, 255, 0.7)", lineHeight: 1.7, paddingLeft: 20 }}>
+          <li><strong>Jawline & Cheeks:</strong> Lower body fat percentage and practice tongue posture (mewing).</li>
+          <li><strong>Skin & Eyes:</strong> Maintain a clean skincare routine, hydration, and optimize sleep cycles.</li>
+          <li><strong>Hair & Style:</strong> Match your haircut to your facial shape for maximum attractiveness score.</li>
+        </ul>
+      </section>
     </PageLayout>
   );
 }

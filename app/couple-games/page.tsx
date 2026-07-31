@@ -817,9 +817,40 @@ export default function CoupleGamesPage() {
             )}
           </main>
 
+          {/* SEO Keyword & Guide Section */}
+          <section
+            aria-label="Free Couple Games Online Guide"
+            style={{
+              marginTop: 40,
+              marginBottom: 20,
+              padding: "24px",
+              backgroundColor: "rgba(255, 255, 255, 0.03)",
+              borderRadius: 24,
+              border: "1px solid rgba(255, 108, 109, 0.2)",
+              color: "#E2E8F0",
+              textAlign: "left",
+            }}
+          >
+            <h1 style={{ fontSize: "1.4rem", fontWeight: 900, color: "#ff6c6d", marginBottom: 10 }}>
+              Free Couple Games to Play Online | Lovely & Rizz AI
+            </h1>
+            <p style={{ fontSize: "0.9rem", lineHeight: 1.6, color: "#94a3b8", marginBottom: 16 }}>
+              Looking for <strong>online games for couples</strong>, <strong>couple games questions</strong>, or <strong>game of questions for couples</strong>? Play free online couple games with deep questions, truth or dare, relationship quizzes, and <strong>coup card game</strong> inspired challenges.
+            </p>
+
+            <h2 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#ffffff", marginTop: 16, marginBottom: 8 }}>
+              Top Online Games for Couples
+            </h2>
+            <ul style={{ fontSize: "0.85rem", color: "#94a3b8", lineHeight: 1.7, paddingLeft: 20 }}>
+              <li><strong>Deep Connection Questions:</strong> Build intimate bonds with thought-provoking questions.</li>
+              <li><strong>Would You Rather Couple Edition:</strong> Fun & spicy scenarios for date nights.</li>
+              <li><strong>Naughty & Spicy Challenges:</strong> Turn up the heat with romantic couple games.</li>
+            </ul>
+          </section>
+
           {/* ── FOOTER ── */}
           <footer style={{ marginTop: "auto", padding: "32px 0 90px", textAlign: "center", fontSize: "0.85rem", color: "#64748b", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-            <p>© 2026 Lovely. Mobile-Responsive Couple Connection Platform.</p>
+            <p>© 2026 Lovely & Rizz AI · rizz-ai.space · Free Online Couple Games</p>
           </footer>
         </div>
       </div>

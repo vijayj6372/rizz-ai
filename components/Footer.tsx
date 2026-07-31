@@ -119,6 +119,42 @@ export function Footer({
         </Link>
       </div>
 
+      {/* ── 4. Main Feature Quick Links (SEO Interlinking) ── */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 12,
+          flexWrap: "wrap",
+          fontSize: 13,
+          fontWeight: 600,
+          opacity: 0.85,
+          maxWidth: 600,
+          textAlign: "center",
+        }}
+      >
+        <Link href="/pickup-line" style={{ color: isDark ? "#E2E8F0" : "#475569", textDecoration: "none" }}>
+          Pickup Lines & Rizz Lines
+        </Link>
+        <span>•</span>
+        <Link href="/looksmaxing" style={{ color: isDark ? "#E2E8F0" : "#475569", textDecoration: "none" }}>
+          Looksmaxing AI Rating
+        </Link>
+        <span>•</span>
+        <Link href="/couple-games" style={{ color: isDark ? "#E2E8F0" : "#475569", textDecoration: "none" }}>
+          Online Couple Games
+        </Link>
+        <span>•</span>
+        <Link href="/hot-or-not" style={{ color: isDark ? "#E2E8F0" : "#475569", textDecoration: "none" }}>
+          Hot or Not Photo Rater
+        </Link>
+        <span>•</span>
+        <Link href="/lovetest" style={{ color: isDark ? "#E2E8F0" : "#475569", textDecoration: "none" }}>
+          Love Test Calculator
+        </Link>
+      </div>
+
       {/* ── 5. Copyright line ── */}
       <p
         style={{
@@ -129,7 +165,7 @@ export function Footer({
           letterSpacing: "-0.01em",
         }}
       >
-        Rizz AI © 2025 · Made with ❤️
+        Rizz AI © 2026 · rizz-ai.space · Free AI Wingman App
       </p>
     </footer>
   );

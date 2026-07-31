@@ -391,6 +391,95 @@ export default function HomePage() {
             ))}
           </div>
 
+          {/* ── SEO Keyword & FAQ Section for Search Engines ── */}
+          <section
+            aria-label="Rizz AI Features and FAQ"
+            style={{
+              marginTop: 40,
+              marginBottom: 40,
+              padding: "28px 24px",
+              backgroundColor: "rgba(255, 255, 255, 0.9)",
+              backdropFilter: "blur(12px)",
+              borderRadius: 24,
+              border: "1px solid rgba(255, 108, 109, 0.2)",
+              color: "#1E293B",
+              boxShadow: "0 10px 25px rgba(0, 0, 0, 0.04)",
+            }}
+          >
+            <h1
+              style={{
+                fontSize: 26,
+                fontWeight: 900,
+                color: "#E11D48",
+                marginBottom: 12,
+                textAlign: "center",
+                lineHeight: 1.3,
+              }}
+            >
+              Rizz AI — #1 Free AI Wingman App, Rizz Generator & Dating Assistant
+            </h1>
+            <p style={{ fontSize: 15, lineHeight: 1.6, color: "#475569", marginBottom: 20, textAlign: "center" }}>
+              Welcome to <strong>Rizz AI</strong> (<code>rizz-ai.space</code>) — the ultimate <strong>free AI wingman app</strong>, <strong>rizz generator</strong>, and dating reply assistant. Whether you are looking for <strong>flirting pick up lines</strong> for Tinder, Hinge, or Bumble, instant <strong>looksmaxing AI face ratings</strong> on the <strong>PSL scale</strong>, or <strong>free couple games to play online</strong>, Rizz AI gives you the confidence to level up your dating game.
+            </p>
+
+            <h2 style={{ fontSize: 20, fontWeight: 800, color: "#0F172A", marginTop: 24, marginBottom: 12 }}>
+              Why Choose Rizz AI App?
+            </h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+              <div style={{ padding: 14, background: "#FFF5F5", borderRadius: 16, border: "1px solid #FFE4E6" }}>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: "#E11D48", margin: "0 0 6px" }}>🌶️ Smooth Rizz Lines Generator</h3>
+                <p style={{ fontSize: 13, color: "#64748B", margin: 0, lineHeight: 1.5 }}>
+                  Get the <strong>best pick up lines</strong>, <strong>funny pick up lines</strong>, <strong>cheesy pick up lines</strong>, and <strong>corny pick up lines for guys</strong> with our custom chili heat slider.
+                </p>
+              </div>
+              <div style={{ padding: 14, background: "#F0FDF4", borderRadius: 16, border: "1px solid #DCFCE7" }}>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: "#16A34A", margin: "0 0 6px" }}>🗿 Looksmaxing AI & PSL Scale</h3>
+                <p style={{ fontSize: 13, color: "#64748B", margin: 0, lineHeight: 1.5 }}>
+                  Instant <strong>face attractiveness test</strong> and <strong>looksmax scale app</strong> rating with actionable <strong>glow up tips</strong> on <strong>how to looksmax</strong> and improve facial aesthetics.
+                </p>
+              </div>
+              <div style={{ padding: 14, background: "#EFF6FF", borderRadius: 16, border: "1px solid #DBEAFE" }}>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: "#2563EB", margin: "0 0 6px" }}>❤️ Online Couple Games & Love Test</h3>
+                <p style={{ fontSize: 13, color: "#64748B", margin: 0, lineHeight: 1.5 }}>
+                  Play <strong>free couple games online</strong>, answer deep <strong>couple game questions</strong>, test <strong>name compatibility quiz</strong> scores, and enjoy <strong>Hot or Not photo rater</strong>.
+                </p>
+              </div>
+            </div>
+
+            {/* FAQ Section */}
+            <h2 style={{ fontSize: 20, fontWeight: 800, color: "#0F172A", marginTop: 28, marginBottom: 14 }}>
+              Frequently Asked Questions (FAQ)
+            </h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <details style={{ padding: 12, backgroundColor: "#F8FAFC", borderRadius: 12, border: "1px solid #E2E8F0" }}>
+                <summary style={{ fontWeight: 700, cursor: "pointer", color: "#1E293B" }}>
+                  What is Rizz AI and how does the AI Wingman app work?
+                </summary>
+                <p style={{ fontSize: 14, color: "#475569", marginTop: 8, margin: 0 }}>
+                  Rizz AI is a free AI-powered wingman app (rizz-ai.space) designed to help you craft irresistible chat replies, generate pickup lines for Tinder, Hinge, or Bumble, and analyze facial attractiveness with AI looksmaxing ratings.
+                </p>
+              </details>
+
+              <details style={{ padding: 12, backgroundColor: "#F8FAFC", borderRadius: 12, border: "1px solid #E2E8F0" }}>
+                <summary style={{ fontWeight: 700, cursor: "pointer", color: "#1E293B" }}>
+                  Is Rizz AI free to use?
+                </summary>
+                <p style={{ fontSize: 14, color: "#475569", marginTop: 8, margin: 0 }}>
+                  Yes! Rizz AI is 100% free with no login required. You can generate unlimited rizz lines, test face ratings on the PSL scale, play couple games, and roast selfies anytime online.
+                </p>
+              </details>
+
+              <details style={{ padding: 12, backgroundColor: "#F8FAFC", borderRadius: 12, border: "1px solid #E2E8F0" }}>
+                <summary style={{ fontWeight: 700, cursor: "pointer", color: "#1E293B" }}>
+                  How do I get a glow up and increase my PSL scale rating?
+                </summary>
+                <p style={{ fontSize: 14, color: "#475569", marginTop: 8, margin: 0 }}>
+                  Our Looksmaxing AI tool analyzes face symmetry, jawline definition, and hair aesthetics, providing step-by-step glow up tips, skincare advice, and grooming strategies to help you looksmax effectively.
+                </p>
+              </details>
+            </div>
+          </section>
+
           {/* ── Professional Footer with Bottom Navigation Bar before ruler ── */}
           <Footer variant="light" currentPath="/" />
         </div>

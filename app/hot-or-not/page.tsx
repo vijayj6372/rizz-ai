@@ -739,6 +739,27 @@ export default function HotOrNotPage() {
             </div>
           )}
         </div>
+
+        {/* SEO Keyword & Guide Section */}
+        <section
+          aria-label="Hot or Not Website Guide"
+          style={{
+            marginTop: 36,
+            marginBottom: 20,
+            padding: "24px",
+            backgroundColor: "#1A1A2E",
+            borderRadius: 24,
+            border: "1px solid rgba(255, 108, 109, 0.2)",
+            color: "#E2E8F0",
+          }}
+        >
+          <h1 style={{ fontSize: 22, fontWeight: 900, color: "#FF6C6D", marginBottom: 10 }}>
+            Hot or Not Website — Rate My BF, Rate My GF & Roast My Ex
+          </h1>
+          <p style={{ fontSize: 13.5, lineHeight: 1.6, color: "rgba(255, 255, 255, 0.7)", marginBottom: 14 }}>
+            Welcome to the ultimate <strong>hot or not website</strong> online! Compare two photos side by side to see who gets the highest AI score. Use our <strong>rate my bf</strong>, <strong>rate my gf</strong>, and <strong>roast my ex</strong> photo rater to get instant feedback and fun metrics on facial symmetry, style, and vibe.
+          </p>
+        </section>
       </div>
     </PageLayout>
   );

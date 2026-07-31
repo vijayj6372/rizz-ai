@@ -1100,6 +1100,27 @@ export default function LoveTestPage() {
             </div>
           </div>
         )}
+
+        {/* SEO Keyword & Guide Section */}
+        <section
+          aria-label="Love Test & Compatibility Calculator Guide"
+          style={{
+            marginTop: 32,
+            marginBottom: 16,
+            padding: "20px",
+            backgroundColor: "rgba(255, 255, 255, 0.08)",
+            borderRadius: 20,
+            border: "1px solid rgba(255, 255, 255, 0.15)",
+            color: "#FFFFFF",
+          }}
+        >
+          <h1 style={{ fontSize: 20, fontWeight: 900, color: "#FF8A9E", marginBottom: 8 }}>
+            Love Test by Name & Love Match Compatibility Quiz
+          </h1>
+          <p style={{ fontSize: 13, lineHeight: 1.6, color: "rgba(255, 255, 255, 0.8)", margin: 0 }}>
+            Discover your <strong>love match test</strong> score and <strong>name compatibility quiz</strong> percentage! Our free <strong>love meter</strong> and <strong>love calculator names</strong> tool analyzes name numerology, emotional vibe alignment, and marriage timeline for couples.
+          </p>
+        </section>
       </div>
     </PageLayout>
   );

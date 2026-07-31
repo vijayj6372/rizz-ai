@@ -260,6 +260,36 @@ export default function PickupLinePage() {
             gimme another
           </button>
         </div>
+
+        {/* SEO Keyword & Guide Section */}
+        <section
+          aria-label="Best Pickup Lines & Rizz Lines Guide"
+          style={{
+            marginTop: 48,
+            marginBottom: 24,
+            padding: "24px",
+            backgroundColor: "rgba(255, 255, 255, 0.95)",
+            borderRadius: 24,
+            border: "1px solid rgba(248, 107, 109, 0.2)",
+            color: "#1E293B",
+          }}
+        >
+          <h1 style={{ fontSize: 24, fontWeight: 900, color: "#E11D48", marginBottom: 10 }}>
+            Best Pick Up Lines & Rizz Lines Generator
+          </h1>
+          <p style={{ fontSize: 14, lineHeight: 1.6, color: "#475569", marginBottom: 16 }}>
+            Looking for <strong>flirting pick up lines</strong>, <strong>funny pick up lines</strong>, or <strong>smooth rizz lines</strong> for Tinder, Hinge, and Bumble? Rizz AI gives you access to thousands of <strong>cheesy pick up lines</strong>, <strong>corny pick up lines</strong>, and <strong>good pick up lines for guys</strong>. Adjust the chili slider above to tune your rizz level from sweet and poetic to bold and confident!
+          </p>
+
+          <h2 style={{ fontSize: 18, fontWeight: 800, color: "#0F172A", marginTop: 16, marginBottom: 8 }}>
+            Popular Rizz Line Categories
+          </h2>
+          <ul style={{ fontSize: 14, color: "#475569", lineHeight: 1.8, paddingLeft: 20 }}>
+            <li><strong>Flirting Pick Up Lines:</strong> Cute, playful chat up lines to break the ice instantly.</li>
+            <li><strong>Poetic Rizz Lines:</strong> Deep, romantic, and charming lines that stand out.</li>
+            <li><strong>Bold & Sexy Pick Up Lines:</strong> High-energy, confident openers with maximum rizz.</li>
+          </ul>
+        </section>
       </div>
 
       <CopiedToast visible={toastVisible} onHide={() => setToastVisible(false)} />
