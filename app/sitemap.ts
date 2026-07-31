@@ -39,9 +39,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       route === "/looksmaxing" ||
       route === "/couple-games" ||
       route === "/hot-or-not" ||
-      route === "/lovetest"
+      route === "/lovetest" ||
+      route === "/rate-my-crush" ||
+      route === "/upload-screenshot"
     ) {
-      priority = 0.9;
+      priority = 0.95;
       changeFreq = "daily";
     }
 
