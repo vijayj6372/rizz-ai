@@ -160,8 +160,18 @@ export default function UploadScreenshotPage() {
       {/* CSS Styles Injection for iMessage Animations */}
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes imessagePop {
-          0% { opacity: 0; transform: scale(0.85) translateY(18px); }
-          100% { opacity: 1; transform: scale(1) translateY(0); }
+          0% {
+            opacity: 0;
+            transform: scale(0.7) translateY(28px);
+          }
+          65% {
+            opacity: 1;
+            transform: scale(1.02) translateY(-4px);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
         }
         @keyframes fadeIn {
           from { opacity: 0; }
@@ -171,49 +181,49 @@ export default function UploadScreenshotPage() {
           display: flex;
           flex-direction: column;
           align-items: flex-end;
-          gap: 16px;
-          margin: 30px auto 0;
+          justify-content: center;
+          gap: 12px;
+          margin: 0 auto;
           width: 100%;
-          max-width: 400px;
-          padding: 0 12px;
+          max-width: 380px;
+          padding: 0 16px;
+          flex: 1;
         }
         .imessage-bubble {
           position: relative;
-          background-color: #2F80ED;
+          background: linear-gradient(180deg, #3478F6 0%, #0066FF 100%);
           color: #FFFFFF;
-          padding: 14px 20px;
-          border-radius: 22px;
+          padding: 13px 18px;
+          border-radius: 20px;
           border-bottom-right-radius: 4px;
           font-size: 16px;
-          font-weight: 600;
-          line-height: 1.45;
+          font-weight: 500;
+          line-height: 1.4;
           text-align: left;
-          max-width: 90%;
-          box-shadow: 0 4px 12px rgba(47, 128, 237, 0.2);
+          max-width: 88%;
+          box-shadow: 0 4px 14px rgba(0, 102, 255, 0.25);
           cursor: pointer;
-          transition: transform 0.1s, background-color 0.15s, box-shadow 0.15s;
-          animation: imessagePop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+          transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.15s, box-shadow 0.15s;
+          animation: imessagePop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+          font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+          user-select: none;
         }
         .imessage-bubble:hover {
-          background-color: #1F70DD;
-          box-shadow: 0 6px 16px rgba(47, 128, 237, 0.3);
+          filter: brightness(1.06);
+          box-shadow: 0 6px 18px rgba(0, 102, 255, 0.35);
         }
         .imessage-bubble:active {
-          transform: scale(0.97);
+          transform: scale(0.95);
         }
         .imessage-bubble::after {
           content: "";
           position: absolute;
           bottom: 0;
-          right: -6px;
+          right: -5px;
           width: 12px;
           height: 12px;
-          background-color: #2F80ED;
+          background-color: #0066FF;
           clip-path: polygon(0 0, 0 100%, 100% 100%);
-          transition: background-color 0.15s;
-        }
-        .imessage-bubble:hover::after {
-          background-color: #1F70DD;
         }
         .upload-zone-btn {
           transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s, background-color 0.2s;
@@ -449,9 +459,9 @@ export default function UploadScreenshotPage() {
             </div>
 
             {/* Right Column: iMessage Chat Bubbles */}
-            <div className="flex-1 w-full order-first md:order-last flex flex-col gap-4">
+            <div className="flex-1 w-full order-first md:order-last flex flex-col items-center justify-center gap-4">
               {/* iMessage Stack */}
-              <div className="imessage-container" style={{ margin: "10px auto 0", width: "100%", maxWidth: "100%" }}>
+              <div className="imessage-container" style={{ margin: "0 auto", width: "100%", maxWidth: "380px" }}>
                 {lines.map((line, idx) => (
                   <div
                     key={`${line}-${idx}`}

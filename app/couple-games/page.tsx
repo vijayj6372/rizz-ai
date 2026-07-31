@@ -11,103 +11,1050 @@ import Link from "next/link";
 import { BottomNav } from "@/components/BottomNav";
 
 /* ──────────────────────────────────────────────
-   TYPES
+   TYPES & CATEGORY DATA
 ────────────────────────────────────────────── */
-type GameType = "flashcard" | "wyr" | "tod" | "wheel" | "bingo" | "quiz";
-type Domain =
+export type GameType = "flashcard" | "wyr" | "tod" | "wheel" | "bingo" | "quiz";
+export type Domain =
   | "all"
   | "favs"
-  | "connection"
-  | "love"
-  | "comm"
   | "party"
-  | "lifestyle"
-  | "growth"
-  | "stages";
+  | "connection"
+  | "fun"
+  | "romance"
+  | "lifestyle";
 
-interface Category {
+export interface Category {
   id: string;
+  slug: string;
   title: string;
   emoji: string;
   count: number;
   domain: Exclude<Domain, "all" | "favs">;
+  categoryName: string;
   type: GameType;
   desc: string;
 }
 
-/* ──────────────────────────────────────────────
-   1. DATA – 100+ CATEGORIES
-────────────────────────────────────────────── */
-const DOMAIN_TOPICS: Record<Exclude<Domain, "all" | "favs">, string[]> = {
-  connection: [
-    "Icebreakers", "Deep Questions", "First Dates", "Pillow Talk", "Secret Desires",
-    "Mind Reading", "Unspoken Thoughts", "Flirtation", "Eye Contact", "Chemistry Check",
-    "Intimate Prompts", "Late Night Talk", "Soul Connection",
-  ],
-  love: [
-    "Love Languages", "Attachment Styles", "Apology Languages", "Physical Intimacy",
-    "Affirmations", "Trust Building", "Reassurance", "Vulnerability", "Love Maps",
-    "Nostalgia", "Sensual Touch", "Emotional Resonance", "Heart to Heart",
-  ],
-  comm: [
-    "Conflict Resolution", "Hard Conversations", "Stress Response", "Active Listening",
-    "Emotional Intelligence", "Anger Management", "Repair Strategies", "Non-Verbal Cues",
-    "Texting Habits", "De-escalation", "Honesty Test", "Boundary Sync",
-  ],
-  party: [
-    "Would You Rather", "Truth or Dare", "This or That", "Never Have I Ever",
-    "Most Likely To", "Two Truths & Lie", "Red Green Flags", "Hot Takes",
-    "Unpopular Opinions", "Couple Trivia", "Kiss Marry Kill", "21 Questions",
-    "Spin Wheel", "Couple Bingo",
-  ],
-  lifestyle: [
-    "Financial Mindset", "Budgeting & Assets", "Career Ambitions", "Work-Life Harmony",
-    "Vacation & Travel", "Home & Living", "Moving In Together", "Raising Children",
-    "Family Dynamics", "In-Laws & Boundaries", "Social Life",
-  ],
-  growth: [
-    "Daily Check-In", "Weekly Audit", "Health & Fitness", "Mental Health Support",
-    "Sleep Rhythms", "Personal Growth", "Screen Time Limits", "Spiritual Alignment",
-    "Philosophy & Meaning", "Bucket List", "Micro Habits",
-  ],
-  stages: [
-    "Long Distance", "Dating Chemistry", "Engagement Prep", "Questions Before Marriage",
-    "Newlywed Bliss", "Married Life 5+ Years", "Golden Anniversary", "Parent Life",
-    "Re-igniting Spark",
-  ],
+export const CATEGORIES_SECTION_CONFIG: Record<
+  Exclude<Domain, "all" | "favs">,
+  { label: string; color: string; bg: string; icon: string }
+> = {
+  party: {
+    label: "Classic Party Games",
+    color: "#D9476B",
+    bg: "rgba(217, 71, 107, 0.12)",
+    icon: "🎲",
+  },
+  connection: {
+    label: "Conversation & Connection",
+    color: "#3B82F6",
+    bg: "rgba(59, 130, 246, 0.12)",
+    icon: "💬",
+  },
+  fun: {
+    label: "Fun & Lighthearted",
+    color: "#F59E0B",
+    bg: "rgba(245, 158, 11, 0.12)",
+    icon: "🎈",
+  },
+  romance: {
+    label: "Romance & Intimacy",
+    color: "#EC4899",
+    bg: "rgba(236, 72, 153, 0.12)",
+    icon: "❤️",
+  },
+  lifestyle: {
+    label: "Lifestyle & Growth",
+    color: "#10B981",
+    bg: "rgba(16, 185, 129, 0.12)",
+    icon: "🌱",
+  },
 };
 
-const ALL_EMOJIS = [
-  "💬", "🌊", "🌙", "🍷", "😤", "✍️", "🔍", "🤫", "🥂", "💒", "🤯", "💖", "🔥", "⚡", "🙈",
-  "👆", "🤥", "✅", "💍", "🎯", "🧊", "🧠", "🍻", "📲", "🏆", "🚩", "💘", "✈️", "🩺", "🔑", "👶", "🕊️",
+export const CATEGORIES_DATA: Category[] = [
+  {
+    "id": "game_1",
+    "slug": "would-you-rather-for-couples",
+    "title": "Would You Rather",
+    "emoji": "🤔",
+    "count": 40,
+    "domain": "party",
+    "categoryName": "Classic Party Games",
+    "type": "wyr",
+    "desc": "Spark deep connection with would you rather prompts."
+  },
+  {
+    "id": "game_2",
+    "slug": "this-or-that-for-couples",
+    "title": "This or That",
+    "emoji": "⚡",
+    "count": 35,
+    "domain": "party",
+    "categoryName": "Classic Party Games",
+    "type": "wyr",
+    "desc": "Spark deep connection with this or that prompts."
+  },
+  {
+    "id": "game_3",
+    "slug": "truth-or-dare-for-couples",
+    "title": "Truth or Dare",
+    "emoji": "🔥",
+    "count": 30,
+    "domain": "party",
+    "categoryName": "Classic Party Games",
+    "type": "tod",
+    "desc": "Spark deep connection with truth or dare prompts."
+  },
+  {
+    "id": "game_4",
+    "slug": "never-have-i-ever-for-couples",
+    "title": "Never Have I Ever",
+    "emoji": "🙈",
+    "count": 15,
+    "domain": "party",
+    "categoryName": "Classic Party Games",
+    "type": "flashcard",
+    "desc": "Spark deep connection with never have i ever prompts."
+  },
+  {
+    "id": "game_5",
+    "slug": "most-likely-to-for-couples",
+    "title": "Most Likely To",
+    "emoji": "👆",
+    "count": 15,
+    "domain": "party",
+    "categoryName": "Classic Party Games",
+    "type": "flashcard",
+    "desc": "Spark deep connection with most likely to prompts."
+  },
+  {
+    "id": "game_6",
+    "slug": "two-truths-and-a-lie-for-couples",
+    "title": "Two Truths & a Lie",
+    "emoji": "🤥",
+    "count": 15,
+    "domain": "party",
+    "categoryName": "Classic Party Games",
+    "type": "flashcard",
+    "desc": "Spark deep connection with two truths & a lie prompts."
+  },
+  {
+    "id": "game_7",
+    "slug": "yes-or-no-questions-for-couples",
+    "title": "Yes or No",
+    "emoji": "✅",
+    "count": 15,
+    "domain": "party",
+    "categoryName": "Classic Party Games",
+    "type": "flashcard",
+    "desc": "Spark deep connection with yes or no prompts."
+  },
+  {
+    "id": "game_8",
+    "slug": "mr-and-mrs-questions",
+    "title": "Mr & Mrs Quiz",
+    "emoji": "👰",
+    "count": 15,
+    "domain": "party",
+    "categoryName": "Classic Party Games",
+    "type": "quiz",
+    "desc": "Spark deep connection with mr & mrs quiz prompts."
+  },
+  {
+    "id": "game_9",
+    "slug": "couple-quiz-how-well-do-you-know-me",
+    "title": "Couple Quiz",
+    "emoji": "🏆",
+    "count": 15,
+    "domain": "party",
+    "categoryName": "Classic Party Games",
+    "type": "quiz",
+    "desc": "Spark deep connection with couple quiz prompts."
+  },
+  {
+    "id": "game_10",
+    "slug": "conversation-starters-for-couples",
+    "title": "Conversation Starters",
+    "emoji": "💬",
+    "count": 40,
+    "domain": "connection",
+    "categoryName": "Conversation & Connection",
+    "type": "flashcard",
+    "desc": "Spark deep connection with conversation starters prompts."
+  },
+  {
+    "id": "game_11",
+    "slug": "deep-questions-for-couples",
+    "title": "Deep Questions",
+    "emoji": "🌊",
+    "count": 35,
+    "domain": "connection",
+    "categoryName": "Conversation & Connection",
+    "type": "flashcard",
+    "desc": "Spark deep connection with deep questions prompts."
+  },
+  {
+    "id": "game_12",
+    "slug": "pillow-talk-questions-for-couples",
+    "title": "Pillow Talk",
+    "emoji": "🌙",
+    "count": 30,
+    "domain": "connection",
+    "categoryName": "Conversation & Connection",
+    "type": "flashcard",
+    "desc": "Spark deep connection with pillow talk prompts."
+  },
+  {
+    "id": "game_13",
+    "slug": "date-night-questions-for-couples",
+    "title": "Date Night Questions",
+    "emoji": "🍷",
+    "count": 15,
+    "domain": "connection",
+    "categoryName": "Conversation & Connection",
+    "type": "flashcard",
+    "desc": "Spark deep connection with date night questions prompts."
+  },
+  {
+    "id": "game_14",
+    "slug": "pet-peeve-or-dealbreaker",
+    "title": "Pet Peeve or Dealbreaker",
+    "emoji": "😤",
+    "count": 15,
+    "domain": "connection",
+    "categoryName": "Conversation & Connection",
+    "type": "flashcard",
+    "desc": "Spark deep connection with pet peeve or dealbreaker prompts."
+  },
+  {
+    "id": "game_15",
+    "slug": "finish-my-sentence",
+    "title": "Finish My Sentence",
+    "emoji": "✍️",
+    "count": 15,
+    "domain": "connection",
+    "categoryName": "Conversation & Connection",
+    "type": "flashcard",
+    "desc": "Spark deep connection with finish my sentence prompts."
+  },
+  {
+    "id": "game_16",
+    "slug": "mystery-scenarios",
+    "title": "Mystery Scenarios",
+    "emoji": "🔍",
+    "count": 15,
+    "domain": "connection",
+    "categoryName": "Conversation & Connection",
+    "type": "flashcard",
+    "desc": "Spark deep connection with mystery scenarios prompts."
+  },
+  {
+    "id": "game_17",
+    "slug": "guilty-pleasures",
+    "title": "Guilty Pleasures",
+    "emoji": "🤫",
+    "count": 15,
+    "domain": "connection",
+    "categoryName": "Conversation & Connection",
+    "type": "flashcard",
+    "desc": "Spark deep connection with guilty pleasures prompts."
+  },
+  {
+    "id": "game_18",
+    "slug": "first-date-questions",
+    "title": "First Date Questions",
+    "emoji": "🥂",
+    "count": 15,
+    "domain": "connection",
+    "categoryName": "Conversation & Connection",
+    "type": "flashcard",
+    "desc": "Spark deep connection with first date questions prompts."
+  },
+  {
+    "id": "game_19",
+    "slug": "questions-for-married-couples",
+    "title": "Married Couples",
+    "emoji": "💒",
+    "count": 15,
+    "domain": "connection",
+    "categoryName": "Conversation & Connection",
+    "type": "flashcard",
+    "desc": "Spark deep connection with married couples prompts."
+  },
+  {
+    "id": "game_20",
+    "slug": "hypothetical-questions-for-couples",
+    "title": "Hypothetical Questions",
+    "emoji": "🤯",
+    "count": 15,
+    "domain": "connection",
+    "categoryName": "Conversation & Connection",
+    "type": "flashcard",
+    "desc": "Spark deep connection with hypothetical questions prompts."
+  },
+  {
+    "id": "game_21",
+    "slug": "questions-to-ask-your-partner",
+    "title": "Questions for Partners",
+    "emoji": "💬",
+    "count": 15,
+    "domain": "connection",
+    "categoryName": "Conversation & Connection",
+    "type": "flashcard",
+    "desc": "Spark deep connection with questions for partners prompts."
+  },
+  {
+    "id": "game_22",
+    "slug": "relationship-questions-to-ask",
+    "title": "Relationship Questions",
+    "emoji": "💑",
+    "count": 15,
+    "domain": "connection",
+    "categoryName": "Conversation & Connection",
+    "type": "flashcard",
+    "desc": "Spark deep connection with relationship questions prompts."
+  },
+  {
+    "id": "game_23",
+    "slug": "questions-to-ask-before-marriage",
+    "title": "Questions Before Marriage",
+    "emoji": "💍",
+    "count": 45,
+    "domain": "connection",
+    "categoryName": "Conversation & Connection",
+    "type": "flashcard",
+    "desc": "Spark deep connection with questions before marriage prompts."
+  },
+  {
+    "id": "game_24",
+    "slug": "questions-to-ask-your-fiance",
+    "title": "Questions for Your Fiancé",
+    "emoji": "💎",
+    "count": 40,
+    "domain": "connection",
+    "categoryName": "Conversation & Connection",
+    "type": "flashcard",
+    "desc": "Spark deep connection with questions for your fiancé prompts."
+  },
+  {
+    "id": "game_25",
+    "slug": "questions-to-ask-your-spouse",
+    "title": "Questions for Your Spouse",
+    "emoji": "💞",
+    "count": 40,
+    "domain": "connection",
+    "categoryName": "Conversation & Connection",
+    "type": "flashcard",
+    "desc": "Spark deep connection with questions for your spouse prompts."
+  },
+  {
+    "id": "game_26",
+    "slug": "100-questions-to-ask-your-partner",
+    "title": "100 Questions for Your Partner",
+    "emoji": "💯",
+    "count": 103,
+    "domain": "connection",
+    "categoryName": "Conversation & Connection",
+    "type": "flashcard",
+    "desc": "Spark deep connection with 100 questions for your partner prompts."
+  },
+  {
+    "id": "game_27",
+    "slug": "50-questions-for-couples",
+    "title": "50 Questions for Couples",
+    "emoji": "🎯",
+    "count": 50,
+    "domain": "connection",
+    "categoryName": "Conversation & Connection",
+    "type": "flashcard",
+    "desc": "Spark deep connection with 50 questions for couples prompts."
+  },
+  {
+    "id": "game_28",
+    "slug": "ice-breaker-questions-for-couples",
+    "title": "Ice Breakers",
+    "emoji": "🧊",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with ice breakers prompts."
+  },
+  {
+    "id": "game_29",
+    "slug": "speed-dating-questions-for-couples",
+    "title": "Speed Dating",
+    "emoji": "⏱️",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with speed dating prompts."
+  },
+  {
+    "id": "game_30",
+    "slug": "funny-questions-for-couples",
+    "title": "Funny Questions",
+    "emoji": "😂",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with funny questions prompts."
+  },
+  {
+    "id": "game_31",
+    "slug": "couple-trivia-questions",
+    "title": "Couple Trivia",
+    "emoji": "🧠",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "quiz",
+    "desc": "Spark deep connection with couple trivia prompts."
+  },
+  {
+    "id": "game_32",
+    "slug": "21-questions-for-couples",
+    "title": "21 Questions",
+    "emoji": "🎯",
+    "count": 21,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with 21 questions prompts."
+  },
+  {
+    "id": "game_33",
+    "slug": "how-well-do-you-know-me-questions-for-couples",
+    "title": "How Well Do You Know Me",
+    "emoji": "🎓",
+    "count": 20,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "quiz",
+    "desc": "Spark deep connection with how well do you know me prompts."
+  },
+  {
+    "id": "game_34",
+    "slug": "drinking-games-for-couples",
+    "title": "Drinking Games",
+    "emoji": "🍻",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with drinking games prompts."
+  },
+  {
+    "id": "game_35",
+    "slug": "couple-challenge-questions",
+    "title": "Couple Challenges",
+    "emoji": "📲",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with couple challenges prompts."
+  },
+  {
+    "id": "game_36",
+    "slug": "hot-seat-questions-for-couples",
+    "title": "Hot Seat",
+    "emoji": "🔥",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with hot seat prompts."
+  },
+  {
+    "id": "game_37",
+    "slug": "who-knows-me-better-questions-for-couples",
+    "title": "Who Knows Me Better",
+    "emoji": "🏆",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with who knows me better prompts."
+  },
+  {
+    "id": "game_38",
+    "slug": "rapid-fire-questions-for-couples",
+    "title": "Rapid Fire",
+    "emoji": "⚡",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with rapid fire prompts."
+  },
+  {
+    "id": "game_39",
+    "slug": "red-flag-green-flag",
+    "title": "Red/Green Flag",
+    "emoji": "🚩",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with red/green flag prompts."
+  },
+  {
+    "id": "game_40",
+    "slug": "hot-takes",
+    "title": "Hot Takes",
+    "emoji": "🔥",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with hot takes prompts."
+  },
+  {
+    "id": "game_41",
+    "slug": "emoji-decoder",
+    "title": "Emoji Decoder",
+    "emoji": "🧩",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with emoji decoder prompts."
+  },
+  {
+    "id": "game_42",
+    "slug": "love-mad-libs",
+    "title": "Love Mad Libs",
+    "emoji": "📝",
+    "count": 1,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with love mad libs prompts."
+  },
+  {
+    "id": "game_43",
+    "slug": "spin-the-wheel",
+    "title": "Spin the Wheel",
+    "emoji": "🎡",
+    "count": 16,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "wheel",
+    "desc": "Spark deep connection with spin the wheel prompts."
+  },
+  {
+    "id": "game_44",
+    "slug": "predict-your-partner",
+    "title": "Predict Your Partner",
+    "emoji": "🔮",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with predict your partner prompts."
+  },
+  {
+    "id": "game_45",
+    "slug": "couple-superlatives",
+    "title": "Couple Superlatives",
+    "emoji": "🏆",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with couple superlatives prompts."
+  },
+  {
+    "id": "game_46",
+    "slug": "song-lyric-challenge",
+    "title": "Song Lyrics",
+    "emoji": "🎵",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with song lyrics prompts."
+  },
+  {
+    "id": "game_47",
+    "slug": "truth-or-drink-questions",
+    "title": "Truth or Drink",
+    "emoji": "🥂",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "tod",
+    "desc": "Spark deep connection with truth or drink prompts."
+  },
+  {
+    "id": "game_48",
+    "slug": "kiss-marry-kill-for-couples",
+    "title": "Kiss Marry Kill",
+    "emoji": "💋",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with kiss marry kill prompts."
+  },
+  {
+    "id": "game_49",
+    "slug": "20-questions-game-for-couples",
+    "title": "20 Questions",
+    "emoji": "❓",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with 20 questions prompts."
+  },
+  {
+    "id": "game_50",
+    "slug": "unpopular-opinions-for-couples",
+    "title": "Unpopular Opinions",
+    "emoji": "🔥",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with unpopular opinions prompts."
+  },
+  {
+    "id": "game_51",
+    "slug": "fun-questions-for-couples",
+    "title": "Fun Questions",
+    "emoji": "😄",
+    "count": 15,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with fun questions prompts."
+  },
+  {
+    "id": "game_52",
+    "slug": "paranoia-questions-for-couples",
+    "title": "Paranoia Questions",
+    "emoji": "👀",
+    "count": 40,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with paranoia questions prompts."
+  },
+  {
+    "id": "game_53",
+    "slug": "finish-the-sentence-for-couples",
+    "title": "Finish the Sentence",
+    "emoji": "✏️",
+    "count": 30,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with finish the sentence prompts."
+  },
+  {
+    "id": "game_54",
+    "slug": "wedding-shoe-game-questions",
+    "title": "Wedding Shoe Game",
+    "emoji": "👠",
+    "count": 20,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with wedding shoe game prompts."
+  },
+  {
+    "id": "game_55",
+    "slug": "would-you-still-love-me-if-questions",
+    "title": "Would You Still Love Me If",
+    "emoji": "💘",
+    "count": 20,
+    "domain": "fun",
+    "categoryName": "Fun & Lighthearted",
+    "type": "flashcard",
+    "desc": "Spark deep connection with would you still love me if prompts."
+  },
+  {
+    "id": "game_56",
+    "slug": "romantic-questions-for-couples",
+    "title": "Romantic Questions",
+    "emoji": "💕",
+    "count": 15,
+    "domain": "romance",
+    "categoryName": "Romance & Intimacy",
+    "type": "flashcard",
+    "desc": "Spark deep connection with romantic questions prompts."
+  },
+  {
+    "id": "game_57",
+    "slug": "questions-to-ask-your-boyfriend",
+    "title": "Ask Your Boyfriend",
+    "emoji": "💙",
+    "count": 15,
+    "domain": "romance",
+    "categoryName": "Romance & Intimacy",
+    "type": "flashcard",
+    "desc": "Spark deep connection with ask your boyfriend prompts."
+  },
+  {
+    "id": "game_58",
+    "slug": "questions-to-ask-your-girlfriend",
+    "title": "Ask Your Girlfriend",
+    "emoji": "💗",
+    "count": 15,
+    "domain": "romance",
+    "categoryName": "Romance & Intimacy",
+    "type": "flashcard",
+    "desc": "Spark deep connection with ask your girlfriend prompts."
+  },
+  {
+    "id": "game_59",
+    "slug": "newlywed-game-questions",
+    "title": "Newlywed Game",
+    "emoji": "💍",
+    "count": 15,
+    "domain": "romance",
+    "categoryName": "Romance & Intimacy",
+    "type": "flashcard",
+    "desc": "Spark deep connection with newlywed game prompts."
+  },
+  {
+    "id": "game_60",
+    "slug": "36-questions-to-fall-in-love",
+    "title": "36 Questions to Fall in Love",
+    "emoji": "💘",
+    "count": 20,
+    "domain": "romance",
+    "categoryName": "Romance & Intimacy",
+    "type": "flashcard",
+    "desc": "Spark deep connection with 36 questions to fall in love prompts."
+  },
+  {
+    "id": "game_61",
+    "slug": "love-language-quiz-for-couples",
+    "title": "Love Language Quiz",
+    "emoji": "💝",
+    "count": 15,
+    "domain": "romance",
+    "categoryName": "Romance & Intimacy",
+    "type": "quiz",
+    "desc": "Spark deep connection with love language quiz prompts."
+  },
+  {
+    "id": "game_62",
+    "slug": "questions-to-ask-your-husband",
+    "title": "Ask Your Husband",
+    "emoji": "👨",
+    "count": 15,
+    "domain": "romance",
+    "categoryName": "Romance & Intimacy",
+    "type": "flashcard",
+    "desc": "Spark deep connection with ask your husband prompts."
+  },
+  {
+    "id": "game_63",
+    "slug": "questions-to-ask-your-wife",
+    "title": "Ask Your Wife",
+    "emoji": "👩",
+    "count": 15,
+    "domain": "romance",
+    "categoryName": "Romance & Intimacy",
+    "type": "flashcard",
+    "desc": "Spark deep connection with ask your wife prompts."
+  },
+  {
+    "id": "game_64",
+    "slug": "questions-to-ask-your-crush",
+    "title": "Ask Your Crush",
+    "emoji": "😍",
+    "count": 15,
+    "domain": "romance",
+    "categoryName": "Romance & Intimacy",
+    "type": "flashcard",
+    "desc": "Spark deep connection with ask your crush prompts."
+  },
+  {
+    "id": "game_65",
+    "slug": "flirty-questions-to-ask-a-guy",
+    "title": "Flirty Questions (Him)",
+    "emoji": "😏",
+    "count": 15,
+    "domain": "romance",
+    "categoryName": "Romance & Intimacy",
+    "type": "flashcard",
+    "desc": "Spark deep connection with flirty questions (him) prompts."
+  },
+  {
+    "id": "game_66",
+    "slug": "flirty-questions-to-ask-a-girl",
+    "title": "Flirty Questions (Her)",
+    "emoji": "🌹",
+    "count": 15,
+    "domain": "romance",
+    "categoryName": "Romance & Intimacy",
+    "type": "flashcard",
+    "desc": "Spark deep connection with flirty questions (her) prompts."
+  },
+  {
+    "id": "game_67",
+    "slug": "anniversary-questions-for-couples",
+    "title": "Anniversary Questions",
+    "emoji": "🎂",
+    "count": 15,
+    "domain": "romance",
+    "categoryName": "Romance & Intimacy",
+    "type": "flashcard",
+    "desc": "Spark deep connection with anniversary questions prompts."
+  },
+  {
+    "id": "game_68",
+    "slug": "intimate-questions-for-couples",
+    "title": "Intimate Questions",
+    "emoji": "🌙",
+    "count": 15,
+    "domain": "romance",
+    "categoryName": "Romance & Intimacy",
+    "type": "flashcard",
+    "desc": "Spark deep connection with intimate questions prompts."
+  },
+  {
+    "id": "game_69",
+    "slug": "cute-couple-games",
+    "title": "Cute Couple Games",
+    "emoji": "🥰",
+    "count": 15,
+    "domain": "romance",
+    "categoryName": "Romance & Intimacy",
+    "type": "flashcard",
+    "desc": "Spark deep connection with cute couple games prompts."
+  },
+  {
+    "id": "game_70",
+    "slug": "questions-that-will-make-you-cry",
+    "title": "Questions That Make You Cry",
+    "emoji": "🥹",
+    "count": 15,
+    "domain": "romance",
+    "categoryName": "Romance & Intimacy",
+    "type": "flashcard",
+    "desc": "Spark deep connection with questions that make you cry prompts."
+  },
+  {
+    "id": "game_71",
+    "slug": "long-distance-relationship-games",
+    "title": "Long Distance",
+    "emoji": "🌍",
+    "count": 15,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "flashcard",
+    "desc": "Spark deep connection with long distance prompts."
+  },
+  {
+    "id": "game_72",
+    "slug": "couple-bucket-list-ideas",
+    "title": "Bucket List",
+    "emoji": "✈️",
+    "count": 15,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "flashcard",
+    "desc": "Spark deep connection with bucket list prompts."
+  },
+  {
+    "id": "game_73",
+    "slug": "relationship-check-in-questions",
+    "title": "Relationship Check-In",
+    "emoji": "🩺",
+    "count": 15,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "flashcard",
+    "desc": "Spark deep connection with relationship check-in prompts."
+  },
+  {
+    "id": "game_74",
+    "slug": "texting-games-for-couples",
+    "title": "Texting Games",
+    "emoji": "📱",
+    "count": 15,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "flashcard",
+    "desc": "Spark deep connection with texting games prompts."
+  },
+  {
+    "id": "game_75",
+    "slug": "couples-compatibility-test",
+    "title": "Compatibility Test",
+    "emoji": "🔮",
+    "count": 15,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "flashcard",
+    "desc": "Spark deep connection with compatibility test prompts."
+  },
+  {
+    "id": "game_76",
+    "slug": "at-home-date-night-ideas-for-couples",
+    "title": "At-Home Date Night",
+    "emoji": "🏠",
+    "count": 15,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "flashcard",
+    "desc": "Spark deep connection with at-home date night prompts."
+  },
+  {
+    "id": "game_77",
+    "slug": "couple-bingo",
+    "title": "Couple Bingo",
+    "emoji": "🎱",
+    "count": 25,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "bingo",
+    "desc": "Spark deep connection with couple bingo prompts."
+  },
+  {
+    "id": "game_78",
+    "slug": "valentines-day-games-for-couples",
+    "title": "Valentine&#x27;s Day Games",
+    "emoji": "💝",
+    "count": 15,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "flashcard",
+    "desc": "Spark deep connection with valentine&#x27;s day games prompts."
+  },
+  {
+    "id": "game_79",
+    "slug": "road-trip-games-for-couples",
+    "title": "Road Trip Games",
+    "emoji": "🚗",
+    "count": 15,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "flashcard",
+    "desc": "Spark deep connection with road trip games prompts."
+  },
+  {
+    "id": "game_80",
+    "slug": "couple-games-no-equipment",
+    "title": "No Equipment Games",
+    "emoji": "🤲",
+    "count": 15,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "flashcard",
+    "desc": "Spark deep connection with no equipment games prompts."
+  },
+  {
+    "id": "game_81",
+    "slug": "date-night-games-for-couples",
+    "title": "Date Night Games",
+    "emoji": "🌃",
+    "count": 12,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "flashcard",
+    "desc": "Spark deep connection with date night games prompts."
+  },
+  {
+    "id": "game_82",
+    "slug": "couple-games-online-free",
+    "title": "Free Online Games",
+    "emoji": "🎮",
+    "count": 15,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "flashcard",
+    "desc": "Spark deep connection with free online games prompts."
+  },
+  {
+    "id": "game_83",
+    "slug": "couple-games-to-play-at-home",
+    "title": "Games to Play at Home",
+    "emoji": "🏠",
+    "count": 12,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "flashcard",
+    "desc": "Spark deep connection with games to play at home prompts."
+  },
+  {
+    "id": "game_84",
+    "slug": "attachment-style-quiz-for-couples",
+    "title": "Attachment Style Quiz",
+    "emoji": "🧠",
+    "count": 15,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "quiz",
+    "desc": "Spark deep connection with attachment style quiz prompts."
+  },
+  {
+    "id": "game_85",
+    "slug": "journal-prompts-for-couples",
+    "title": "Couples Journal Prompts",
+    "emoji": "📓",
+    "count": 15,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "flashcard",
+    "desc": "Spark deep connection with couples journal prompts prompts."
+  },
+  {
+    "id": "game_86",
+    "slug": "questions-before-moving-in-together",
+    "title": "Before Moving In",
+    "emoji": "🔑",
+    "count": 18,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "flashcard",
+    "desc": "Spark deep connection with before moving in prompts."
+  },
+  {
+    "id": "game_87",
+    "slug": "questions-to-ask-before-having-kids",
+    "title": "Before Having Kids",
+    "emoji": "👶",
+    "count": 18,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "flashcard",
+    "desc": "Spark deep connection with before having kids prompts."
+  },
+  {
+    "id": "game_88",
+    "slug": "gottman-love-map-questions",
+    "title": "Love Map Questions",
+    "emoji": "🗺️",
+    "count": 15,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "flashcard",
+    "desc": "Spark deep connection with love map questions prompts."
+  },
+  {
+    "id": "game_89",
+    "slug": "apology-language-quiz-for-couples",
+    "title": "Apology Language Quiz",
+    "emoji": "🕊️",
+    "count": 15,
+    "domain": "lifestyle",
+    "categoryName": "Lifestyle & Growth",
+    "type": "quiz",
+    "desc": "Spark deep connection with apology language quiz prompts."
+  }
 ];
 
-let _catIdCount = 0;
-const CATEGORIES_DATA: Category[] = [];
-(Object.keys(DOMAIN_TOPICS) as Exclude<Domain, "all" | "favs">[]).forEach((dom) => {
-  DOMAIN_TOPICS[dom].forEach((topic) => {
-    _catIdCount++;
-    const emoji = ALL_EMOJIS[_catIdCount % ALL_EMOJIS.length];
-    let type: GameType = "flashcard";
-    if (topic.includes("Would You Rather") || topic.includes("This or That")) type = "wyr";
-    else if (topic.includes("Truth or Dare")) type = "tod";
-    else if (topic.includes("Spin Wheel")) type = "wheel";
-    else if (topic.includes("Bingo")) type = "bingo";
-    else if (topic.includes("Quiz") || topic.includes("Style")) type = "quiz";
-    CATEGORIES_DATA.push({
-      id: `cat_${_catIdCount}`,
-      title: topic,
-      emoji,
-      count: 20,
-      domain: dom,
-      type,
-      desc: `Spark deep connection with ${topic.toLowerCase()} prompts.`,
-    });
-  });
-});
-
 /* ──────────────────────────────────────────────
-   2. QUESTION ENGINE
+   QUESTION ENGINE
 ────────────────────────────────────────────── */
 const Q_TEMPLATES = [
   "What is one thing about {topic} that always makes you feel connected to me?",
@@ -125,8 +1072,8 @@ const Q_TEMPLATES = [
   "What is a question about {topic} you've always wanted to ask me?",
   "What is one ritual or daily habit we could start for {topic}?",
   "When do you feel most appreciated when it comes to {topic}?",
-  "What lesson about {topic} did you learn from your childhood?",
-  "If we could take a weekend trip dedicated to {topic}, where would we go?",
+  "What lesson about {topic} did you learn from your past experiences?",
+  "If we could take a trip dedicated to {topic}, where would we go?",
   "What is a silly or funny memory we share about {topic}?",
   "How do you like to recharge when {topic} gets overwhelming?",
   "What makes you feel most proud of our relationship's {topic}?",
@@ -137,7 +1084,7 @@ function generateQuestions(cat: Category): string[] {
 }
 
 /* ──────────────────────────────────────────────
-   3. PARTICLE STARFIELD
+   PARTICLE STARFIELD & SOUND FX
 ────────────────────────────────────────────── */
 function ParticleCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -150,10 +1097,10 @@ function ParticleCanvas() {
     resize();
     window.addEventListener("resize", resize);
     type P = { x: number; y: number; size: number; speedX: number; speedY: number; opacity: number };
-    const pts: P[] = Array.from({ length: 65 }, () => ({
+    const pts: P[] = Array.from({ length: 55 }, () => ({
       x: Math.random() * canvas.width, y: Math.random() * canvas.height,
       size: Math.random() * 2 + 0.5,
-      speedX: (Math.random() - 0.5) * 0.3, speedY: (Math.random() - 0.5) * 0.3,
+      speedX: (Math.random() - 0.5) * 0.25, speedY: (Math.random() - 0.5) * 0.25,
       opacity: Math.random() * 0.5 + 0.2,
     }));
     let raf: number;
@@ -176,9 +1123,6 @@ function ParticleCanvas() {
   );
 }
 
-/* ──────────────────────────────────────────────
-   4. SOUND FX
-────────────────────────────────────────────── */
 function useSoundFx() {
   const ctxRef = useRef<AudioContext | null>(null);
   const init = useCallback(() => {
@@ -215,9 +1159,6 @@ function useSoundFx() {
   return { playPop, playChime };
 }
 
-/* ──────────────────────────────────────────────
-   5. TOAST
-────────────────────────────────────────────── */
 function Toast({ message, visible }: { message: string; visible: boolean }) {
   return (
     <div style={{
@@ -233,9 +1174,6 @@ function Toast({ message, visible }: { message: string; visible: boolean }) {
   );
 }
 
-/* ──────────────────────────────────────────────
-   6. SHARED STYLES
-────────────────────────────────────────────── */
 const btnPrimary: React.CSSProperties = {
   display: "inline-flex", alignItems: "center", justifyContent: "center",
   gap: 8, padding: "13px 24px", fontFamily: "inherit",
@@ -256,7 +1194,7 @@ const btnSecondary: React.CSSProperties = {
 };
 
 /* ──────────────────────────────────────────────
-   7. FLASHCARD PLAYER
+   GAME PLAYER COMPONENTS
 ────────────────────────────────────────────── */
 function FlashcardPlayer({ cat, question, stepIndex, totalSteps, isFav, onToggleFav, onNext, onCopy }: {
   cat: Category; question: string; stepIndex: number; totalSteps: number;
@@ -345,9 +1283,6 @@ function FlashcardPlayer({ cat, question, stepIndex, totalSteps, isFav, onToggle
   );
 }
 
-/* ──────────────────────────────────────────────
-   8. WOULD YOU RATHER PLAYER
-────────────────────────────────────────────── */
 function WyrPlayer({ question, onNext }: { question: string; onNext: () => void }) {
   const [voted, setVoted] = useState<"a" | "b" | null>(null);
   const optStyle = (which: "a" | "b"): React.CSSProperties => ({
@@ -393,9 +1328,6 @@ function WyrPlayer({ question, onNext }: { question: string; onNext: () => void 
   );
 }
 
-/* ──────────────────────────────────────────────
-   9. PLAYER OVERLAY
-────────────────────────────────────────────── */
 function PlayerOverlay({ cat, onClose, favorites, onToggleFav, onToast }: {
   cat: Category; onClose: () => void; favorites: string[];
   onToggleFav: (id: string) => void; onToast: (msg: string) => void;
@@ -432,7 +1364,6 @@ function PlayerOverlay({ cat, onClose, favorites, onToggleFav, onToast }: {
       padding: 16, animation: "cgOverlayIn 0.3s cubic-bezier(0.16,1,0.3,1) forwards",
     }}>
       <div style={{ width: "100%", maxWidth: 580, maxHeight: "96vh", overflowY: "auto", display: "flex", flexDirection: "column", alignItems: "center", padding: 4 }}>
-        {/* Top bar */}
         <div style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
           <button
             onClick={() => { playPop(); onClose(); }}
@@ -455,7 +1386,6 @@ function PlayerOverlay({ cat, onClose, favorites, onToggleFav, onToast }: {
           </span>
         </div>
 
-        {/* Game content */}
         <div style={{ width: "100%" }}>
           {cat.type === "wyr" ? (
             <WyrPlayer question={question} onNext={nextStep} />
@@ -473,54 +1403,62 @@ function PlayerOverlay({ cat, onClose, favorites, onToggleFav, onToast }: {
 }
 
 /* ──────────────────────────────────────────────
-   10. GAME CARD
+   GAME CARD COMPONENT
 ────────────────────────────────────────────── */
 function GameCard({ cat, onClick }: { cat: Category; onClick: () => void }) {
   const [hovered, setHovered] = useState(false);
   const isIcebreaker = cat.title.toLowerCase().includes("icebreaker");
 
+  const secConfig = CATEGORIES_SECTION_CONFIG[cat.domain] || {
+    color: "#D9476B",
+    bg: "rgba(217, 71, 107, 0.12)",
+  };
+
+  const isWyr = cat.title.toLowerCase().includes("would you rather") || cat.slug === "would-you-rather-for-couples";
+
   const cardContent = (
     <div
-      onClick={isIcebreaker ? undefined : onClick}
+      onClick={(isIcebreaker || isWyr) ? undefined : onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: hovered ? "rgba(255,255,255,0.07)" : "rgba(255,255,255,0.04)",
-        border: `1px solid ${hovered ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.08)"}`,
-        borderRadius: 24, padding: "18px 20px",
+        background: hovered ? "rgba(255,255,255,0.07)" : "rgba(255,255,255,0.035)",
+        border: `1px solid ${hovered ? secConfig.color : "rgba(255,255,255,0.07)"}`,
+        borderRadius: 22, padding: "18px 20px",
         display: "flex", flexDirection: "column", justifyContent: "space-between",
-        cursor: "pointer", transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)",
+        cursor: "pointer", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
         position: "relative", overflow: "hidden", backdropFilter: "blur(16px)",
-        minHeight: 150,
+        minHeight: 146,
         transform: hovered ? "translateY(-4px)" : "none",
-        boxShadow: hovered ? "0 4px 12px rgba(0,0,0,0.3)" : "none",
+        boxShadow: hovered ? `0 10px 25px -5px ${secConfig.color}33` : "none",
       }}
     >
       <div>
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 10 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
           <div style={{
-            fontSize: "1.85rem", width: 44, height: 44, borderRadius: 16,
-            background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)",
+            fontSize: "1.7rem", width: 46, height: 46, borderRadius: 14,
+            background: secConfig.bg,
             display: "flex", alignItems: "center", justifyContent: "center",
+            boxShadow: `inset 0 0 0 1px ${secConfig.color}33`,
           }}>{cat.emoji}</div>
           <div style={{
-            fontSize: "0.7rem", fontWeight: 800, padding: "3px 8px",
-            background: "rgba(16,185,129,0.15)", border: "1px solid rgba(16,185,129,0.3)",
+            fontSize: "0.72rem", fontWeight: 800, padding: "3px 9px",
+            background: "rgba(16,185,129,0.12)", border: "1px solid rgba(16,185,129,0.3)",
             color: "#10b981", borderRadius: 9999, textTransform: "uppercase", letterSpacing: "0.05em",
           }}>Free</div>
         </div>
         <div style={{ fontSize: "1.05rem", fontWeight: 800, color: "#fff", marginBottom: 4, letterSpacing: "-0.01em" }}>{cat.title}</div>
-        <div style={{ fontSize: "0.78rem", color: "#94a3b8", lineHeight: 1.4 }}>{cat.desc}</div>
+        <div style={{ fontSize: "0.78rem", color: "#94a3b8", lineHeight: 1.45 }}>{cat.desc}</div>
       </div>
       <div style={{
         display: "flex", alignItems: "center", justifyContent: "space-between",
-        marginTop: 12, paddingTop: 10, borderTop: "1px solid rgba(255,255,255,0.05)",
+        marginTop: 14, paddingTop: 10, borderTop: "1px solid rgba(255,255,255,0.05)",
         fontSize: "0.8rem", color: "#94a3b8", fontWeight: 600,
       }}>
-        <span>25 Prompts</span>
+        <span>{cat.count} Prompts</span>
         <div style={{
           width: 26, height: 26, borderRadius: "50%",
-          background: hovered ? "linear-gradient(135deg,#ff3b70 0%,#a855f7 50%,#6366f1 100%)" : "rgba(255,255,255,0.06)",
+          background: hovered ? secConfig.color : "rgba(255,255,255,0.06)",
           display: "flex", alignItems: "center", justifyContent: "center",
           color: "#fff", transition: "all 0.2s",
           transform: hovered ? "translateX(3px)" : "none",
@@ -538,26 +1476,32 @@ function GameCard({ cat, onClick }: { cat: Category; onClick: () => void }) {
     );
   }
 
+  if (isWyr) {
+    return (
+      <Link href="/games/would-you-rather-for-couples" style={{ textDecoration: "none", color: "inherit" }}>
+        {cardContent}
+      </Link>
+    );
+  }
+
   return cardContent;
 }
 
 /* ──────────────────────────────────────────────
-   11. DOMAIN TABS DATA
+   DOMAIN TABS DATA
 ────────────────────────────────────────────── */
-const DOMAIN_TABS: { id: Domain; label: string }[] = [
-  { id: "all", label: "All Categories (100+)" },
-  { id: "favs", label: "❤️ Favorites" },
-  { id: "connection", label: "Core Connection" },
-  { id: "love", label: "Love & Attachment" },
-  { id: "comm", label: "Communication" },
-  { id: "party", label: "Party Games" },
-  { id: "lifestyle", label: "Lifestyle & Future" },
-  { id: "growth", label: "Growth & Health" },
-  { id: "stages", label: "Life Stages" },
+const DOMAIN_TABS: { id: Domain; label: string; count: number }[] = [
+  { id: "all", label: "All Games", count: 89 },
+  { id: "party", label: "🎲 Party Games", count: 9 },
+  { id: "connection", label: "💬 Conversation", count: 18 },
+  { id: "fun", label: "🎈 Fun & Lighthearted", count: 28 },
+  { id: "romance", label: "❤️ Romance & Intimacy", count: 15 },
+  { id: "lifestyle", label: "🌱 Lifestyle & Growth", count: 19 },
+  { id: "favs", label: "❤️ Favorites", count: 0 },
 ];
 
 /* ──────────────────────────────────────────────
-   12. MAIN PAGE COMPONENT
+   MAIN PAGE COMPONENT
 ────────────────────────────────────────────── */
 export default function CoupleGamesPage() {
   const [domain, setDomain] = useState<Domain>("all");
@@ -569,7 +1513,6 @@ export default function CoupleGamesPage() {
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { playPop, playChime } = useSoundFx();
 
-  // Hydrate from localStorage
   useEffect(() => {
     try {
       setFavorites(JSON.parse(localStorage.getItem("lovely_favs") || "[]"));
@@ -603,18 +1546,33 @@ export default function CoupleGamesPage() {
     return matchDom && matchSearch;
   }), [domain, search, favorites]);
 
+  const groupedSections = useMemo(() => {
+    if (domain !== "all" || search) return null;
+    const groups: { dom: Exclude<Domain, "all" | "favs">; items: Category[] }[] = [
+      { dom: "party", items: [] },
+      { dom: "connection", items: [] },
+      { dom: "fun", items: [] },
+      { dom: "romance", items: [] },
+      { dom: "lifestyle", items: [] },
+    ];
+    filtered.forEach((cat) => {
+      const g = groups.find((grp) => grp.dom === cat.domain);
+      if (g) g.items.push(cat);
+    });
+    return groups.filter((g) => g.items.length > 0);
+  }, [domain, search, filtered]);
+
   return (
     <>
       <ParticleCanvas />
       <Toast message={toast.msg} visible={toast.visible} />
 
-      {/* Global style injection */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
         @keyframes pulseDot{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:0.6}}
         @keyframes cgOverlayIn{from{opacity:0;transform:scale(0.97)}to{opacity:1;transform:scale(1)}}
         .cg-page *{box-sizing:border-box}
-        .cg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:40px}
+        .cg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:32px}
         .cg-tabs{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
         @media(max-width:768px){
           .cg-grid{grid-template-columns:repeat(2,1fr)!important;gap:14px!important}
@@ -664,7 +1622,6 @@ export default function CoupleGamesPage() {
             </Link>
 
             <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-              {/* Streak */}
               <div style={{
                 display: "inline-flex", alignItems: "center", gap: 6,
                 padding: "6px 14px", background: "rgba(255,59,112,0.12)",
@@ -672,12 +1629,10 @@ export default function CoupleGamesPage() {
                 fontSize: "0.85rem", fontWeight: 800, color: "#ff3b70", whiteSpace: "nowrap",
               }}>🔥 {streak} Day Streak</div>
 
-              {/* Roll random */}
               <button onClick={playRandom} style={{ ...btnSecondary, padding: "8px 14px", fontSize: "0.82rem", width: "auto" }}>
                 Roll 🎲
               </button>
 
-              {/* Live badge */}
               <div style={{
                 display: "inline-flex", alignItems: "center", gap: 6,
                 padding: "6px 14px", background: "rgba(255,255,255,0.06)",
@@ -691,7 +1646,7 @@ export default function CoupleGamesPage() {
                   display: "inline-block",
                   animation: "pulseDot 1.8s infinite",
                 }}/>
-                100+ Categories
+                89 Categories
               </div>
             </div>
           </header>
@@ -703,7 +1658,7 @@ export default function CoupleGamesPage() {
               padding: "6px 14px", background: "rgba(255,255,255,0.06)",
               border: "1px solid rgba(255,255,255,0.08)", borderRadius: 9999,
               fontSize: "0.8rem", fontWeight: 600, color: "#94a3b8",
-            }}>✨ 100+ Categories • 2,000+ Connection Prompts</div>
+            }}>✨ 89 Categories • 2,000+ Connection Prompts</div>
 
             <h1
               className="cg-hero-title"
@@ -719,7 +1674,7 @@ export default function CoupleGamesPage() {
             </h1>
 
             <p style={{ fontSize: "1.1rem", color: "#94a3b8", marginBottom: 22, fontWeight: 400 }}>
-              Explore icebreakers, deep conversations, attachment style quizzes, Would You Rather, Truth or Dare, and over 100 categories. Spark real connection in 5 minutes.
+              Would You Rather, Truth or Dare, Deep Questions, Pillow Talk, and 85 more. Spark real conversations in 5 minutes.
             </p>
 
             <div className="cg-hero-actions" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 18, flexWrap: "wrap" }}>
@@ -735,7 +1690,7 @@ export default function CoupleGamesPage() {
             </div>
 
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 24, marginTop: 14, fontSize: "0.85rem", color: "#94a3b8", fontWeight: 600, flexWrap: "wrap" }}>
-              <span><b style={{ color: "#fff" }}>100+</b> Categories</span>
+              <span><b style={{ color: "#fff" }}>89</b> Categories</span>
               <span><b style={{ color: "#fff" }}>2,000+</b> Questions</span>
               <span><b style={{ color: "#fff" }}>100%</b> Free</span>
             </div>
@@ -743,7 +1698,6 @@ export default function CoupleGamesPage() {
 
           {/* ── SEARCH & FILTER ── */}
           <section style={{ margin: "16px 0 28px", display: "flex", flexDirection: "column", gap: 16 }}>
-            {/* Search */}
             <div style={{ position: "relative", width: "100%", maxWidth: 540, margin: "0 auto" }}>
               <svg style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", color: "#64748b", pointerEvents: "none" }}
                 width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -751,7 +1705,7 @@ export default function CoupleGamesPage() {
               </svg>
               <input
                 type="text"
-                placeholder="Search across 100+ categories & 2,000+ questions..."
+                placeholder="Search across 89 categories & 2,000+ questions..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 style={{
@@ -783,36 +1737,70 @@ export default function CoupleGamesPage() {
                     boxShadow: domain === tab.id ? "0 4px 15px rgba(255,59,112,0.4)" : "none",
                     fontFamily: "inherit", whiteSpace: "nowrap",
                   }}
-                >{tab.label}</button>
+                >
+                  {tab.label} {tab.id !== "favs" ? `(${tab.count})` : ""}
+                </button>
               ))}
             </div>
           </section>
 
           {/* ── GRID ── */}
           <main>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "24px 0 16px" }}>
-              <h2 style={{ fontSize: "1.4rem", fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", display: "flex", alignItems: "center", gap: 10, margin: 0 }}>
-                Categories &amp; Games
-                <span style={{
-                  fontSize: "0.8rem", fontWeight: 700, padding: "3px 10px",
-                  background: "rgba(255,255,255,0.08)", borderRadius: 9999, color: "#94a3b8",
-                }}>{filtered.length} Categories</span>
-              </h2>
-            </div>
+            {groupedSections ? (
+              <div style={{ display: "flex", flexDirection: "column", gap: 36 }}>
+                {groupedSections.map(({ dom, items }) => {
+                  const cfg = CATEGORIES_SECTION_CONFIG[dom];
+                  return (
+                    <div key={dom} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                        <span style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: cfg.color, flexShrink: 0 }} />
+                        <h3 style={{ fontSize: "0.78rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.25em", color: cfg.color, margin: 0 }}>
+                          {cfg.label}
+                        </h3>
+                        <div style={{ flex: 1, height: 1, backgroundColor: "rgba(255,255,255,0.06)" }} />
+                        <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#64748b" }}>{items.length} games</span>
+                      </div>
 
-            {filtered.length === 0 ? (
-              <div style={{ textAlign: "center", padding: 40, color: "#94a3b8" }}>
-                No categories found. Try clearing your search filter or adding favorites!
+                      <div className="cg-grid">
+                        {items.map((cat) => (
+                          <GameCard
+                            key={cat.id}
+                            cat={cat}
+                            onClick={() => { playPop(); setActiveGame(cat); }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             ) : (
-              <div className="cg-grid">
-                {filtered.map((cat) => (
-                  <GameCard
-                    key={cat.id}
-                    cat={cat}
-                    onClick={() => { playPop(); setActiveGame(cat); }}
-                  />
-                ))}
+              <div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "24px 0 16px" }}>
+                  <h2 style={{ fontSize: "1.4rem", fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", display: "flex", alignItems: "center", gap: 10, margin: 0 }}>
+                    Categories &amp; Games
+                    <span style={{
+                      fontSize: "0.8rem", fontWeight: 700, padding: "3px 10px",
+                      background: "rgba(255,255,255,0.08)", borderRadius: 9999, color: "#94a3b8",
+                    }}>{filtered.length} Categories</span>
+                  </h2>
+                </div>
+
+                {filtered.length === 0 ? (
+                  <div style={{ textAlign: "center", padding: 40, color: "#94a3b8" }}>
+                    No categories found. Try clearing your search filter or adding favorites!
+                  </div>
+                ) : (
+                  <div className="cg-grid">
+                    {filtered.map((cat) => (
+                      <GameCard
+                        key={cat.id}
+                        cat={cat}
+                        onClick={() => { playPop(); setActiveGame(cat); }}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </main>
@@ -821,7 +1809,7 @@ export default function CoupleGamesPage() {
           <section
             aria-label="Free Couple Games Online Guide"
             style={{
-              marginTop: 40,
+              marginTop: 48,
               marginBottom: 20,
               padding: "24px",
               backgroundColor: "rgba(255, 255, 255, 0.03)",
@@ -835,22 +1823,140 @@ export default function CoupleGamesPage() {
               Free Couple Games to Play Online | Lovely & Rizz AI
             </h1>
             <p style={{ fontSize: "0.9rem", lineHeight: 1.6, color: "#94a3b8", marginBottom: 16 }}>
-              Looking for <strong>online games for couples</strong>, <strong>couple games questions</strong>, or <strong>game of questions for couples</strong>? Play free online couple games with deep questions, truth or dare, relationship quizzes, and <strong>coup card game</strong> inspired challenges.
+              Looking for <strong>online games for couples</strong>, <strong>couple games questions</strong>, or <strong>game of questions for couples</strong>? Play 89 free online couple games with deep questions, truth or dare, relationship quizzes, and <strong>coup card game</strong> inspired challenges.
             </p>
 
             <h2 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#ffffff", marginTop: 16, marginBottom: 8 }}>
               Top Online Games for Couples
             </h2>
             <ul style={{ fontSize: "0.85rem", color: "#94a3b8", lineHeight: 1.7, paddingLeft: 20 }}>
+              <li><strong>Classic Party Games:</strong> Would You Rather, Truth or Dare, Never Have I Ever, Most Likely To.</li>
               <li><strong>Deep Connection Questions:</strong> Build intimate bonds with thought-provoking questions.</li>
-              <li><strong>Would You Rather Couple Edition:</strong> Fun & spicy scenarios for date nights.</li>
-              <li><strong>Naughty & Spicy Challenges:</strong> Turn up the heat with romantic couple games.</li>
+              <li><strong>Romance & Intimacy:</strong> Spark deep desire, romantic feelings, and playful flirty questions.</li>
             </ul>
           </section>
 
-          {/* ── FOOTER ── */}
-          <footer style={{ marginTop: "auto", padding: "32px 0 90px", textAlign: "center", fontSize: "0.85rem", color: "#64748b", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-            <p>© 2026 Lovely & Rizz AI · rizz-ai.space · Free Online Couple Games</p>
+          {/* ── MORE ON THIS TOPIC & RICH FOOTER ── */}
+          <section style={{ margin: "48px 0 0", textAlign: "center" }}>
+            <div style={{
+              fontSize: "0.75rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.2em",
+              color: "#94a3b8", marginBottom: 10
+            }}>
+              KEEP EXPLORING
+            </div>
+            <h2 style={{
+              fontSize: "2.2rem", fontWeight: 300, fontFamily: "Georgia, serif", color: "#fff", marginBottom: 24
+            }}>
+              More on this topic
+            </h2>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, flexWrap: "wrap", marginBottom: 54 }}>
+              <Link href="/games/would-you-rather-for-couples" style={{
+                padding: "12px 24px", borderRadius: 9999, backgroundColor: "#FFFFFF", color: "#0F172A",
+                fontSize: "0.92rem", fontWeight: 700, textDecoration: "none", transition: "transform 0.2s, boxShadow 0.2s",
+                boxShadow: "0 4px 15px rgba(255,255,255,0.1)"
+              }}>Would You Rather</Link>
+              <Link href="/games/truth-or-dare-for-couples" style={{
+                padding: "12px 24px", borderRadius: 9999, backgroundColor: "#FFFFFF", color: "#0F172A",
+                fontSize: "0.92rem", fontWeight: 700, textDecoration: "none", transition: "transform 0.2s, boxShadow 0.2s",
+                boxShadow: "0 4px 15px rgba(255,255,255,0.1)"
+              }}>Truth or Dare</Link>
+              <Link href="/games/never-have-i-ever-for-couples" style={{
+                padding: "12px 24px", borderRadius: 9999, backgroundColor: "#FFFFFF", color: "#0F172A",
+                fontSize: "0.92rem", fontWeight: 700, textDecoration: "none", transition: "transform 0.2s, boxShadow 0.2s",
+                boxShadow: "0 4px 15px rgba(255,255,255,0.1)"
+              }}>Never Have I Ever</Link>
+              <Link href="/games/deep-questions-for-couples" style={{
+                padding: "12px 24px", borderRadius: 9999, backgroundColor: "#FFFFFF", color: "#0F172A",
+                fontSize: "0.92rem", fontWeight: 700, textDecoration: "none", transition: "transform 0.2s, boxShadow 0.2s",
+                boxShadow: "0 4px 15px rgba(255,255,255,0.1)"
+              }}>Questions for Couples</Link>
+            </div>
+          </section>
+
+          {/* ── BURGUNDY FOOTER ── */}
+          <footer style={{
+            width: "100vw",
+            marginLeft: "calc(-50vw + 50%)",
+            marginRight: "calc(-50vw + 50%)",
+            backgroundColor: "#3B0F19",
+            color: "#F8FAFC",
+            padding: "54px 24px 110px",
+            borderTop: "1px solid rgba(255,255,255,0.08)",
+            boxSizing: "border-box",
+          }}>
+            <div style={{ maxWidth: 1160, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 36, textAlign: "left" }}>
+              
+              {/* Brand Column */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{
+                    width: 38, height: 38, borderRadius: 12,
+                    background: "linear-gradient(135deg,#ff3b70 0%,#a855f7 100%)",
+                    display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20
+                  }}>
+                    ❤️
+                  </div>
+                  <span style={{ fontSize: "1.45rem", fontWeight: 800, color: "#fff", fontFamily: "Georgia, serif" }}>Lovely</span>
+                </div>
+                <p style={{ fontSize: "0.88rem", color: "#CBD5E1", lineHeight: 1.6, margin: 0, maxWidth: 260 }}>
+                  Daily games, challenges, and activities designed to bring couples closer together.
+                </p>
+              </div>
+
+              {/* POPULAR GAMES Column */}
+              <div>
+                <h4 style={{ fontSize: "0.75rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.15em", color: "#F472B6", marginBottom: 16 }}>
+                  POPULAR GAMES
+                </h4>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10, fontSize: "0.9rem" }}>
+                  <li><Link href="/games/would-you-rather-for-couples" style={{ color: "#E2E8F0", textDecoration: "none", transition: "color 0.2s" }}>🧐 Would You Rather</Link></li>
+                  <li><Link href="/games/truth-or-dare-for-couples" style={{ color: "#E2E8F0", textDecoration: "none", transition: "color 0.2s" }}>🔥 Truth or Dare</Link></li>
+                  <li><Link href="/games/this-or-that-for-couples" style={{ color: "#E2E8F0", textDecoration: "none", transition: "color 0.2s" }}>⚡ This or That</Link></li>
+                  <li><Link href="/games/never-have-i-ever-for-couples" style={{ color: "#E2E8F0", textDecoration: "none", transition: "color 0.2s" }}>🙈 Never Have I Ever</Link></li>
+                  <li><Link href="/games/most-likely-to-for-couples" style={{ color: "#E2E8F0", textDecoration: "none", transition: "color 0.2s" }}>👆 Most Likely To</Link></li>
+                  <li><Link href="/games/deep-questions-for-couples" style={{ color: "#E2E8F0", textDecoration: "none", transition: "color 0.2s" }}>💬 Deep Questions</Link></li>
+                  <li><Link href="/games/date-night-questions-for-couples" style={{ color: "#E2E8F0", textDecoration: "none", transition: "color 0.2s" }}>🌙 Date Night Questions</Link></li>
+                  <li style={{ marginTop: 4 }}>
+                    <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={{ background: "none", border: "none", color: "#FF385C", fontWeight: 800, fontSize: "0.88rem", cursor: "pointer", padding: 0 }}>
+                      Browse all →
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              {/* BROWSE Column */}
+              <div>
+                <h4 style={{ fontSize: "0.75rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.15em", color: "#F472B6", marginBottom: 16 }}>
+                  BROWSE
+                </h4>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10, fontSize: "0.9rem" }}>
+                  <li><button onClick={() => setDomain("all")} style={{ background: "none", border: "none", color: "#E2E8F0", cursor: "pointer", padding: 0, fontSize: "inherit", fontFamily: "inherit" }}>All Games</button></li>
+                  <li><button onClick={() => setDomain("party")} style={{ background: "none", border: "none", color: "#E2E8F0", cursor: "pointer", padding: 0, fontSize: "inherit", fontFamily: "inherit" }}>Classics</button></li>
+                  <li><button onClick={() => setDomain("connection")} style={{ background: "none", border: "none", color: "#E2E8F0", cursor: "pointer", padding: 0, fontSize: "inherit", fontFamily: "inherit" }}>Conversation</button></li>
+                  <li><button onClick={() => setDomain("romance")} style={{ background: "none", border: "none", color: "#E2E8F0", cursor: "pointer", padding: 0, fontSize: "inherit", fontFamily: "inherit" }}>Romantic</button></li>
+                  <li><button onClick={() => setDomain("lifestyle")} style={{ background: "none", border: "none", color: "#E2E8F0", cursor: "pointer", padding: 0, fontSize: "inherit", fontFamily: "inherit" }}>Date Night Ideas</button></li>
+                  <li><button onClick={() => setDomain("fun")} style={{ background: "none", border: "none", color: "#E2E8F0", cursor: "pointer", padding: 0, fontSize: "inherit", fontFamily: "inherit" }}>Love Language Quiz</button></li>
+                </ul>
+              </div>
+
+              {/* COMPANY Column */}
+              <div>
+                <h4 style={{ fontSize: "0.75rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.15em", color: "#F472B6", marginBottom: 16 }}>
+                  COMPANY
+                </h4>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10, fontSize: "0.9rem" }}>
+                  <li><Link href="/about" style={{ color: "#E2E8F0", textDecoration: "none" }}>About</Link></li>
+                  <li><Link href="/contact" style={{ color: "#E2E8F0", textDecoration: "none" }}>Contact</Link></li>
+                  <li><Link href="/privacy" style={{ color: "#E2E8F0", textDecoration: "none" }}>Privacy Policy</Link></li>
+                  <li><Link href="/terms" style={{ color: "#E2E8F0", textDecoration: "none" }}>Terms of Service</Link></li>
+                </ul>
+              </div>
+            </div>
+
+            <div style={{ maxWidth: 1160, margin: "40px auto 0", paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 14, fontSize: "0.82rem", color: "#94A3B8" }}>
+              <p style={{ margin: 0 }}>© 2026 Lovely & Rizz AI · rizz-ai.space · All rights reserved.</p>
+              <p style={{ margin: 0 }}>Designed to bring couples closer together.</p>
+            </div>
           </footer>
         </div>
       </div>

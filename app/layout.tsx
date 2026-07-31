@@ -148,7 +148,7 @@ export const metadata: Metadata = {
     template: "%s | Rizz AI (rizz-ai.space)",
   },
   description:
-    "Rizz AI (rizz-ai.space) is your free AI wingman & dating assistant. Generate smooth rizz lines, flirty pickup lines for Tinder/Hinge/Bumble, PSL scale AI face rating, glow up tips, selfie roasts, and online couple games.",
+    "Rizz AI  is your free AI wingman & dating assistant. Generate smooth rizz lines, flirty pickup lines for Tinder/Hinge/Bumble, PSL scale AI face rating, glow up tips, selfie roasts, and online couple games.",
   keywords: seoKeywords,
   authors: [{ name: "Rizz AI Team", url: "https://rizz-ai.space" }],
   creator: "Rizz AI",
@@ -255,7 +255,7 @@ export default function RootLayout({
         {/* Preconnect for faster loading */}
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        
+
         {/* Google Site Verification */}
         <meta name="google-site-verification" content="Dc3uCozuXOMGTsKUWOyzpX2VokIgnkfoSKsfRmg9I1U" />
 

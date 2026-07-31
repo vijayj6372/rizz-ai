@@ -336,44 +336,111 @@ function SectionHeader({ emoji, title, sub, accent }: { emoji: string; title: st
 
 /* ─── Bell Curve ─── */
 function BellCurveView({ percentile, accentColor }: { percentile: number; accentColor: string }) {
-  const N = 50;
+  const N = 40;
   const MEAN = 50;
-  const SIGMA = 15;
-  const MAX_H = 80;
+  const SIGMA = 16;
+  const MAX_H = 90;
+
+  const clampedPercentile = Math.max(4, Math.min(96, percentile));
 
   const bars = Array.from({ length: N }, (_, i) => {
     const x = (i / (N - 1)) * 100;
-    const h = Math.max(4, MAX_H * Math.exp(-Math.pow(x - MEAN, 2) / (2 * SIGMA * SIGMA)));
-    return { h, active: x <= percentile };
+    const h = Math.max(6, MAX_H * Math.exp(-Math.pow(x - MEAN, 2) / (2 * SIGMA * SIGMA)));
+    const isActive = x <= clampedPercentile;
+    return { x, h, isActive };
   });
 
+  const currentHeight = Math.max(6, MAX_H * Math.exp(-Math.pow(clampedPercentile - MEAN, 2) / (2 * SIGMA * SIGMA)));
+
   return (
-    <div style={{ width: "100%", paddingTop: 20, position: "relative" }}>
-      <div style={{ display: "flex", flexDirection: "row", alignItems: "flex-end", height: 100, position: "relative", padding: "0 4px" }}>
+    <div style={{ width: "100%", paddingTop: 28, paddingBottom: 4, position: "relative" }}>
+      {/* Chart bars container */}
+      <div style={{ display: "flex", flexDirection: "row", alignItems: "flex-end", height: 105, position: "relative", padding: "0 4px" }}>
         {bars.map((bar, i) => (
           <div
             key={i}
             style={{
               flex: 1,
-              margin: "0 0.5px",
-              height: bar.h,
-              borderTopLeftRadius: 2,
-              borderTopRightRadius: 2,
-              backgroundColor: bar.active ? accentColor : "rgba(255,255,255,0.07)",
-              opacity: bar.active ? 0.55 + (i / N) * 0.45 : 1,
+              margin: "0 1.5px",
+              height: `${bar.h}px`,
+              borderRadius: "4px 4px 2px 2px",
+              background: bar.isActive
+                ? `linear-gradient(180deg, ${accentColor} 0%, #E11D48 100%)`
+                : "rgba(255, 255, 255, 0.08)",
+              boxShadow: bar.isActive ? `0 0 6px ${accentColor}44` : "none",
+              opacity: bar.isActive ? 0.75 + (i / N) * 0.25 : 0.7,
+              transition: "all 0.3s ease",
             }}
           />
         ))}
 
-        {/* Marker */}
-        <div style={{ position: "absolute", bottom: 0, width: 2, height: "100%", backgroundColor: "rgba(255,255,255,0.7)", left: `${percentile}%` }} />
-        <div style={{ position: "absolute", top: -4, marginLeft: -6, fontSize: 12, color: "#fff", left: `${percentile}%` }}>
-          ▼
+        {/* Vertical Glowing Guideline */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: `${clampedPercentile}%`,
+            transform: "translateX(-50%)",
+            width: 2,
+            height: "100%",
+            background: `linear-gradient(180deg, ${accentColor} 0%, rgba(248, 107, 109, 0.15) 100%)`,
+            zIndex: 2,
+            boxShadow: `0 0 8px ${accentColor}`,
+          }}
+        />
+
+        {/* Glowing Dot on Bell Curve */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: `${currentHeight - 5}px`,
+            left: `${clampedPercentile}%`,
+            transform: "translateX(-50%)",
+            width: 12,
+            height: 12,
+            borderRadius: 6,
+            backgroundColor: "#FFFFFF",
+            border: `3px solid ${accentColor}`,
+            boxShadow: `0 0 12px ${accentColor}, 0 0 4px #FFF`,
+            zIndex: 3,
+          }}
+        />
+
+        {/* Floating Tooltip Pin Badge */}
+        <div
+          style={{
+            position: "absolute",
+            top: -24,
+            left: `${clampedPercentile}%`,
+            transform: "translateX(-50%)",
+            backgroundColor: accentColor,
+            color: "#FFFFFF",
+            padding: "3px 10px",
+            borderRadius: 12,
+            fontSize: 11,
+            fontWeight: 800,
+            whiteSpace: "nowrap",
+            boxShadow: "0 4px 12px rgba(248, 107, 109, 0.4)",
+            zIndex: 4,
+            display: "flex",
+            alignItems: "center",
+            gap: 4,
+          }}
+        >
+          📍 You ({percentile}%)
         </div>
       </div>
-      <div style={{ height: 1.5, backgroundColor: "rgba(255,255,255,0.15)", margin: "0 4px" }} />
-      <div style={{ position: "absolute", bottom: -18, marginLeft: -8, fontSize: 14, fontWeight: "900", color: accentColor, left: `${percentile}%` }}>
-        ▲
+
+      {/* Baseline */}
+      <div style={{ height: 2, background: "linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.05) 100%)", margin: "0 4px" }} />
+
+      {/* Scale Markers */}
+      <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8, padding: "0 4px", fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.4)" }}>
+        <span>0%</span>
+        <span>25%</span>
+        <span>50% (Avg)</span>
+        <span>75%</span>
+        <span>100%</span>
       </div>
     </div>
   );
@@ -1244,49 +1311,84 @@ export default function LooksmaxingPage() {
 
                 <div
                   style={{
-                    backgroundColor: "#1E1E2E",
-                    borderRadius: 22,
-                    border: "1px solid #383858",
-                    padding: 20,
+                    backgroundColor: "#161628",
+                    borderRadius: 24,
+                    border: "1px solid rgba(248, 107, 109, 0.25)",
+                    padding: "24px 20px 20px",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    gap: 12,
-                    boxShadow: "0 6px 14px rgba(0,0,0,0.3)",
+                    gap: 10,
+                    boxShadow: "0 12px 32px rgba(0,0,0,0.4)",
+                    position: "relative",
+                    overflow: "hidden",
                   }}
                 >
+                  {/* Subtle Top Radial Accent Glow */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: -60,
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      width: 220,
+                      height: 200,
+                      borderRadius: 100,
+                      background: "radial-gradient(circle, rgba(248, 107, 109, 0.2) 0%, rgba(0,0,0,0) 70%)",
+                      pointerEvents: "none",
+                    }}
+                  />
+
                   {/* Photo mini-preview */}
                   <div
                     style={{
-                      width: 64,
-                      height: 64,
-                      borderRadius: 32,
+                      width: 68,
+                      height: 68,
+                      borderRadius: 34,
                       border: "3px solid #F86B6D",
                       overflow: "hidden",
                       position: "relative",
+                      boxShadow: "0 0 20px rgba(248, 107, 109, 0.45)",
                     }}
                   >
                     {photoUri ? (
                       <Image src={photoUri} alt="Thumbnail" fill style={{ objectFit: "cover" }} />
                     ) : (
-                      <div style={{ width: "100%", height: "100%", backgroundColor: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
+                      <div style={{ width: "100%", height: "100%", backgroundColor: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26 }}>
                         👤
                       </div>
                     )}
                   </div>
 
-                  <span style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", fontWeight: 700, textTransform: "uppercase" }}>Overall</span>
-                  <span style={{ fontSize: 44, fontWeight: 900, color: "#fff", lineHeight: 1 }}>{scores.overall}</span>
+                  <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", fontWeight: 800, letterSpacing: 1.5, textTransform: "uppercase" }}>Overall Rating</span>
+                  <span style={{ fontSize: 48, fontWeight: 900, color: "#fff", lineHeight: 1, textShadow: "0 2px 12px rgba(248,107,109,0.3)" }}>{scores.overall}</span>
 
                   {/* Bell curve graphic */}
                   <BellCurveView percentile={percentile} accentColor="#F86B6D" />
 
-                  {/* Rating note */}
-                  <div style={{ marginTop: 24, textAlign: "center", display: "flex", flexDirection: "column", gap: 4 }}>
-                    <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", fontWeight: 700 }}>You&apos;re here</span>
+                  {/* Rating note badge */}
+                  <div
+                    style={{
+                      marginTop: 16,
+                      textAlign: "center",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      gap: 4,
+                      padding: "12px 18px",
+                      borderRadius: 16,
+                      backgroundColor: "rgba(255,255,255,0.05)",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      width: "100%",
+                      boxShadow: "inset 0 1px 0 rgba(255,255,255,0.1)",
+                    }}
+                  >
                     <span style={{ fontSize: 14, fontWeight: 800, color: "#fff" }}>
                       Your Overall is better than{" "}
-                      <span style={{ color: "#F86B6D" }}>{percentile}%</span> of people
+                      <span style={{ color: "#F86B6D", fontWeight: 900, textDecoration: "underline", textUnderlineOffset: 3 }}>{percentile}%</span> of people
+                    </span>
+                    <span style={{ fontSize: 11.5, color: "rgba(255,255,255,0.55)", fontWeight: 600 }}>
+                      🔥 Top {100 - percentile > 0 ? 100 - percentile : 1}% Worldwide
                     </span>
                   </div>
                 </div>
@@ -1481,35 +1583,7 @@ export default function LooksmaxingPage() {
         </div>
       )}
 
-      {/* SEO Keyword & Guide Section */}
-      <section
-        aria-label="Looksmaxing AI & PSL Scale Guide"
-        style={{
-          marginTop: 40,
-          marginBottom: 20,
-          padding: "24px",
-          backgroundColor: "#1A1A2E",
-          borderRadius: 24,
-          border: "1px solid rgba(255, 108, 109, 0.2)",
-          color: "#E2E8F0",
-        }}
-      >
-        <h1 style={{ fontSize: 24, fontWeight: 900, color: "#FF6C6D", marginBottom: 10 }}>
-          Looksmaxing AI & PSL Scale Face Rating App
-        </h1>
-        <p style={{ fontSize: 13.5, lineHeight: 1.6, color: "rgba(255, 255, 255, 0.7)", marginBottom: 16 }}>
-          Want to test your <strong>face attractiveness test</strong> score or learn <strong>how to looksmax</strong>? Rizz AI provides a free <strong>looksmaxing scale app</strong> based on the <strong>PSL scale</strong> (Popular Male & Female Aesthetics Standard). Our <strong>AI face rater</strong> analyzes facial bone structure, jawline definition, eye symmetry, and skin texture to give you instant <strong>glow up tips</strong>.
-        </p>
 
-        <h2 style={{ fontSize: 18, fontWeight: 800, color: "#FFFFFF", marginTop: 16, marginBottom: 8 }}>
-          How to Glow Up & Improve Your PSL Rating
-        </h2>
-        <ul style={{ fontSize: 13, color: "rgba(255, 255, 255, 0.7)", lineHeight: 1.7, paddingLeft: 20 }}>
-          <li><strong>Jawline & Cheeks:</strong> Lower body fat percentage and practice tongue posture (mewing).</li>
-          <li><strong>Skin & Eyes:</strong> Maintain a clean skincare routine, hydration, and optimize sleep cycles.</li>
-          <li><strong>Hair & Style:</strong> Match your haircut to your facial shape for maximum attractiveness score.</li>
-        </ul>
-      </section>
     </PageLayout>
   );
 }

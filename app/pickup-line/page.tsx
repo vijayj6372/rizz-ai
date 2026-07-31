@@ -128,8 +128,18 @@ export default function PickupLinePage() {
       {/* CSS Styles Injection for iMessage Animations */}
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes imessagePop {
-          0% { opacity: 0; transform: scale(0.85) translateY(18px); }
-          100% { opacity: 1; transform: scale(1) translateY(0); }
+          0% {
+            opacity: 0;
+            transform: scale(0.7) translateY(28px);
+          }
+          65% {
+            opacity: 1;
+            transform: scale(1.02) translateY(-4px);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
         }
         @keyframes fadeIn {
           from { opacity: 0; }
@@ -139,49 +149,49 @@ export default function PickupLinePage() {
           display: flex;
           flex-direction: column;
           align-items: flex-end;
-          gap: 16px;
-          margin: 30px auto 0;
+          justify-content: center;
+          gap: 12px;
+          margin: 0 auto;
           width: 100%;
-          max-width: 400px;
-          padding: 0 12px;
+          max-width: 380px;
+          padding: 0 16px;
+          flex: 1;
         }
         .imessage-bubble {
           position: relative;
-          background-color: #2F80ED;
+          background: linear-gradient(180deg, #3478F6 0%, #0066FF 100%);
           color: #FFFFFF;
-          padding: 14px 20px;
-          border-radius: 22px;
+          padding: 13px 18px;
+          border-radius: 20px;
           border-bottom-right-radius: 4px;
           font-size: 16px;
-          font-weight: 600;
-          line-height: 1.45;
+          font-weight: 500;
+          line-height: 1.4;
           text-align: left;
-          max-width: 90%;
-          box-shadow: 0 4px 12px rgba(47, 128, 237, 0.2);
+          max-width: 88%;
+          box-shadow: 0 4px 14px rgba(0, 102, 255, 0.25);
           cursor: pointer;
-          transition: transform 0.1s, background-color 0.15s, box-shadow 0.15s;
-          animation: imessagePop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+          transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.15s, box-shadow 0.15s;
+          animation: imessagePop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+          font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+          user-select: none;
         }
         .imessage-bubble:hover {
-          background-color: #1F70DD;
-          box-shadow: 0 6px 16px rgba(47, 128, 237, 0.3);
+          filter: brightness(1.06);
+          box-shadow: 0 6px 18px rgba(0, 102, 255, 0.35);
         }
         .imessage-bubble:active {
-          transform: scale(0.97);
+          transform: scale(0.95);
         }
         .imessage-bubble::after {
           content: "";
           position: absolute;
           bottom: 0;
-          right: -6px;
+          right: -5px;
           width: 12px;
           height: 12px;
-          background-color: #2F80ED;
+          background-color: #0066FF;
           clip-path: polygon(0 0, 0 100%, 100% 100%);
-          transition: background-color 0.15s;
-        }
-        .imessage-bubble:hover::after {
-          background-color: #1F70DD;
         }
       ` }} />
 
@@ -261,35 +271,6 @@ export default function PickupLinePage() {
           </button>
         </div>
 
-        {/* SEO Keyword & Guide Section */}
-        <section
-          aria-label="Best Pickup Lines & Rizz Lines Guide"
-          style={{
-            marginTop: 48,
-            marginBottom: 24,
-            padding: "24px",
-            backgroundColor: "rgba(255, 255, 255, 0.95)",
-            borderRadius: 24,
-            border: "1px solid rgba(248, 107, 109, 0.2)",
-            color: "#1E293B",
-          }}
-        >
-          <h1 style={{ fontSize: 24, fontWeight: 900, color: "#E11D48", marginBottom: 10 }}>
-            Best Pick Up Lines & Rizz Lines Generator
-          </h1>
-          <p style={{ fontSize: 14, lineHeight: 1.6, color: "#475569", marginBottom: 16 }}>
-            Looking for <strong>flirting pick up lines</strong>, <strong>funny pick up lines</strong>, or <strong>smooth rizz lines</strong> for Tinder, Hinge, and Bumble? Rizz AI gives you access to thousands of <strong>cheesy pick up lines</strong>, <strong>corny pick up lines</strong>, and <strong>good pick up lines for guys</strong>. Adjust the chili slider above to tune your rizz level from sweet and poetic to bold and confident!
-          </p>
-
-          <h2 style={{ fontSize: 18, fontWeight: 800, color: "#0F172A", marginTop: 16, marginBottom: 8 }}>
-            Popular Rizz Line Categories
-          </h2>
-          <ul style={{ fontSize: 14, color: "#475569", lineHeight: 1.8, paddingLeft: 20 }}>
-            <li><strong>Flirting Pick Up Lines:</strong> Cute, playful chat up lines to break the ice instantly.</li>
-            <li><strong>Poetic Rizz Lines:</strong> Deep, romantic, and charming lines that stand out.</li>
-            <li><strong>Bold & Sexy Pick Up Lines:</strong> High-energy, confident openers with maximum rizz.</li>
-          </ul>
-        </section>
       </div>
 
       <CopiedToast visible={toastVisible} onHide={() => setToastVisible(false)} />
