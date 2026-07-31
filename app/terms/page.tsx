@@ -5,6 +5,7 @@ import Link from "next/link";
 import { PageLayout } from "@/components/PageLayout";
 import { HeaderTitle } from "@/components/HeaderTitle";
 import { BottomNav } from "@/components/BottomNav";
+import { Footer } from "@/components/Footer";
 import { FileText, Sparkles, AlertCircle } from "lucide-react";
 
 export default function TermsPage() {
@@ -15,7 +16,7 @@ export default function TermsPage() {
       variant="dark"
       header={<HeaderTitle title="Terms of Service 📜" />}
     >
-      <div className="w-full max-w-2xl mx-auto space-y-6 pb-24 text-slate-300 font-sans text-sm leading-relaxed">
+      <div className="w-full max-w-2xl mx-auto space-y-6 pb-12 text-slate-300 font-sans text-sm leading-relaxed">
         <section className="text-center space-y-2 pt-2">
           <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center mx-auto mb-2">
             <FileText size={28} />
@@ -60,24 +61,9 @@ export default function TermsPage() {
           </div>
         </div>
 
-        {/* Footer with Footer Ruler */}
-        <footer className="pt-6 pb-32 flex flex-col items-center gap-4 text-center">
-          <div className="w-full max-w-md h-[2px] rounded-full bg-gradient-to-r from-transparent via-rose-500/50 to-transparent shadow-sm" />
-          <div className="flex items-center gap-3 text-xs font-bold text-rose-400 flex-wrap justify-center">
-            <Link href="/about" className="hover:text-rose-300 transition-colors">About</Link>
-            <span className="text-slate-600">•</span>
-            <Link href="/contact" className="hover:text-rose-300 transition-colors">Contact</Link>
-            <span className="text-slate-600">•</span>
-            <Link href="/privacy" className="hover:text-rose-300 transition-colors">Privacy Policy</Link>
-            <span className="text-slate-600">•</span>
-            <Link href="/terms" className="hover:text-rose-300 transition-colors">Terms of Service</Link>
-          </div>
-          <p className="text-xs sm:text-sm font-semibold text-slate-400">
-            Rizz AI © 2025 · Made with ❤️
-          </p>
-        </footer>
+        {/* Footer with Bottom Navigation Bar before ruler */}
+        <Footer variant="dark" currentPath="/terms" />
       </div>
-      <BottomNav variant="dark" />
     </PageLayout>
   );
 }

@@ -6,6 +6,7 @@ import { Settings, Menu, ScanLine, MessageCircle, Sparkles, Plus } from "lucide-
 import SplashScreen from "@/components/SplashScreen";
 import { HeaderTitle } from "@/components/HeaderTitle";
 import { BottomNav } from "@/components/BottomNav";
+import { Footer } from "@/components/Footer";
 import { useTheme } from "@/hooks/useTheme";
 import { AppColors } from "@/constants/theme";
 
@@ -331,15 +332,18 @@ export default function HomePage() {
             style={{
               display: "flex",
               justifyContent: "center",
-              paddingTop: 16,
-              paddingBottom: 20,
+              paddingTop: 36,
+              paddingBottom: 28,
             }}
           >
             <HeaderTitle title="Rizz AI" fontSize={70} />
           </div>
 
           {/* ── Feature buttons ── */}
-          <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 my-1">
+          <div
+            className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-6"
+            style={{ marginTop: 28, marginBottom: 40 }}
+          >
             {HOME_FEATURES.map((feat) => (
               <Link
                 key={feat.id}
@@ -387,165 +391,8 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* ── Fixed Floating Bottom Navigation Bar ── */}
-          <BottomNav currentPath="/" variant="light" />
-
-          {/* ── Professional Footer with Footer Ruler ── */}
-          <footer
-            style={{
-              width: "100%",
-              marginTop: "auto",
-              paddingTop: 36,
-              paddingBottom: 140,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 16,
-            }}
-          >
-            {/* Footer Ruler (Gradient Divider) */}
-            <div
-              style={{
-                width: "100%",
-                maxWidth: 640,
-                height: 2,
-                borderRadius: 999,
-                background:
-                  "linear-gradient(90deg, rgba(248, 107, 109, 0) 0%, rgba(248, 107, 109, 0.6) 25%, rgba(168, 85, 247, 0.7) 50%, rgba(99, 102, 241, 0.6) 75%, rgba(99, 102, 241, 0) 100%)",
-                boxShadow: "0 0 12px rgba(248, 107, 109, 0.25)",
-                margin: "0 auto 8px",
-              }}
-            />
-
-            {/* Footer Branding */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: 4,
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  fontSize: "1.35rem",
-                  fontWeight: 900,
-                  color: "#111827",
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                <div
-                  style={{
-                    width: 30,
-                    height: 30,
-                    borderRadius: 10,
-                    background: "linear-gradient(135deg, #F86B6D, #A855F7)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "#FFF",
-                    fontSize: 15,
-                    boxShadow: "0 4px 12px rgba(248, 107, 109, 0.35)",
-                  }}
-                >
-                  ❤️
-                </div>
-                <span>Rizz AI</span>
-              </div>
-              <p
-                style={{
-                  margin: 0,
-                  fontSize: 13,
-                  fontWeight: 600,
-                  color: "rgba(17,24,28,0.55)",
-                  textAlign: "center",
-                }}
-              >
-                Your AI Dating &amp; Relationship Companion
-              </p>
-            </div>
-
-            {/* Larger Navigation Links */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 16,
-                flexWrap: "wrap",
-                fontSize: 14,
-                fontWeight: 700,
-              }}
-            >
-              <Link
-                href="/about"
-                style={{
-                  color: "#E11D48",
-                  textDecoration: "none",
-                  padding: "4px 8px",
-                  borderRadius: 8,
-                  transition: "all 0.2s",
-                }}
-              >
-                About
-              </Link>
-              <span style={{ color: "rgba(17,24,28,0.25)", fontSize: 16 }}>•</span>
-              <Link
-                href="/contact"
-                style={{
-                  color: "#E11D48",
-                  textDecoration: "none",
-                  padding: "4px 8px",
-                  borderRadius: 8,
-                  transition: "all 0.2s",
-                }}
-              >
-                Contact
-              </Link>
-              <span style={{ color: "rgba(17,24,28,0.25)", fontSize: 16 }}>•</span>
-              <Link
-                href="/privacy"
-                style={{
-                  color: "#E11D48",
-                  textDecoration: "none",
-                  padding: "4px 8px",
-                  borderRadius: 8,
-                  transition: "all 0.2s",
-                }}
-              >
-                Privacy Policy
-              </Link>
-              <span style={{ color: "rgba(17,24,28,0.25)", fontSize: 16 }}>•</span>
-              <Link
-                href="/terms"
-                style={{
-                  color: "#E11D48",
-                  textDecoration: "none",
-                  padding: "4px 8px",
-                  borderRadius: 8,
-                  transition: "all 0.2s",
-                }}
-              >
-                Terms of Service
-              </Link>
-            </div>
-
-            {/* Larger Copyright Line */}
-            <p
-              style={{
-                fontSize: 14,
-                fontWeight: 700,
-                color: "rgba(17,24,28,0.6)",
-                margin: 0,
-                letterSpacing: "-0.01em",
-              }}
-            >
-              Rizz AI © 2025 · Made with ❤️
-            </p>
-          </footer>
+          {/* ── Professional Footer with Bottom Navigation Bar before ruler ── */}
+          <Footer variant="light" currentPath="/" />
         </div>
       </main>
 

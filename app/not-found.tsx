@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { Heart, Home, Sparkles, ArrowLeft, Gamepad2, Flame, Search } from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
+import { Footer } from "@/components/Footer";
 
 export default function NotFound() {
   return (
@@ -70,24 +71,10 @@ export default function NotFound() {
         </div>
       </div>
 
-      {/* Footer with Footer Ruler */}
-      <footer className="mt-10 mb-28 max-w-md w-full text-center flex flex-col items-center gap-4">
-        <div className="w-full h-[2px] rounded-full bg-gradient-to-r from-transparent via-rose-500/50 to-transparent shadow-sm" />
-        <div className="flex items-center gap-3 text-xs font-bold text-rose-400 flex-wrap justify-center">
-          <Link href="/about" className="hover:text-rose-300 transition-colors">About</Link>
-          <span className="text-slate-600">•</span>
-          <Link href="/contact" className="hover:text-rose-300 transition-colors">Contact</Link>
-          <span className="text-slate-600">•</span>
-          <Link href="/privacy" className="hover:text-rose-300 transition-colors">Privacy Policy</Link>
-          <span className="text-slate-600">•</span>
-          <Link href="/terms" className="hover:text-rose-300 transition-colors">Terms of Service</Link>
-        </div>
-        <p className="text-xs sm:text-sm font-semibold text-slate-400">
-          Rizz AI © 2025 · Made with ❤️
-        </p>
-      </footer>
-
-      <BottomNav variant="dark" />
+      {/* Footer with Bottom Navigation Bar before ruler */}
+      <div className="max-w-md w-full">
+        <Footer variant="dark" />
+      </div>
     </div>
   );
 }

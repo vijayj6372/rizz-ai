@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { SoundListener } from "@/components/SoundListener";
 import "./globals.css";
 
 const lilitaOne = localFont({
@@ -80,7 +81,10 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider>
-          <ErrorBoundary>{children}</ErrorBoundary>
+          <ErrorBoundary>
+            <SoundListener />
+            {children}
+          </ErrorBoundary>
         </ThemeProvider>
       </body>
     </html>
