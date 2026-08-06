@@ -718,7 +718,7 @@ export default function LooksmaxingPage() {
 
   const handleShareScore = async () => {
     const text = `My Rizz AI Look Score is ${scores?.overall}/100! Check yours at rizzai.space 🔥`;
-    const url = "https://rizzai.space";
+    const url = "https://www.rizzai.space";
 
     if (navigator.share) {
       try {
@@ -1483,7 +1483,7 @@ export default function LooksmaxingPage() {
               {/* WhatsApp */}
               <button
                 onClick={() => {
-                  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(`My Rizz AI Look Score is ${scores?.overall}/100! Check yours at https://rizzai.space 🔥`)}`, "_blank");
+                  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(`My Rizz AI Look Score is ${scores?.overall}/100! Check yours at https://www.rizzai.space 🔥`)}`, "_blank");
                 }}
                 style={{
                   padding: "12px 8px",
@@ -1502,7 +1502,7 @@ export default function LooksmaxingPage() {
               {/* Twitter / X */}
               <button
                 onClick={() => {
-                  window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(`My Rizz AI Look Score is ${scores?.overall}/100! Check yours at https://rizzai.space 🔥`)}`, "_blank");
+                  window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(`My Rizz AI Look Score is ${scores?.overall}/100! Check yours at https://www.rizzai.space 🔥`)}`, "_blank");
                 }}
                 style={{
                   padding: "12px 8px",
@@ -1521,7 +1521,7 @@ export default function LooksmaxingPage() {
               {/* Facebook */}
               <button
                 onClick={() => {
-                  window.open(`https://www.facebook.com/sharer/sharer.php?u=https://rizzai.space`, "_blank");
+                  window.open(`https://www.facebook.com/sharer/sharer.php?u=https://www.rizzai.space`, "_blank");
                 }}
                 style={{
                   padding: "12px 8px",
@@ -1541,7 +1541,7 @@ export default function LooksmaxingPage() {
               <button
                 onClick={async () => {
                   try {
-                    await navigator.clipboard.writeText(`My Rizz AI Look Score is ${scores?.overall}/100! Check yours at https://rizzai.space 🔥`);
+                    await navigator.clipboard.writeText(`My Rizz AI Look Score is ${scores?.overall}/100! Check yours at https://www.rizzai.space 🔥`);
                     showToast("📋 Copied to clipboard!");
                   } catch (e) {
                     console.error(e);

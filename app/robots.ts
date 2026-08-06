@@ -21,7 +21,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
     ],
-    sitemap: "https://rizz-ai.space/sitemap.xml",
-    host: "https://rizz-ai.space",
+    sitemap: "https://www.rizzai.space/sitemap.xml",
+    host: "https://www.rizzai.space",
   };
 }

@@ -18,13 +18,13 @@ export const metadata: Metadata = {
     "Online Games for Couples",
   ],
   alternates: {
-    canonical: "https://rizz-ai.space/couple-games",
+    canonical: "https://www.rizzai.space/couple-games",
   },
   openGraph: {
     title: "Free Online Games for Couples | Rizz AI",
     description:
       "Play top couple games online with interactive questions, relationship icebreakers, and couple quizzes.",
-    url: "https://rizz-ai.space/couple-games",
+    url: "https://www.rizzai.space/couple-games",
   },
 };
 

@@ -16,13 +16,13 @@ export const metadata: Metadata = {
     "bumble",
   ],
   alternates: {
-    canonical: "https://rizz-ai.space/rate-my-crush",
+    canonical: "https://www.rizzai.space/rate-my-crush",
   },
   openGraph: {
     title: "Rate My Crush & Free AI Dating Assistant | Rizz AI",
     description:
       "Get instant AI rating & response advice for your crush's photo or chat screenshots.",
-    url: "https://rizz-ai.space/rate-my-crush",
+    url: "https://www.rizzai.space/rate-my-crush",
   },
 };
 

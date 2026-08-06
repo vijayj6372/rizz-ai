@@ -39,13 +39,13 @@ export const metadata: Metadata = {
     "psl rating scale",
   ],
   alternates: {
-    canonical: "https://rizz-ai.space/looksmaxing",
+    canonical: "https://www.rizzai.space/looksmaxing",
   },
   openGraph: {
     title: "Looksmaxing AI & PSL Scale Face Rating App | Rizz AI",
     description:
       "Rate facial attractiveness, discover your PSL scale score, and get instant glow up tips with free Looksmaxing AI.",
-    url: "https://rizz-ai.space/looksmaxing",
+    url: "https://www.rizzai.space/looksmaxing",
   },
 };
 

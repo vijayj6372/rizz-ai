@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://rizz-ai.space";
+  const baseUrl = "https://www.rizzai.space";
   const lastMod = new Date();
 
   const routes = [

@@ -12,13 +12,13 @@ export const metadata: Metadata = {
     "love calculator names",
   ],
   alternates: {
-    canonical: "https://rizz-ai.space/lovetest",
+    canonical: "https://www.rizzai.space/lovetest",
   },
   openGraph: {
     title: "Love Test by Name & Love Match Calculator | Rizz AI",
     description:
       "Test name compatibility percentage with AI love meter & match quiz.",
-    url: "https://rizz-ai.space/lovetest",
+    url: "https://www.rizzai.space/lovetest",
   },
 };
 

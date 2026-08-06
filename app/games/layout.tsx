@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     "Online Games for Couples",
   ],
   alternates: {
-    canonical: "https://rizz-ai.space/games",
+    canonical: "https://www.rizzai.space/games",
   },
 };
 

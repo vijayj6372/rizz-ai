@@ -145,15 +145,15 @@ const seoKeywords = [
 export const metadata: Metadata = {
   title: {
     default: "Rizz AI — #1 Free AI Wingman, Pickup Line Generator & Looksmaxing Rating App",
-    template: "%s | Rizz AI (rizz-ai.space)",
+    template: "%s | Rizz AI (www.rizzai.space)",
   },
   description:
-    "Rizz AI  is your free AI wingman & dating assistant. Generate smooth rizz lines, flirty pickup lines for Tinder/Hinge/Bumble, PSL scale AI face rating, glow up tips, selfie roasts, and online couple games.",
+    "Rizz AI is your free AI wingman & dating assistant. Generate smooth rizz lines, flirty pickup lines for Tinder/Hinge/Bumble, PSL scale AI face rating, glow up tips, selfie roasts, and online couple games.",
   keywords: seoKeywords,
-  authors: [{ name: "Rizz AI Team", url: "https://rizz-ai.space" }],
+  authors: [{ name: "Rizz AI Team", url: "https://www.rizzai.space" }],
   creator: "Rizz AI",
   publisher: "Rizz AI",
-  metadataBase: new URL("https://rizz-ai.space"),
+  metadataBase: new URL("https://www.rizzai.space"),
   alternates: {
     canonical: "/",
   },
@@ -161,7 +161,7 @@ export const metadata: Metadata = {
     title: "Rizz AI — #1 AI Wingman, Pickup Lines & Looksmaxing Rating App",
     description:
       "Level up your rizz with free AI pickup lines, PSL scale face rating, selfie roasts, and online couple games. Try Rizz AI now!",
-    url: "https://rizz-ai.space",
+    url: "https://www.rizzai.space",
     siteName: "Rizz AI",
     locale: "en_US",
     type: "website",
@@ -178,7 +178,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Rizz AI — #1 AI Wingman & Pickup Line Generator",
     description:
-      "Get smooth rizz lines, flirty pickup lines, looksmaxing PSL face ratings & couple games at rizz-ai.space",
+      "Get smooth rizz lines, flirty pickup lines, looksmaxing PSL face ratings & couple games at rizzai.space",
     creator: "@Vijay_Jadav_7",
     images: ["/icon.png"],
   },
@@ -215,14 +215,14 @@ const websiteSchema = {
   "@type": "WebSite",
   name: "Rizz AI",
   alternateName: ["RizzAI App", "Rizz GPT", "Rizz Generator"],
-  url: "https://rizz-ai.space",
+  url: "https://www.rizzai.space",
   description:
     "Free AI Wingman app, Pickup Line Generator, Looksmaxing AI Face Rating, and Couple Games for Tinder, Hinge & Bumble.",
   potentialAction: {
     "@type": "SearchAction",
     target: {
       "@type": "EntryPoint",
-      urlTemplate: "https://rizz-ai.space/pickup-line?q={search_term_string}",
+      urlTemplate: "https://www.rizzai.space/pickup-line?q={search_term_string}",
     },
     "query-input": "required name=search_term_string",
   },

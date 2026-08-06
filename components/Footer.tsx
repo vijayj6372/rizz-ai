@@ -84,7 +84,7 @@ export function Footer({
           Rizz AI — #1 Free AI Wingman App, Rizz Generator & Dating Assistant
         </h1>
         <p style={{ fontSize: 14, lineHeight: 1.6, color: isDark ? "#94A3B8" : "#475569", marginBottom: 18, textAlign: "center" }}>
-          Welcome to <strong>Rizz AI</strong> (<code>rizz-ai.space</code>) — the ultimate <strong>free AI wingman app</strong>, <strong>rizz generator</strong>, and dating reply assistant. Whether you are looking for <strong>flirting pick up lines</strong> for Tinder, Hinge, or Bumble, instant <strong>looksmaxing AI face ratings</strong> on the <strong>PSL scale</strong>, or <strong>free couple games to play online</strong>, Rizz AI gives you the confidence to level up your dating game.
+          Welcome to <strong>Rizz AI</strong> (<code>rizzai.space</code>) — the ultimate <strong>free AI wingman app</strong>, <strong>rizz generator</strong>, and dating reply assistant. Whether you are looking for <strong>flirting pick up lines</strong> for Tinder, Hinge, or Bumble, instant <strong>looksmaxing AI face ratings</strong> on the <strong>PSL scale</strong>, or <strong>free couple games to play online</strong>, Rizz AI gives you the confidence to level up your dating game.
         </p>
 
         <h2 style={{ fontSize: 18, fontWeight: 800, color: isDark ? "#F8FAFC" : "#0F172A", marginTop: 20, marginBottom: 10 }}>
@@ -121,7 +121,7 @@ export function Footer({
               What is Rizz AI and how does the AI Wingman app work?
             </summary>
             <p style={{ fontSize: 13, color: isDark ? "#94A3B8" : "#475569", marginTop: 6, margin: 0, lineHeight: 1.5 }}>
-              Rizz AI is a free AI-powered wingman app (rizz-ai.space) designed to help you craft irresistible chat replies, generate pickup lines for Tinder, Hinge, or Bumble, and analyze facial attractiveness with AI looksmaxing ratings.
+              Rizz AI is a free AI-powered wingman app (rizzai.space) designed to help you craft irresistible chat replies, generate pickup lines for Tinder, Hinge, or Bumble, and analyze facial attractiveness with AI looksmaxing ratings.
             </p>
           </details>
 
@@ -256,7 +256,7 @@ export function Footer({
           letterSpacing: "-0.01em",
         }}
       >
-        Rizz AI © 2026 · rizz-ai.space · Free AI Wingman App
+        Rizz AI © 2026 · rizzai.space · Free AI Wingman App
       </p>
     </footer>
   );

@@ -20,13 +20,13 @@ export const metadata: Metadata = {
     "bumble",
   ],
   alternates: {
-    canonical: "https://rizz-ai.space/upload-screenshot",
+    canonical: "https://www.rizzai.space/upload-screenshot",
   },
   openGraph: {
     title: "AI Screenshot Analyzer & Rizz Reply Assistant | Rizz AI",
     description:
       "Upload chat screenshots to generate instant smooth rizz replies and chat suggestions.",
-    url: "https://rizz-ai.space/upload-screenshot",
+    url: "https://www.rizzai.space/upload-screenshot",
   },
 };
 

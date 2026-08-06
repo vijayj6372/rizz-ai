@@ -35,13 +35,13 @@ export const metadata: Metadata = {
     "rizz generator",
   ],
   alternates: {
-    canonical: "https://rizz-ai.space/pickup-line",
+    canonical: "https://www.rizzai.space/pickup-line",
   },
   openGraph: {
     title: "Best Rizz Lines & Pickup Lines Generator | Rizz AI",
     description:
       "Instant AI generator for smooth rizz lines, flirty pick up lines, funny & cheesy pickup lines for dating apps.",
-    url: "https://rizz-ai.space/pickup-line",
+    url: "https://www.rizzai.space/pickup-line",
   },
 };
 

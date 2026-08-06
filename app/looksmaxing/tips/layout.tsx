@@ -16,13 +16,13 @@ export const metadata: Metadata = {
     "looksmaxing scale",
   ],
   alternates: {
-    canonical: "https://rizz-ai.space/looksmaxing/tips",
+    canonical: "https://www.rizzai.space/looksmaxing/tips",
   },
   openGraph: {
     title: "Glow Up Tips & How to Glow Up Guide | Rizz AI",
     description:
       "Expert tips for a massive glow up. Learn how to looksmax your facial features and style.",
-    url: "https://rizz-ai.space/looksmaxing/tips",
+    url: "https://www.rizzai.space/looksmaxing/tips",
   },
 };
 

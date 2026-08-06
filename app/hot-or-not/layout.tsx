@@ -16,13 +16,13 @@ export const metadata: Metadata = {
     "hot or not site",
   ],
   alternates: {
-    canonical: "https://rizz-ai.space/hot-or-not",
+    canonical: "https://www.rizzai.space/hot-or-not",
   },
   openGraph: {
     title: "Hot or Not Website & Photo Rater | Rizz AI",
     description:
       "Play Hot or Not online! Get AI ratings for photos, rate your crush, or roast your ex.",
-    url: "https://rizz-ai.space/hot-or-not",
+    url: "https://www.rizzai.space/hot-or-not",
   },
 };
 

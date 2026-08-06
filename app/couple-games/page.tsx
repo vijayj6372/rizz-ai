@@ -1954,7 +1954,7 @@ export default function CoupleGamesPage() {
             </div>
 
             <div style={{ maxWidth: 1160, margin: "40px auto 0", paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 14, fontSize: "0.82rem", color: "#94A3B8" }}>
-              <p style={{ margin: 0 }}>© 2026 Lovely & Rizz AI · rizz-ai.space · All rights reserved.</p>
+              <p style={{ margin: 0 }}>© 2026 Lovely & Rizz AI · rizzai.space · All rights reserved.</p>
               <p style={{ margin: 0 }}>Designed to bring couples closer together.</p>
             </div>
           </footer>

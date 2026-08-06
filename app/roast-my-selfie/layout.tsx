@@ -13,13 +13,13 @@ export const metadata: Metadata = {
     "ai photo roast",
   ],
   alternates: {
-    canonical: "https://rizz-ai.space/roast-my-selfie",
+    canonical: "https://www.rizzai.space/roast-my-selfie",
   },
   openGraph: {
     title: "AI Roast My Selfie & Roast My Ex | Rizz AI",
     description:
       "Get savage, funny AI roasts for your selfies and photos instantly.",
-    url: "https://rizz-ai.space/roast-my-selfie",
+    url: "https://www.rizzai.space/roast-my-selfie",
   },
 };
 
