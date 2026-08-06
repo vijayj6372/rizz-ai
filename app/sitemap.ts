@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/couple-games",
     "/games",
     "/games/ice-breaker-questions-for-couples",
+    "/games/would-you-rather-for-couples",
     "/hot-or-not",
     "/roast-my-selfie",
     "/rate-my-crush",
