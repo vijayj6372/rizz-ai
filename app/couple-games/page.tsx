@@ -13,8 +13,8 @@ import { BottomNav } from "@/components/BottomNav";
 /* ──────────────────────────────────────────────
    TYPES & CATEGORY DATA
 ────────────────────────────────────────────── */
-export type GameType = "flashcard" | "wyr" | "tod" | "wheel" | "bingo" | "quiz";
-export type Domain =
+type GameType = "flashcard" | "wyr" | "tod" | "wheel" | "bingo" | "quiz";
+type Domain =
   | "all"
   | "favs"
   | "party"
@@ -23,7 +23,7 @@ export type Domain =
   | "romance"
   | "lifestyle";
 
-export interface Category {
+interface Category {
   id: string;
   slug: string;
   title: string;
@@ -35,7 +35,7 @@ export interface Category {
   desc: string;
 }
 
-export const CATEGORIES_SECTION_CONFIG: Record<
+const CATEGORIES_SECTION_CONFIG: Record<
   Exclude<Domain, "all" | "favs">,
   { label: string; color: string; bg: string; icon: string }
 > = {
@@ -71,7 +71,7 @@ export const CATEGORIES_SECTION_CONFIG: Record<
   },
 };
 
-export const CATEGORIES_DATA: Category[] = [
+const CATEGORIES_DATA: Category[] = [
   {
     "id": "game_1",
     "slug": "would-you-rather-for-couples",
