@@ -392,11 +392,23 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* ── SEO Rich Content & FAQ Accordion ── */}
+          {/* ── Bottom Navigation Bar (placed on top of #1 Dating AI SEO Card) ── */}
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: 24,
+            }}
+          >
+            <BottomNav currentPath="/" variant="light" inline />
+          </div>
+
+          {/* ── SEO Rich Content & FAQ Accordion (#1 Dating AI textbox) ── */}
           <HomeSeoSection />
 
-          {/* ── Professional Footer with Bottom Navigation Bar before ruler ── */}
-          <Footer variant="light" currentPath="/" />
+          {/* ── Professional Footer ── */}
+          <Footer variant="light" currentPath="/" showInlineNav={false} />
         </div>
       </main>
 

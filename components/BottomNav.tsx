@@ -31,6 +31,7 @@ export function BottomNav({ currentPath, variant = "dark", inline = false }: Bot
   const navItems = [
     { href: "/", label: "Home", icon: "🏠", id: "nav-home" },
     { href: "/lovetest", label: "Love Test", icon: "❤️", id: "nav-lovetest" },
+    { href: "/looksmaxing", label: "Looksmaxing", icon: "🗿", id: "nav-looksmaxing" },
     { href: "/fun-features", label: "Fun Features", isPlus: true, id: "nav-fun-features" },
     { href: "/firefun", label: "FireFun AI", icon: "🔥", id: "nav-firefun" },
     { href: "/lovelife", label: "LoveLife", icon: "💋", id: "nav-lovelife" },
@@ -57,7 +58,7 @@ export function BottomNav({ currentPath, variant = "dark", inline = false }: Bot
         padding: "6px 8px",
         boxShadow: isDark ? "0 10px 30px rgba(0, 0, 0, 0.5)" : "0 10px 30px rgba(0, 0, 0, 0.12)",
         width: inline ? "100%" : "calc(100% - 24px)",
-        maxWidth: 400,
+        maxWidth: 440,
         gap: 4,
         margin: inline ? "0 auto" : undefined,
       }}
