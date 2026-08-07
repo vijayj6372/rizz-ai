@@ -184,6 +184,14 @@ export const metadata: Metadata = {
   verification: {
     google: "Dc3uCozuXOMGTsKUWOyzpX2VokIgnkfoSKsfRmg9I1U",
   },
+  other: {
+    "google-site-verification": "Dc3uCozuXOMGTsKUWOyzpX2VokIgnkfoSKsfRmg9I1U",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "default",
+    "apple-mobile-web-app-title": "Rizz AI",
+    "mobile-web-app-capable": "yes",
+    "format-detection": "telephone=no",
+  },
 };
 
 /* ─── Viewport (mobile-first) ─── */
@@ -288,32 +296,14 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={lilitaOne.variable}>
-      <head>
-        {/* Preconnect for faster loading */}
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-
-        {/* Google Search Favicon Specifications */}
-        <link rel="icon" type="image/png" sizes="48x48" href="/icon.png" />
-        <link rel="icon" type="image/png" sizes="96x96" href="/icon.png" />
-        <link rel="icon" type="image/png" sizes="192x192" href="/icon.png" />
-        <link rel="icon" type="image/png" sizes="512x512" href="/icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-
-        {/* Google Site Verification */}
-        <meta name="google-site-verification" content="Dc3uCozuXOMGTsKUWOyzpX2VokIgnkfoSKsfRmg9I1U" />
-
-        {/* Mobile & PWA meta tags */}
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Rizz AI" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="format-detection" content="telephone=no" />
+    <html lang="en" className={lilitaOne.variable} suppressHydrationWarning>
+      <body suppressHydrationWarning>
+        <ThemeProvider>
+          <ErrorBoundary>
+            <SoundListener />
+            {children}
+          </ErrorBoundary>
+        </ThemeProvider>
 
         {/* Structured Data (JSON-LD) */}
         <script
@@ -332,14 +322,6 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
         />
-      </head>
-      <body>
-        <ThemeProvider>
-          <ErrorBoundary>
-            <SoundListener />
-            {children}
-          </ErrorBoundary>
-        </ThemeProvider>
       </body>
     </html>
   );
