@@ -32,15 +32,15 @@ export const Colors = {
     backgroundTertiary: "#D9D9D9",
   },
   dark: {
-    text: "#ECEDEE",
+    text: "#11181C",
     buttonText: "#FFFFFF",
-    tabIconDefault: "#9BA1A6",
-    tabIconSelected: tintColorDark,
-    link: tintColorDark,
-    backgroundRoot: "#1F2123",
-    backgroundDefault: "#2A2C2E",
-    backgroundSecondary: "#353739",
-    backgroundTertiary: "#404244",
+    tabIconDefault: "#687076",
+    tabIconSelected: tintColorLight,
+    link: AppColors.primary,
+    backgroundRoot: AppColors.background.gradientBottom,
+    backgroundDefault: "#F2F2F2",
+    backgroundSecondary: "#E6E6E6",
+    backgroundTertiary: "#D9D9D9",
   },
 };
 

@@ -49,12 +49,13 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
       {/* Logo */}
       <div className={`splash-logo splash-logo--${phase}`}>
         <Image
-          src="/images/rizz ai - logo.png"
+          src="/images/splash-logo.png"
           alt="Rizz AI"
           width={280}
           height={280}
           priority
-          style={{ objectFit: "contain" }}
+          unoptimized
+          style={{ objectFit: "contain", borderRadius: "22%", display: "block" }}
         />
       </div>
     </div>

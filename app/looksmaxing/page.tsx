@@ -521,6 +521,7 @@ function ShareableCard({ photoUri, scores, cardRef }: { photoUri: string | null;
 /* ─── Main Looksmaxing Page ─── */
 export default function LooksmaxingPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const selfieCameraRef = useRef<HTMLInputElement>(null);
   const cardRef = useRef<HTMLDivElement | null>(null);
   const [photoUri, setPhotoUri] = useState<string | null>(null);
   const [phase, setPhase] = useState<"upload" | "loading" | "result">("upload");
@@ -549,6 +550,27 @@ export default function LooksmaxingPage() {
     };
   }, []);
 
+  const triggerSelfieCapture = () => {
+    // Check if on mobile device or Instagram / TikTok / Facebook in-app browser
+    const isMobile =
+      typeof navigator !== "undefined" &&
+      /iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent);
+    const isInAppBrowser =
+      typeof navigator !== "undefined" &&
+      /Instagram|FBAN|FBAV|ByteDance|TikTok/i.test(navigator.userAgent);
+
+    if (isMobile || isInAppBrowser || !navigator?.mediaDevices?.getUserMedia) {
+      // On mobile / Instagram in-app browser, direct native camera capture is 100% reliable
+      if (selfieCameraRef.current) {
+        selfieCameraRef.current.value = "";
+        selfieCameraRef.current.click();
+      }
+    } else {
+      // On desktop with webcam API available, open live webcam stream
+      startWebcam();
+    }
+  };
+
   const startWebcam = async () => {
     try {
       setShowWebcam(true);
@@ -563,13 +585,20 @@ export default function LooksmaxingPage() {
             videoRef.current.srcObject = stream;
           }
         } catch (err) {
-          console.error("Error accessing webcam:", err);
-          showToast("❌ Could not access camera. Please check permissions.");
+          console.warn("Direct webcam stream failed, falling back to native camera picker:", err);
           setShowWebcam(false);
+          if (selfieCameraRef.current) {
+            selfieCameraRef.current.value = "";
+            selfieCameraRef.current.click();
+          }
         }
       }, 100);
     } catch (err) {
       console.error(err);
+      if (selfieCameraRef.current) {
+        selfieCameraRef.current.value = "";
+        selfieCameraRef.current.click();
+      }
     }
   };
 
@@ -762,7 +791,7 @@ export default function LooksmaxingPage() {
         )
       }
     >
-      {/* Hidden file input */}
+      {/* Hidden file input for Photo Gallery */}
       <input
         ref={fileInputRef}
         type="file"
@@ -770,7 +799,19 @@ export default function LooksmaxingPage() {
         style={{ display: "none" }}
         onChange={handleFileChange}
         id="looksmaxing-file-uploader"
-        aria-label="Upload photo for looksmaxing analysis"
+        aria-label="Upload photo from gallery"
+      />
+
+      {/* Hidden file input for Native Selfie Camera (Instagram bio & Mobile 100% support) */}
+      <input
+        ref={selfieCameraRef}
+        type="file"
+        accept="image/*"
+        capture="user"
+        style={{ display: "none" }}
+        onChange={handleFileChange}
+        id="looksmaxing-selfie-uploader"
+        aria-label="Take selfie with camera"
       />
 
       {/* ─── UPLOAD PHASE ─── */}
@@ -960,7 +1001,7 @@ export default function LooksmaxingPage() {
 
                 {/* Take a Selfie Button */}
                 <button
-                  onClick={startWebcam}
+                  onClick={triggerSelfieCapture}
                   style={{
                     width: "100%",
                     paddingTop: 14,
@@ -977,6 +1018,7 @@ export default function LooksmaxingPage() {
                     justifyContent: "center",
                     gap: 10,
                   }}
+                  id="take-selfie-btn"
                 >
                   <Camera size={18} color="#1F1A3A" />
                   Take a Selfie

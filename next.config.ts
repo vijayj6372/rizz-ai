@@ -46,10 +46,6 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  /* ─── Bundle Optimizations ─── */
-  experimental: {
-    optimizePackageImports: ["lucide-react"],
-  },
 };
 
 export default nextConfig;

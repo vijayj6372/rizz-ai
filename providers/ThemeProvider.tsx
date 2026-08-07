@@ -29,34 +29,13 @@ function getSystemDark(): boolean {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [mode, setModeState] = useState<ThemeMode>("system");
-  const [systemDark, setSystemDark] = useState(false);
+  // Always use the default signature brand light theme across all devices
+  const mode: ThemeMode = "light";
+  const isDark = false;
+  const theme = Colors.light;
 
-  // Hydrate from localStorage and system preference after mount
-  useEffect(() => {
-    const saved = storageGet("rizz_theme_mode") as ThemeMode | null;
-    if (saved) setModeState(saved);
-    setSystemDark(getSystemDark());
-
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    const handler = (e: MediaQueryListEvent) => setSystemDark(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-
-  const isDark =
-    mode === "dark" ? true : mode === "light" ? false : systemDark;
-
-  const theme = isDark ? Colors.dark : Colors.light;
-
-  const setMode = useCallback((m: ThemeMode) => {
-    setModeState(m);
-    storageSet("rizz_theme_mode", m);
-  }, []);
-
-  const toggleTheme = useCallback(() => {
-    setMode(isDark ? "light" : "dark");
-  }, [isDark, setMode]);
+  const setMode = useCallback((_m: ThemeMode) => {}, []);
+  const toggleTheme = useCallback(() => {}, []);
 
   const value = useMemo(
     () => ({ theme, isDark, mode, toggleTheme, setMode }),
@@ -66,7 +45,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   return (
     <ThemeContext.Provider value={value}>
       <div
-        data-theme={isDark ? "dark" : "light"}
+        data-theme="light"
         style={{ minHeight: "100vh", background: theme.backgroundRoot }}
       >
         {children}

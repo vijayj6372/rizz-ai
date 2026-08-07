@@ -13,6 +13,10 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
       {
+        userAgent: "Googlebot-Image",
+        allow: ["/", "/images/", "/icon.png", "/favicon.ico", "/apple-touch-icon.png"],
+      },
+      {
         userAgent: "Bingbot",
         allow: "/",
       },

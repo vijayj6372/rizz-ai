@@ -54,18 +54,6 @@
   --radius-full: 9999px;
 }
 
-[data-theme="dark"] {
-  --bg-root: #1f2123;
-  --bg-default: #2a2c2e;
-  --bg-secondary: #353739;
-  --bg-tertiary: #404244;
-  --text: #ecedee;
-  --text-muted: rgba(236, 237, 238, 0.6);
-  --link: #f08080;
-  --gradient-top: #1f2123;
-  --gradient-bottom: #2a2c2e;
-}
-
 /* ─────────────────────────────────────────
    3. Tailwind v4 theme extension
    Note: Tailwind v4 reads CSS variables from :root automatically.
@@ -159,6 +147,7 @@ body {
 
 .splash-logo {
   position: relative;
+  border-radius: 22%;
   filter: drop-shadow(0 0 30px rgba(255, 102, 255, 0.7));
 }
 
@@ -289,10 +278,6 @@ dialog::backdrop {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
-[data-theme="dark"] .card {
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-}
-
 .upload-zone {
   border: 2px dashed rgba(246, 118, 110, 0.5);
   border-radius: var(--radius-lg);
@@ -375,10 +360,6 @@ a {
 @media (min-width: 481px) {
   body {
     background-color: #ABBFF2;
-  }
-
-  [data-theme="dark"] body {
-    background-color: #1f2123;
   }
 }
 

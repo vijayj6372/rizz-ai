@@ -7,6 +7,7 @@ import SplashScreen from "@/components/SplashScreen";
 import { HeaderTitle } from "@/components/HeaderTitle";
 import { BottomNav } from "@/components/BottomNav";
 import { Footer } from "@/components/Footer";
+import { HomeSeoSection } from "@/components/HomeSeoSection";
 import { useTheme } from "@/hooks/useTheme";
 import { AppColors } from "@/constants/theme";
 
@@ -390,6 +391,9 @@ export default function HomePage() {
               </Link>
             ))}
           </div>
+
+          {/* ── SEO Rich Content & FAQ Accordion ── */}
+          <HomeSeoSection />
 
           {/* ── Professional Footer with Bottom Navigation Bar before ruler ── */}
           <Footer variant="light" currentPath="/" />

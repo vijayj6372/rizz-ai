@@ -119,7 +119,10 @@ export default function RateMyCrushPage() {
   }, []);
 
   const triggerUpload = () => {
-    fileInputRef.current?.click();
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+      fileInputRef.current.click();
+    }
   };
 
   const reset = () => {

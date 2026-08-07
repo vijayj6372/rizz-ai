@@ -16,10 +16,18 @@ const lilitaOne = localFont({
 /* ─── SEO Target Keywords ─── */
 const seoKeywords = [
   "rizz",
-  "rizz app",
-  "rizzai app",
-  "rizz gpt",
   "rizz ai",
+  "rizz app",
+  "dating ai",
+  "ai dating app",
+  "rizz gpt",
+  "ai rizz",
+  "rizz app online",
+  "rizz app free",
+  "ai dating chatbot",
+  "rizzai.space",
+  "rizz space",
+  "rizzai",
   "RIZZ AI chat",
   "Free Rizz AI",
   "RizzChat app",
@@ -66,8 +74,6 @@ const seoKeywords = [
   "rizzapp",
   "rizzing",
   "rizz apps free",
-  "rizz app free",
-  "rizz app online",
   "rizz generator",
   "rizz reply app",
   "rizzbot",
@@ -82,9 +88,6 @@ const seoKeywords = [
   "looksmaxing scale",
   "how to glow up",
   "glow up tips",
-  "how to have a glow up",
-  "how to get a glow up",
-  "tips for glow up",
   "looksmax ai",
   "face rating",
   "face attractiveness test",
@@ -92,63 +95,32 @@ const seoKeywords = [
   "looksmaxxed",
   "looksmaxing",
   "looksmaxxing",
-  "looksmaxxed app",
   "looksmaxing app",
-  "looksmaxxing app",
-  "free looksmaxxed app",
-  "free looksmaxing app",
-  "free looksmaxxing app",
-  "umax",
   "psl scale",
   "ai face rater",
-  "psl scale test",
   "psl rating test",
   "psl rating scale",
-  "best pick up line",
-  "pickup lines cute",
-  "pick up lines for flirting",
-  "adorable pick up lines",
   "tinder",
   "hinge",
   "bumble",
-  "chat up lines",
-  "parade",
-  "theknot",
-  "couples game",
   "couple games",
   "couples games",
-  "couple game questions",
-  "coup card game",
-  "couple games questions",
-  "couples game questions",
-  "couples games questions",
   "game of questions for couples",
-  "Free Couple Games to Play Online | lovely",
-  "Online Games for Couples",
-  "hot or not hot",
   "hot or not website",
-  "hot and not",
-  "roast my ex",
-  "roast me",
-  "rate my bf",
-  "rate my gf",
-  "hotornot",
-  "hot or not site",
+  "roast my selfie",
+  "rate my crush",
   "love test name",
-  "love match test",
-  "name compatibility quiz",
-  "love meter",
   "love calculator names",
 ];
 
 /* ─── Global SEO Metadata ─── */
 export const metadata: Metadata = {
   title: {
-    default: "Rizz AI — #1 Free AI Wingman, Pickup Line Generator & Looksmaxing Rating App",
+    default: "Rizz AI — #1 Free Dating AI, AI Wingman & AI Dating App",
     template: "%s | Rizz AI (www.rizzai.space)",
   },
   description:
-    "Rizz AI is your free AI wingman & dating assistant. Generate smooth rizz lines, flirty pickup lines for Tinder/Hinge/Bumble, PSL scale AI face rating, glow up tips, selfie roasts, and online couple games.",
+    "Rizz AI (rizzai.space) is the #1 free AI dating app, dating AI wingman & rizz gpt chatbot. Get smooth AI rizz lines, Tinder/Hinge/Bumble replies, PSL face ratings & couple games online for free.",
   keywords: seoKeywords,
   authors: [{ name: "Rizz AI Team", url: "https://www.rizzai.space" }],
   creator: "Rizz AI",
@@ -157,10 +129,25 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  icons: {
+    icon: [
+      { url: "/icon.png", sizes: "48x48", type: "image/png" },
+      { url: "/icon.png", sizes: "96x96", type: "image/png" },
+      { url: "/icon.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon.png", sizes: "512x512", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
   openGraph: {
-    title: "Rizz AI — #1 AI Wingman, Pickup Lines & Looksmaxing Rating App",
+    title: "Rizz AI — #1 Free Dating AI, AI Wingman & AI Dating App",
     description:
-      "Level up your rizz with free AI pickup lines, PSL scale face rating, selfie roasts, and online couple games. Try Rizz AI now!",
+      "Rizz AI (rizzai.space) is the #1 free AI dating app, dating AI wingman & rizz gpt chatbot. Get smooth AI rizz lines, Tinder/Hinge/Bumble replies, PSL face ratings & couple games online for free.",
     url: "https://www.rizzai.space",
     siteName: "Rizz AI",
     locale: "en_US",
@@ -170,13 +157,13 @@ export const metadata: Metadata = {
         url: "/icon.png",
         width: 512,
         height: 512,
-        alt: "Rizz AI — Free AI Wingman App",
+        alt: "Rizz AI — #1 Free AI Dating App & AI Wingman",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rizz AI — #1 AI Wingman & Pickup Line Generator",
+    title: "Rizz AI — #1 Free Dating AI & AI Dating App",
     description:
       "Get smooth rizz lines, flirty pickup lines, looksmaxing PSL face ratings & couple games at rizzai.space",
     creator: "@Vijay_Jadav_7",
@@ -214,10 +201,21 @@ const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "Rizz AI",
-  alternateName: ["RizzAI App", "Rizz GPT", "Rizz Generator"],
+  alternateName: [
+    "Rizz AI",
+    "Rizz App",
+    "Dating AI",
+    "AI Dating App",
+    "Rizz GPT",
+    "AI Rizz",
+    "Rizz App Online",
+    "Rizz App Free",
+    "AI Dating Chatbot",
+    "rizzai.space",
+  ],
   url: "https://www.rizzai.space",
   description:
-    "Free AI Wingman app, Pickup Line Generator, Looksmaxing AI Face Rating, and Couple Games for Tinder, Hinge & Bumble.",
+    "Rizz AI is the #1 free AI dating app, dating AI wingman & rizz gpt chatbot for Tinder, Hinge & Bumble.",
   potentialAction: {
     "@type": "SearchAction",
     target: {
@@ -231,7 +229,7 @@ const websiteSchema = {
 const softwareAppSchema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "Rizz AI — Free AI Wingman & Dating Assistant",
+  name: "Rizz AI — Free Dating AI & AI Dating App",
   operatingSystem: "Web, iOS, Android",
   applicationCategory: "LifestyleApplication",
   offers: {
@@ -242,8 +240,48 @@ const softwareAppSchema = {
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: "4.9",
-    ratingCount: "12850",
+    ratingCount: "14850",
   },
+};
+
+const faqPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is Rizz AI and how does it work?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Rizz AI (rizzai.space) is a free AI dating app and AI wingman designed to generate charismatic pickup lines, witty conversation replies for Tinder, Hinge, and Bumble, PSL face rating analysis, and couple games.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is Rizz AI free to use online?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes, Rizz AI is 100% free to use online on both mobile and desktop without requiring any download, credit card, or subscription.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is Rizz GPT / AI Dating Chatbot?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Rizz GPT is an advanced AI dating chatbot trained to help you craft irresistible dating chat replies, comeback lines, romantic compliments, and conversation starters.",
+      },
+    },
+  ],
+};
+
+const orgSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Rizz AI",
+  url: "https://www.rizzai.space",
+  logo: "https://www.rizzai.space/icon.png",
+  sameAs: ["https://x.com/Vijay_Jadav_7"],
 };
 
 export default function RootLayout({
@@ -255,6 +293,17 @@ export default function RootLayout({
         {/* Preconnect for faster loading */}
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+
+        {/* Google Search Favicon Specifications */}
+        <link rel="icon" type="image/png" sizes="48x48" href="/icon.png" />
+        <link rel="icon" type="image/png" sizes="96x96" href="/icon.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/icon.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
         {/* Google Site Verification */}
         <meta name="google-site-verification" content="Dc3uCozuXOMGTsKUWOyzpX2VokIgnkfoSKsfRmg9I1U" />
@@ -274,6 +323,14 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
         />
       </head>
       <body>

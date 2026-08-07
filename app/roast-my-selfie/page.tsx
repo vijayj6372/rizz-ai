@@ -118,7 +118,10 @@ export default function RoastMySelfiePage() {
   }, []);
 
   const triggerUpload = () => {
-    fileInputRef.current?.click();
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+      fileInputRef.current.click();
+    }
   };
 
   const reset = () => {
