@@ -198,8 +198,6 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
   themeColor: "#F6766E",
   viewportFit: "cover",
 };
@@ -278,6 +276,38 @@ const faqPageSchema = {
       acceptedAnswer: {
         "@type": "Answer",
         text: "Rizz GPT is an advanced AI dating chatbot trained to help you craft irresistible dating chat replies, comeback lines, romantic compliments, and conversation starters.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is RIZZ AI and how does it revolutionize AI dating?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "RIZZ AI is a cutting-edge artificial intelligence platform specifically designed for enhancing dating experiences. By leveraging advanced language models similar to ChatGPT, RIZZ AI revolutionizes AI dating by providing personalized conversation starters, flirting tips, and relationship advice. This innovative tool helps users navigate the complex world of modern dating with confidence and charm.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How does RIZZ AI differ from other AI chatbots in the realm of AI dating?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "RIZZ AI sets itself apart in the AI dating landscape by offering a unique blend of natural language processing and emotional intelligence. Unlike generic chatbots, RIZZ AI is specifically trained on dating scenarios, allowing it to understand nuanced social cues and provide context-appropriate responses. This specialized focus makes RIZZ AI powered by advanced AI an invaluable asset for those looking to improve their dating skills and build meaningful connections.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can RIZZ AI help improve my dating profile and online presence?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Absolutely! RIZZ AI is equipped with advanced algorithms that analyze successful dating profiles and online interactions. By utilizing RIZZ AI, you can receive tailored suggestions to optimize your dating profile, select the most appealing photos, and craft engaging bios. The AI dating assistant can also provide real-time feedback on your online conversations, helping you maintain interesting and flirtatious exchanges that are more likely to lead to successful matches.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How does RIZZ AI ensure privacy and security in the context of AI dating?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Privacy and security are paramount in RIZZ AI's design. The platform employs end-to-end encryption for all communications and does not store personal conversation data permanently. RIZZ AI operates on a privacy-first principle, ensuring that your dating conversations and personal information remain confidential. The AI dating assistant processes information locally when possible and adheres to strict data protection protocols, giving users peace of mind while improving their dating skills.",
       },
     },
   ],
