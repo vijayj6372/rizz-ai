@@ -116,11 +116,11 @@ const seoKeywords = [
 /* ─── Global SEO Metadata ─── */
 export const metadata: Metadata = {
   title: {
-    default: "Rizz AI — #1 Free Dating AI, AI Wingman & AI Dating App",
+    default: "RIZZ AI - Free AI Dating Assistant & Pickup Lines",
     template: "%s | Rizz AI (www.rizzai.space)",
   },
   description:
-    "Rizz AI (rizzai.space) is the #1 free AI dating app, dating AI wingman & rizz gpt chatbot. Get smooth AI rizz lines, Tinder/Hinge/Bumble replies, PSL face ratings & couple games online for free.",
+    "Generate the best pickup lines with Rizz AI — your free AI-powered flirting tool for Tinder, Bumble, and more. Rizz AI delivers smooth, flirty lines that work!💕",
   keywords: seoKeywords,
   authors: [{ name: "Rizz AI Team", url: "https://www.rizzai.space" }],
   creator: "Rizz AI",
@@ -145,9 +145,9 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "Rizz AI — #1 Free Dating AI, AI Wingman & AI Dating App",
+    title: "RIZZ AI - Free AI Dating Assistant & Pickup Lines",
     description:
-      "Rizz AI (rizzai.space) is the #1 free AI dating app, dating AI wingman & rizz gpt chatbot. Get smooth AI rizz lines, Tinder/Hinge/Bumble replies, PSL face ratings & couple games online for free.",
+      "Generate the best pickup lines with Rizz AI — your free AI-powered flirting tool for Tinder, Bumble, and more. Rizz AI delivers smooth, flirty lines that work!💕",
     url: "https://www.rizzai.space",
     siteName: "Rizz AI",
     locale: "en_US",
@@ -163,9 +163,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rizz AI — #1 Free Dating AI & AI Dating App",
+    title: "RIZZ AI - Free AI Dating Assistant & Pickup Lines",
     description:
-      "Get smooth rizz lines, flirty pickup lines, looksmaxing PSL face ratings & couple games at rizzai.space",
+      "Generate the best pickup lines with Rizz AI — your free AI-powered flirting tool for Tinder, Bumble, and more. Rizz AI delivers smooth, flirty lines that work!💕",
     creator: "@Vijay_Jadav_7",
     images: ["/icon.png"],
   },
@@ -221,7 +221,7 @@ const websiteSchema = {
   ],
   url: "https://www.rizzai.space",
   description:
-    "Rizz AI is the #1 free AI dating app, dating AI wingman & rizz gpt chatbot for Tinder, Hinge & Bumble.",
+    "Generate the best pickup lines with Rizz AI — your free AI-powered flirting tool for Tinder, Bumble, and more. Rizz AI delivers smooth, flirty lines that work!💕",
   potentialAction: {
     "@type": "SearchAction",
     target: {
@@ -235,7 +235,7 @@ const websiteSchema = {
 const softwareAppSchema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "Rizz AI — Free Dating AI & AI Dating App",
+  name: "RIZZ AI - Free AI Dating Assistant & Pickup Lines",
   operatingSystem: "Web, iOS, Android",
   applicationCategory: "LifestyleApplication",
   offers: {

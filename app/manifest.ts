@@ -2,10 +2,10 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Rizz AI — #1 Free Dating AI, AI Wingman & AI Dating App",
+    name: "RIZZ AI - Free AI Dating Assistant & Pickup Lines",
     short_name: "Rizz AI",
     description:
-      "Rizz AI is the #1 free AI dating app, dating AI wingman & rizz gpt chatbot. Generate smooth AI rizz lines, pickup lines, looksmaxing face rating and couple games.",
+      "Generate the best pickup lines with Rizz AI — your free AI-powered flirting tool for Tinder, Bumble, and more. Rizz AI delivers smooth, flirty lines that work!💕",
     start_url: "/",
     display: "standalone",
     background_color: "#BCCFFA",
