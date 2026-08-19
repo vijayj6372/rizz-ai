@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useCallback, useEffect } from "react";
-import Image from "next/image";
-import { Heart, Upload, RefreshCw, Copy, Shield, Sparkles, MessageSquare } from "lucide-react";
+import { Heart, RefreshCw, Copy, Sparkles, MessageSquare, Download, Share2, AlertCircle } from "lucide-react";
 import { PageLayout } from "@/components/PageLayout";
 import { CopiedToast } from "@/components/CopiedToast";
 import { HeaderTitle } from "@/components/HeaderTitle";
@@ -28,25 +27,41 @@ const RECOMMENDATIONS = [
   { verdict: "DANGER ZONE", text: "High risk of heartbreak. Proceed with caution." }
 ];
 
+const LOADING_PHRASES = [
+  "Scanning facial keypoints...",
+  "Analyzing facial geometry...",
+  "Computing symmetry & attraction...",
+  "Measuring partner chemistry...",
+  "Formulating final verdict..."
+];
+
 export default function RateMyCrushPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [yourName, setYourName] = useState("");
   const [crushName, setCrushName] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [loadingStage, setLoadingStage] = useState(0);
   const [hasRated, setHasRated] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
-  const [copiedText, setCopiedText] = useState("");
+  const [toastMsg, setToastMsg] = useState("");
   const [animateBars, setAnimateBars] = useState(false);
 
   // Result parameters
-  const [score, setScore] = useState<number>(6.2);
-  const [badge, setBadge] = useState<string>("Solid 5 Energy 🐝");
+  const [score, setScore] = useState<number>(7.7);
+  const [badge, setBadge] = useState<string>("Wife Material 💍");
   const [datingPotential, setDatingPotential] = useState<number>(70);
-  const [verdict, setVerdict] = useState<string>("WHY NOT");
-  const [verdictDesc, setVerdictDesc] = useState<string>("Decent but you could aim higher.");
+  const [verdict, setVerdict] = useState<string>("GO FOR IT");
+  const [verdictDesc, setVerdictDesc] = useState<string>("High potential. They are definitely interested.");
   const [comment, setComment] = useState<string>("");
   const [breakdown, setBreakdown] = useState<{ label: string; val: number }[]>([]);
+
+  const showToast = (msg: string) => {
+    setToastMsg(msg);
+    setToastVisible(true);
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -60,63 +75,60 @@ export default function RateMyCrushPage() {
     reader.readAsDataURL(file);
   };
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     if (!imagePreview || isAnalyzing) return;
     setIsAnalyzing(true);
     setAnimateBars(false);
 
+    // Simulate cybernetic analyzer sequence
+    for (let i = 0; i < LOADING_PHRASES.length; i++) {
+      setLoadingStage(i);
+      await new Promise((r) => setTimeout(r, 550));
+    }
+
+    const rawScore = parseFloat((Math.random() * (9.5 - 4.5) + 4.5).toFixed(1));
+    setScore(rawScore);
+    setBadge(getRandomItem(BADGES));
+    setDatingPotential(Math.min(99, Math.max(15, Math.floor(rawScore * 10 - Math.random() * 8))));
+
+    let rec = RECOMMENDATIONS[2];
+    if (rawScore >= 8.5) rec = RECOMMENDATIONS[0];
+    else if (rawScore >= 7.0) rec = RECOMMENDATIONS[1];
+    else if (rawScore < 5.3) rec = RECOMMENDATIONS[3];
+
+    setVerdict(rec.verdict);
+    setVerdictDesc(rec.text);
+
+    const generatedBreakdown = [
+      { label: "Attractiveness", val: parseFloat((rawScore + (Math.random() * 1.6 - 0.8)).toFixed(1)) },
+      { label: "Rizz Potential", val: parseFloat((rawScore + (Math.random() * 1.6 - 0.8)).toFixed(1)) },
+      { label: "Partner Energy", val: parseFloat((rawScore + (Math.random() * 1.6 - 0.8)).toFixed(1)) },
+      { label: "Face Symmetry", val: parseFloat((rawScore + (Math.random() * 1.6 - 0.8)).toFixed(1)) },
+      { label: "Vibe Score", val: parseFloat((rawScore + (Math.random() * 1.6 - 0.8)).toFixed(1)) },
+    ].map(m => ({
+      ...m,
+      val: Math.min(10, Math.max(2, m.val))
+    }));
+
+    setBreakdown(generatedBreakdown);
+    setComment(getRandomItem(CRUSH_COMMENTS));
+    setIsAnalyzing(false);
+    setHasRated(true);
+
     setTimeout(() => {
-      // Calculate randomized game parameters
-      const rawScore = parseFloat((Math.random() * (9.5 - 4.5) + 4.5).toFixed(1));
-      setScore(rawScore);
-      setBadge(getRandomItem(BADGES));
-      setDatingPotential(Math.min(99, Math.max(15, Math.floor(rawScore * 10 - Math.random() * 8))));
-
-      let rec = RECOMMENDATIONS[2];
-      if (rawScore >= 8.5) rec = RECOMMENDATIONS[0];
-      else if (rawScore >= 7.0) rec = RECOMMENDATIONS[1];
-      else if (rawScore < 5.3) rec = RECOMMENDATIONS[3];
-
-      setVerdict(rec.verdict);
-      setVerdictDesc(rec.text);
-
-      const generatedBreakdown = [
-        { label: "Attractiveness", val: parseFloat((rawScore + (Math.random() * 1.6 - 0.8)).toFixed(1)) },
-        { label: "Rizz Potential", val: parseFloat((rawScore + (Math.random() * 1.6 - 0.8)).toFixed(1)) },
-        { label: "Partner Energy", val: parseFloat((rawScore + (Math.random() * 1.6 - 0.8)).toFixed(1)) },
-        { label: "Face Symmetry", val: parseFloat((rawScore + (Math.random() * 1.6 - 0.8)).toFixed(1)) },
-        { label: "Vibe Score", val: parseFloat((rawScore + (Math.random() * 1.6 - 0.8)).toFixed(1)) },
-      ].map(m => ({
-        ...m,
-        val: Math.min(10, Math.max(2, m.val))
-      }));
-
-      setBreakdown(generatedBreakdown);
-      setComment(getRandomItem(CRUSH_COMMENTS));
-      setIsAnalyzing(false);
-      setHasRated(true);
-
-      // Trigger metric bar fill animations
-      setTimeout(() => {
-        setAnimateBars(true);
-      }, 100);
-    }, 1500);
+      setAnimateBars(true);
+    }, 150);
   };
 
-  const handleCopyText = useCallback(async (textToCopy: string) => {
+  const copyVerdictText = () => {
+    const textToCopy = `Rizz AI Crush Rating: ${score}/10 | Potential: ${datingPotential}%\nRecommendation: ${verdict} - ${verdictDesc}\n"${comment}"`;
     try {
-      await navigator.clipboard.writeText(textToCopy);
+      navigator.clipboard.writeText(textToCopy);
+      showToast("✅ Scorecard verdict copied!");
     } catch {
-      const ta = document.createElement("textarea");
-      ta.value = textToCopy;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      document.body.removeChild(ta);
+      showToast("❌ Failed to copy to clipboard.");
     }
-    setCopiedText(textToCopy);
-    setToastVisible(true);
-  }, []);
+  };
 
   const triggerUpload = () => {
     if (fileInputRef.current) {
@@ -132,43 +144,126 @@ export default function RateMyCrushPage() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  const fullVerdictString = `Rizz AI Crush Rating: ${score}/10 | Potential: ${datingPotential}%\nRecommendation: ${verdict} - ${verdictDesc}\n"${comment}"`;
+  const downloadCardImage = async () => {
+    if (!cardRef.current) return;
+    try {
+      showToast("⏳ Generating scorecard...");
+      const { toPng } = await import("html-to-image");
+      const dataUrl = await toPng(cardRef.current, {
+        cacheBust: true,
+        pixelRatio: 2,
+        style: {
+          transform: "scale(1)",
+        }
+      });
+      const link = document.createElement("a");
+      link.download = `rizz-ai-crush-card.png`;
+      link.href = dataUrl;
+      link.click();
+      showToast("✅ Card saved successfully!");
+    } catch (err) {
+      console.error("Export error:", err);
+      showToast("❌ Failed to save scorecard image.");
+    }
+  };
+
+  // Get dynamic colors based on recommendation
+  const getVerdictTheme = (v: string) => {
+    switch (v) {
+      case "MARRY THEM":
+        return { color: "#00CFA8", bg: "rgba(0, 207, 168, 0.04)", border: "rgba(0, 207, 168, 0.25)" };
+      case "GO FOR IT":
+        return { color: "#D946EF", bg: "rgba(217, 70, 239, 0.04)", border: "rgba(217, 70, 239, 0.25)" };
+      case "WHY NOT":
+        return { color: "#FFA726", bg: "rgba(255, 167, 38, 0.04)", border: "rgba(255, 167, 38, 0.25)" };
+      case "DANGER ZONE":
+        return { color: "#F86B6D", bg: "rgba(248, 107, 109, 0.04)", border: "rgba(248, 107, 109, 0.25)" };
+      default:
+        return { color: "#D946EF", bg: "rgba(217, 70, 239, 0.04)", border: "rgba(217, 70, 239, 0.25)" };
+    }
+  };
+
+  const vTheme = getVerdictTheme(verdict);
+  const progressPercent = Math.min(100, Math.round(((loadingStage + 1) / LOADING_PHRASES.length) * 100));
 
   return (
     <PageLayout
       showBack
       backHref="/fun-features"
       variant="dark"
-      header={<HeaderTitle title="Rizz AI" />}
+      header={
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <span style={{ fontSize: 22, fontWeight: 900, color: "#fff", letterSpacing: 0.5, fontFamily: "LilitaOne, var(--font-lilita-one), cursive" }}>Rizz AI</span>
+          <div
+            style={{
+              padding: "3px 10px",
+              borderRadius: 99,
+              backgroundColor: "rgba(217, 70, 239, 0.15)",
+              border: "1.5px solid rgba(217, 70, 239, 0.4)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <span style={{ color: "#D946EF", fontWeight: 900, fontSize: 10, letterSpacing: 0.5 }}>
+              CRUSH RATER
+            </span>
+          </div>
+        </div>
+      }
+      fullWidth
     >
-      {/* Dynamic Keyframes Injection */}
+      {/* Keyframe & Custom class styling injection */}
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes heartbeat {
           0% { transform: scale(1); }
-          14% { transform: scale(1.15); }
+          14% { transform: scale(1.1); }
           28% { transform: scale(1); }
-          42% { transform: scale(1.15); }
+          42% { transform: scale(1.1); }
           70% { transform: scale(1); }
         }
         @keyframes fadeSlideUp {
-          from { opacity: 0; transform: translateY(16px); }
+          from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes scanLines {
+          from { background-position: 0 0; }
+          to { background-position: 0 30px; }
+        }
         .pulse-heart {
-          animation: heartbeat 1.6s infinite ease-in-out;
+          animation: heartbeat 1.8s infinite ease-in-out;
         }
         .animate-slide-up {
-          animation: fadeSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+          animation: fadeSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
         .interactive-card {
-          transition: transform 0.2s;
+          transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         .interactive-card:hover {
-          transform: translateY(-2px);
+          transform: translateY(-4px);
+        }
+        .slot-interactive {
+          transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .slot-interactive:hover {
+          transform: translateY(-4px);
+          border-color: #D946EF !important;
+          box-shadow: 0 0 15px rgba(217, 70, 239, 0.2);
+        }
+        .scanning-grid-hud {
+          position: absolute;
+          inset: 0;
+          background-size: 20px 20px;
+          background-image: 
+            linear-gradient(to right, rgba(217, 70, 239, 0.08) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(217, 70, 239, 0.08) 1px, transparent 1px);
+          animation: scanGrid 5s linear infinite;
+          pointer-events: none;
+          z-index: 5;
         }
       ` }} />
 
-      {/* Hidden file selector */}
+      {/* Hidden file input */}
       <input
         ref={fileInputRef}
         type="file"
@@ -179,7 +274,7 @@ export default function RateMyCrushPage() {
         aria-label="Upload photo of your crush"
       />
 
-      {/* simulated loader dialog */}
+      {/* Futuristic analysis loader */}
       {isAnalyzing && (
         <div
           style={{
@@ -188,79 +283,129 @@ export default function RateMyCrushPage() {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.65)",
+            backgroundColor: "rgba(8, 2, 26, 0.85)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             zIndex: 1000,
-            backdropFilter: "blur(4px)",
+            backdropFilter: "blur(6px)",
           }}
         >
           <div
             style={{
-              backgroundColor: "#1E1E2E",
-              padding: "24px 32px",
-              borderRadius: 22,
+              backgroundColor: "rgba(20, 10, 35, 0.95)",
+              padding: "28px 36px",
+              borderRadius: 24,
+              border: "1px solid rgba(217, 70, 239, 0.3)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               gap: 16,
-              boxShadow: "0 10px 25px rgba(0,0,0,0.35)",
+              boxShadow: "0 15px 40px rgba(0,0,0,0.5), 0 0 25px rgba(217, 70, 239, 0.15)",
+              width: "100%",
+              maxWidth: 320,
+              textAlign: "center"
             }}
           >
-            <RefreshCw size={36} color="#E040A0" style={{ animation: "spin 1.2s linear infinite" }} />
-            <span style={{ color: "#fff", fontWeight: 700, fontSize: 16 }}>Analyzing photo...</span>
+            <div style={{ position: "relative", width: 60, height: 60, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <RefreshCw size={36} color="#D946EF" style={{ animation: "spin 1.4s linear infinite" }} />
+              <Heart size={16} color="#D946EF" fill="#D946EF" style={{ position: "absolute", animation: "pulse 1.2s infinite ease-in-out" }} />
+            </div>
+            
+            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              <span style={{ color: "#fff", fontWeight: 900, fontSize: 16, letterSpacing: 0.5 }}>
+                Analyzing Crush...
+              </span>
+              <span style={{ color: "#D946EF", fontWeight: 800, fontSize: 12, opacity: 0.9 }}>
+                {LOADING_PHRASES[loadingStage]}
+              </span>
+            </div>
+
+            {/* Micro progress bar */}
+            <div style={{ width: "100%", height: 4, backgroundColor: "rgba(255,255,255,0.06)", borderRadius: 2, overflow: "hidden", marginTop: 4 }}>
+              <div style={{ width: `${progressPercent}%`, height: "100%", backgroundColor: "#D946EF", transition: "width 0.4s ease" }} />
+            </div>
           </div>
         </div>
       )}
 
-      {/* Screen view content */}
-      <div className="w-full max-w-[400px] md:max-w-[900px] mx-auto" style={{ flex: 1, display: "flex", flexDirection: "column", width: "100%", gap: 20 }}>
+      {/* Main Container Wrapper */}
+      <div className="w-full max-w-[420px] md:max-w-[860px] mx-auto px-1" style={{ flex: 1, display: "flex", flexDirection: "column", gap: 20 }}>
         
         {!hasRated ? (
-          /* State 1: Initial Upload Screen */
-          <div className="animate-slide-up max-w-[400px] mx-auto w-full" style={{ display: "flex", flexDirection: "column", gap: 24, flex: 1 }}>
-            <p
+          /* STATE 1: INITIAL UPLOAD VIEW */
+          <div className="animate-slide-up max-w-[420px] mx-auto w-full flex flex-col gap-5" style={{ flex: 1 }}>
+            <div style={{ textAlign: "center", display: "flex", flexDirection: "column", gap: 5 }}>
+              <p
+                style={{
+                  fontSize: 11,
+                  color: "rgba(255,255,255,0.45)",
+                  fontWeight: 800,
+                  letterSpacing: 2,
+                  textTransform: "uppercase",
+                  margin: 0,
+                }}
+              >
+                Honest AI Rater · No Sugarcoating
+              </p>
+            </div>
+
+            {/* Names Input Form */}
+            <div 
               style={{
-                fontSize: 11,
-                color: "rgba(255,255,255,0.45)",
-                fontWeight: 800,
-                letterSpacing: 2,
-                textAlign: "center",
-                textTransform: "uppercase",
-                margin: "-6px 0 0",
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 12,
+                backgroundColor: "rgba(255, 255, 255, 0.03)",
+                padding: "16px 14px",
+                borderRadius: 20,
+                border: "1px solid rgba(255, 255, 255, 0.05)",
               }}
             >
-              HONEST RATING · 1–10 · NO SUGARCOATING
-            </p>
-
-            {/* Optional Names Input */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-white/5 p-3.5 rounded-2xl border border-white/10">
-              <div className="space-y-1">
-                <label className="text-[11px] font-bold text-slate-300">Your Name</label>
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                <label style={{ fontSize: 10, fontWeight: 900, color: "rgba(255,255,255,0.5)", letterSpacing: 0.5 }}>YOUR NAME</label>
                 <input
                   type="text"
                   value={yourName}
                   onChange={(e) => setYourName(e.target.value)}
-                  placeholder="Enter your name"
-                  className="w-full bg-slate-950/80 border border-white/15 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-rose-400 transition-colors"
+                  placeholder="Your name"
+                  style={{
+                    width: "100%",
+                    backgroundColor: "rgba(0,0,0,0.4)",
+                    border: "1px solid rgba(255, 255, 255, 0.12)",
+                    borderRadius: 12,
+                    padding: "10px 12px",
+                    fontSize: 13,
+                    color: "#fff",
+                    outline: "none",
+                  }}
                 />
               </div>
-              <div className="space-y-1">
-                <label className="text-[11px] font-bold text-slate-300">Crush's Name</label>
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                <label style={{ fontSize: 10, fontWeight: 900, color: "rgba(255,255,255,0.5)", letterSpacing: 0.5 }}>CRUSH&apos;S NAME</label>
                 <input
                   type="text"
                   value={crushName}
                   onChange={(e) => setCrushName(e.target.value)}
-                  placeholder="Enter your crush's name"
-                  className="w-full bg-slate-950/80 border border-white/15 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-rose-400 transition-colors"
+                  placeholder="Crush's name"
+                  style={{
+                    width: "100%",
+                    backgroundColor: "rgba(0,0,0,0.4)",
+                    border: "1px solid rgba(255, 255, 255, 0.12)",
+                    borderRadius: 12,
+                    padding: "10px 12px",
+                    fontSize: 13,
+                    color: "#fff",
+                    outline: "none",
+                  }}
                 />
               </div>
             </div>
 
-            {/* Dash container upload zone */}
+            {/* Dotted Upload Card Zone */}
             <div
               onClick={triggerUpload}
+              className="slot-interactive"
               style={{
                 cursor: "pointer",
                 display: "flex",
@@ -268,14 +413,15 @@ export default function RateMyCrushPage() {
                 alignItems: "center",
                 justifyContent: "center",
                 gap: 16,
-                border: "2px dashed rgba(224, 64, 160, 0.35)",
-                borderRadius: 24,
-                padding: imagePreview ? "16px" : "80px 24px",
-                backgroundColor: "rgba(255,255,255,0.01)",
-                transition: "border-color 0.2s, background-color 0.2s",
+                border: "2px dashed rgba(217, 70, 239, 0.3)",
+                borderRadius: 28,
+                padding: imagePreview ? "12px" : "70px 24px",
+                backgroundColor: "rgba(217, 70, 239, 0.01)",
+                transition: "all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
                 position: "relative",
                 aspectRatio: imagePreview ? "1/1" : "auto",
                 overflow: "hidden",
+                boxShadow: "inset 0 0 20px rgba(0,0,0,0.2)"
               }}
               role="button"
               tabIndex={0}
@@ -283,11 +429,10 @@ export default function RateMyCrushPage() {
             >
               {imagePreview ? (
                 <>
-                  <Image
+                  <img
                     src={imagePreview}
                     alt="Crush photo preview"
-                    fill
-                    style={{ objectFit: "cover" }}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   />
                   <div
                     style={{
@@ -295,311 +440,386 @@ export default function RateMyCrushPage() {
                       bottom: 0,
                       left: 0,
                       right: 0,
-                      backgroundColor: "rgba(0,0,0,0.55)",
-                      padding: "8px 0",
+                      backgroundColor: "rgba(8, 2, 26, 0.75)",
+                      padding: "10px 0",
                       textAlign: "center",
-                      backdropFilter: "blur(4px)",
+                      backdropFilter: "blur(6px)",
+                      borderTop: "1px solid rgba(255,255,255,0.08)"
                     }}
                   >
-                    <span style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>
-                      Tap to change photo
+                    <span style={{ fontSize: 12, fontWeight: 800, color: "#D946EF", letterSpacing: 0.5 }}>
+                      Tap to replace photo
                     </span>
                   </div>
                 </>
               ) : (
                 <>
-                  <div className="pulse-heart">
-                    <Heart size={48} color="#E040A0" fill="#E040A0" />
+                  <div className="pulse-heart" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <div style={{ width: 68, height: 68, borderRadius: 34, backgroundColor: "rgba(217,70,239,0.1)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 15px rgba(217,70,239,0.15)" }}>
+                      <Heart size={32} color="#D946EF" fill="#D946EF" />
+                    </div>
                   </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "center" }}>
-                    <p style={{ fontSize: 18, fontWeight: 800, color: "#FFFFFF", margin: 0, textAlign: "center" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "center", textAlign: "center" }}>
+                    <p style={{ fontSize: 17, fontWeight: 900, color: "#FFFFFF", margin: 0, letterSpacing: 0.2 }}>
                       Upload Photo of Your Crush
                     </p>
-                    <p style={{ fontSize: 13, color: "rgba(255, 255, 255, 0.45)", margin: 0, textAlign: "center" }}>
-                      We&apos;ll give you the honest truth
+                    <p style={{ fontSize: 12, color: "rgba(255, 255, 255, 0.45)", margin: 0, fontWeight: 500 }}>
+                      Supports selfies, profile screenshots, or casual pics
                     </p>
                   </div>
                 </>
               )}
             </div>
 
-            {/* Rate them now button */}
+            {/* Primary Rating Action Button */}
             <button
               onClick={handleAnalyze}
               disabled={!imagePreview || isAnalyzing}
               style={{
                 width: "100%",
-                height: 56,
-                borderRadius: 28,
-                backgroundColor: imagePreview ? "#E040A0" : "rgba(255,255,255,0.06)",
+                paddingTop: 16,
+                paddingBottom: 16,
+                borderRadius: 22,
+                backgroundColor: imagePreview ? "#D946EF" : "rgba(255,255,255,0.05)",
                 color: imagePreview ? "#FFFFFF" : "rgba(255,255,255,0.25)",
-                fontSize: 17,
+                fontSize: 16,
                 fontWeight: 900,
                 border: "none",
                 cursor: !imagePreview || isAnalyzing ? "not-allowed" : "pointer",
-                boxShadow: imagePreview ? "0 6px 0px #C2185B, 0 6px 16px rgba(224, 64, 160, 0.25)" : "none",
+                boxShadow: imagePreview ? "0 6px 20px rgba(217, 70, 239, 0.3)" : "none",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 gap: 8,
-                transition: "transform 0.1s, box-shadow 0.1s",
-              }}
-              onMouseDown={(e) => {
-                if (!imagePreview) return;
-                e.currentTarget.style.transform = "translateY(4px)";
-                e.currentTarget.style.boxShadow = "0 2px 0px #C2185B, 0 2px 6px rgba(224, 64, 160, 0.25)";
-              }}
-              onMouseUp={(e) => {
-                if (!imagePreview) return;
-                e.currentTarget.style.transform = "translateY(0px)";
-                e.currentTarget.style.boxShadow = "0 6px 0px #C2185B, 0 6px 16px rgba(224, 64, 160, 0.25)";
+                transition: "transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1)",
+                transform: imagePreview ? "scale(1)" : "scale(0.98)"
               }}
             >
               <Heart size={16} fill={imagePreview ? "#fff" : "none"} stroke={imagePreview ? "#fff" : "currentColor"} />
-              Rate Them Now!
+              <span style={{ fontFamily: "LilitaOne, var(--font-lilita-one), cursive", letterSpacing: 0.8 }}>Rate Crush Now</span>
             </button>
 
-            {/* Bottom details badges */}
-            <div style={{ display: "flex", justifyContent: "space-between", padding: "0 10px", marginTop: "auto", opacity: 0.4 }}>
-              <span style={{ fontSize: 11, fontWeight: 700, color: "#fff" }}>🔒 100% Private</span>
-              <span style={{ fontSize: 11, fontWeight: 700, color: "#fff" }}>⚡ Works Offline</span>
-              <span style={{ fontSize: 11, fontWeight: 700, color: "#fff" }}>✨ Instant Results</span>
+            {/* Safety metrics footer */}
+            <div style={{ display: "flex", justifyContent: "space-between", padding: "0 8px", marginTop: "auto", opacity: 0.35 }}>
+              <span style={{ fontSize: 10, fontWeight: 800, color: "#fff", letterSpacing: 0.5 }}>🔒 PRIVATE PROCESSING</span>
+              <span style={{ fontSize: 10, fontWeight: 800, color: "#fff", letterSpacing: 0.5 }}>⚡ INSTANT RUN</span>
+              <span style={{ fontSize: 10, fontWeight: 800, color: "#fff", letterSpacing: 0.5 }}>✨ SECURE SSL</span>
             </div>
           </div>
         ) : (
-          /* State 2: Post-Upload Result Screen (Image 1) */
-          <div className="animate-slide-up flex flex-col md:flex-row gap-6 w-full items-start" style={{ paddingBottom: 40 }}>
+          /* STATE 2: COMPLETED RATING RESULT VIEW */
+          <div className="animate-slide-up flex flex-col md:flex-row gap-6 w-full items-start" style={{ paddingBottom: 30 }}>
             
-            {/* Left Column: Rating & Actions */}
-            <div className="w-full md:w-[340px] flex-shrink-0 flex flex-col gap-4">
-              {/* Card 1: Overall Rating card */}
+            {/* Left Column: Overhauled Crush Profile Card & Operations */}
+            <div className="w-full md:w-[360px] flex-shrink-0 flex flex-col gap-4">
+              
+              {/* Overhauled Card Capture Block */}
               <div
-                className="interactive-card"
+                ref={cardRef}
                 style={{
-                  backgroundColor: "#161622",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                  borderRadius: 24,
+                  backgroundColor: "#110B24",
+                  border: "1.5px solid rgba(255, 255, 255, 0.08)",
+                  borderRadius: 28,
                   padding: 16,
                   display: "flex",
-                  flexDirection: "row",
-                  gap: 16,
+                  flexDirection: "column",
                   position: "relative",
+                  boxShadow: "0 12px 32px rgba(0,0,0,0.5), inset 0 0 30px rgba(217, 70, 239, 0.05)"
                 }}
               >
-                {/* Photo Left */}
-                <div style={{ width: 90, height: 100, borderRadius: 16, overflow: "hidden", position: "relative", flexShrink: 0 }}>
-                  {imagePreview && (
-                    <Image
-                      src={imagePreview}
-                      alt="Crush photo small"
-                      fill
-                      style={{ objectFit: "cover" }}
-                    />
-                  )}
+                {/* Watermark header */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(255,255,255,0.06)", paddingBottom: 10, marginBottom: 12 }}>
+                  <span style={{ fontSize: 9, fontWeight: 900, color: "rgba(255,255,255,0.25)", letterSpacing: 1.5 }}>
+                    RIZZAI.SPACE
+                  </span>
+                  <span style={{ fontSize: 9, fontWeight: 900, color: "#D946EF", display: "flex", alignItems: "center", gap: 4 }}>
+                    <Sparkles size={10} /> CRUSH RATER
+                  </span>
                 </div>
 
-                {/* Stats Right */}
-                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", flex: 1 }}>
-                  <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.4)" }}>
-                    Overall Rating
-                  </span>
-                  
-                  <div style={{ display: "flex", alignItems: "baseline", gap: 3, marginTop: 2 }}>
-                    <span style={{ fontSize: 38, fontWeight: 950, color: "#D946EF", lineHeight: 1 }}>
-                      {score}
-                    </span>
-                    <span style={{ fontSize: 13, color: "rgba(255,255,255,0.35)", fontWeight: 700 }}>/10</span>
-                  </div>
+                {/* Overhauled LARGE Photo display */}
+                <div 
+                  style={{ 
+                    width: "100%", 
+                    height: 270, 
+                    borderRadius: 22, 
+                    overflow: "hidden", 
+                    position: "relative",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    boxShadow: "0 6px 16px rgba(0,0,0,0.3)"
+                  }}
+                >
+                  {imagePreview && (
+                    <img
+                      src={imagePreview}
+                      alt="Crush profile display"
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                  )}
 
-                  {/* Star rating icons */}
-                  <div style={{ display: "flex", gap: 3, marginTop: 4 }}>
+                  {/* Frosted details banner overlay overlayed on photo bottom */}
+                  <div 
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      background: "linear-gradient(to top, rgba(8, 2, 22, 0.95) 0%, rgba(8, 2, 22, 0.45) 100%)",
+                      backdropFilter: "blur(6px)",
+                      padding: "16px 14px",
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      borderTop: "1px solid rgba(255,255,255,0.08)",
+                    }}
+                  >
+                    <div style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 0 }}>
+                      <span style={{ fontSize: 16, fontWeight: 900, color: "#fff", letterSpacing: 0.5, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        {crushName ? crushName.toUpperCase() : "YOUR CRUSH"}
+                      </span>
+                      <span style={{ fontSize: 9, fontWeight: 900, color: "#D946EF", letterSpacing: 1.2 }}>
+                        {badge.toUpperCase()}
+                      </span>
+                    </div>
+
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
+                      <span style={{ fontSize: 8, fontWeight: 900, color: "rgba(255,255,255,0.4)", letterSpacing: 1 }}>RATING</span>
+                      <div style={{ display: "flex", alignItems: "baseline", gap: 1 }}>
+                        <span style={{ fontSize: 22, fontWeight: 950, color: "#D946EF" }}>{score}</span>
+                        <span style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", fontWeight: 800 }}>/10</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Sub-photo ratings metrics */}
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  
+                  {/* Star Score representation */}
+                  <div style={{ display: "flex", justifyContent: "center", gap: 4, marginTop: 14 }}>
                     {[1, 2, 3, 4, 5].map((s) => (
                       <span
                         key={s}
                         style={{
-                          fontSize: 16,
-                          color: s <= Math.round(score / 2) ? "#D946EF" : "rgba(255,255,255,0.12)"
+                          fontSize: 20,
+                          color: s <= Math.round(score / 2) ? "#D946EF" : "rgba(255,255,255,0.12)",
+                          textShadow: s <= Math.round(score / 2) ? "0 0 10px rgba(217, 70, 239, 0.4)" : "none"
                         }}
                       >
                         ★
                       </span>
                     ))}
                   </div>
-                </div>
 
-                {/* Energy Badge Top-Right */}
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 14,
-                    right: 14,
-                    backgroundColor: "rgba(217, 70, 239, 0.15)",
-                    border: "1.5px solid rgba(217, 70, 239, 0.4)",
-                    color: "#D946EF",
-                    borderRadius: 12,
-                    padding: "4px 10px",
-                    fontSize: 11,
-                    fontWeight: 800,
-                    letterSpacing: 0.2,
-                  }}
-                >
-                  {badge}
-                </div>
-              </div>
-
-              {/* Dating Potential Row */}
-              <div
-                className="interactive-card"
-                style={{
-                  backgroundColor: "#161622",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                  borderRadius: 18,
-                  padding: "14px 18px",
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: 12,
-                }}
-              >
-                <span style={{ fontSize: 13, fontWeight: 800, color: "rgba(255,255,255,0.65)" }}>
-                  Dating Potential
-                </span>
-
-                {/* Slider Track */}
-                <div style={{ flex: 1, height: 8, borderRadius: 4, backgroundColor: "rgba(255,255,255,0.06)", overflow: "hidden" }}>
+                  {/* Dating Potential Rounded Slider */}
                   <div
                     style={{
-                      height: "100%",
-                      width: animateBars ? `${datingPotential}%` : "0%",
-                      backgroundColor: "#D946EF",
-                      borderRadius: 4,
-                      transition: "width 1s cubic-bezier(0.25, 1, 0.5, 1)",
+                      backgroundColor: "rgba(255, 255, 255, 0.02)",
+                      border: "1px solid rgba(255,255,255,0.05)",
+                      borderRadius: 16,
+                      padding: "10px 14px",
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: 10,
+                      marginTop: 4
                     }}
-                  />
+                  >
+                    <span style={{ fontSize: 10, fontWeight: 900, color: "rgba(255,255,255,0.45)", letterSpacing: 0.5, flexShrink: 0 }}>
+                      DATING POTENTIAL
+                    </span>
+
+                    {/* Progress Slider track */}
+                    <div style={{ flex: 1, height: 6, borderRadius: 3, backgroundColor: "rgba(255,255,255,0.06)", overflow: "hidden" }}>
+                      <div
+                        style={{
+                          height: "100%",
+                          width: animateBars ? `${datingPotential}%` : "0%",
+                          backgroundColor: "#D946EF",
+                          boxShadow: "0 0 10px #D946EF",
+                          borderRadius: 3,
+                          transition: "width 1.2s cubic-bezier(0.16, 1, 0.3, 1)",
+                        }}
+                      />
+                    </div>
+
+                    <span style={{ fontSize: 13, fontWeight: 950, color: "#D946EF", flexShrink: 0 }}>
+                      {datingPotential}%
+                    </span>
+                  </div>
                 </div>
 
-                <span style={{ fontSize: 13, fontWeight: 900, color: "#D946EF" }}>
-                  {datingPotential}%
-                </span>
               </div>
 
-              {/* Actions dual buttons */}
-              <div style={{ display: "flex", flexDirection: "row", gap: 12, marginTop: 4 }}>
-                {/* Try another */}
+              {/* Action Operations Grid */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {/* Reset button */}
                 <button
                   onClick={reset}
                   style={{
-                    flex: 1,
-                    paddingTop: 16,
-                    paddingBottom: 16,
+                    width: "100%",
+                    paddingTop: 15,
+                    paddingBottom: 15,
                     borderRadius: 18,
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    backgroundColor: "rgba(255,255,255,0.04)",
-                    color: "#FFFFFF",
-                    fontSize: 16,
-                    fontWeight: 800,
+                    border: "none",
+                    background: "linear-gradient(135deg, #00F0FF 0%, #D946EF 100%)",
+                    color: "#fff",
+                    fontWeight: 900,
+                    fontSize: 15,
                     cursor: "pointer",
-                    transition: "background-color 0.15s",
+                    boxShadow: "0 6px 20px rgba(217, 70, 239, 0.25)",
+                    transition: "transform 0.15s, opacity 0.15s",
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.08)")}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.04)")}
+                  onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.9")}
+                  onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
                 >
-                  Try Another
+                  🔁 Rate Another Crush
                 </button>
 
-                {/* Re-Rate */}
-                <button
-                  onClick={handleAnalyze}
-                  style={{
-                    flex: 1,
-                    paddingTop: 16,
-                    paddingBottom: 16,
-                    borderRadius: 18,
-                    backgroundColor: "#D946EF",
-                    border: "none",
-                    color: "#FFFFFF",
-                    fontSize: 16,
-                    fontWeight: 800,
-                    cursor: "pointer",
-                    boxShadow: "0 4px 14px rgba(217, 70, 239, 0.35)",
-                    transition: "all 0.15s",
-                  }}
-                  onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.97)")}
-                  onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
-                >
-                  Re-Rate
-                </button>
+                <div style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+                  <button
+                    onClick={downloadCardImage}
+                    style={{
+                      flex: 1,
+                      paddingTop: 13,
+                      paddingBottom: 13,
+                      borderRadius: 16,
+                      border: "1.5px solid rgba(255,255,255,0.12)",
+                      backgroundColor: "rgba(255,255,255,0.03)",
+                      color: "#fff",
+                      fontWeight: 800,
+                      fontSize: 13,
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 6,
+                      transition: "background-color 0.2s",
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.08)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.03)")}
+                  >
+                    <Download size={15} /> Save Card
+                  </button>
+
+                  <button
+                    onClick={copyVerdictText}
+                    style={{
+                      flex: 1,
+                      paddingTop: 13,
+                      paddingBottom: 13,
+                      borderRadius: 16,
+                      border: "1.5px solid rgba(255,255,255,0.12)",
+                      backgroundColor: "rgba(255,255,255,0.03)",
+                      color: "#fff",
+                      fontWeight: 800,
+                      fontSize: 13,
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 6,
+                      transition: "background-color 0.2s",
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.08)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.03)")}
+                  >
+                    <Share2 size={15} /> Share Rizz
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* Right Column: Breakdown & analysis cards */}
+            {/* Right Column: AI Analysis & Breakdown Details */}
             <div className="flex-1 w-full flex flex-col gap-4">
-              {/* Card 2: AI Recommendation Card */}
+              
+              {/* Dynamic themed Recommendation Card */}
               <div
                 className="interactive-card"
                 style={{
-                  backgroundColor: "#161622",
-                  border: "1px solid rgba(255,255,255,0.06)",
+                  backgroundColor: "rgba(20,10,35,0.75)",
+                  border: `1.5px solid ${vTheme.border}`,
                   borderRadius: 24,
-                  padding: 16,
+                  padding: "18px 16px",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
                   textAlign: "center",
                   gap: 6,
+                  boxShadow: `0 8px 24px ${vTheme.color}10`,
+                  backdropFilter: "blur(10px)"
                 }}
               >
-                <span style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.45)", letterSpacing: 1.5 }}>
+                <span style={{ fontSize: 10, fontWeight: 900, color: "rgba(255,255,255,0.45)", letterSpacing: 1.5 }}>
                   AI RECOMMENDATION
                 </span>
-                <h3 style={{ fontSize: 24, fontWeight: 950, color: "#D946EF", margin: 0, letterSpacing: 0.5 }}>
+                
+                <h3 
+                  style={{ 
+                    fontSize: 24, 
+                    fontWeight: 950, 
+                    color: vTheme.color, 
+                    margin: 0, 
+                    letterSpacing: 0.5,
+                    fontFamily: "LilitaOne, var(--font-lilita-one), cursive",
+                    textShadow: `0 0 10px ${vTheme.color}35`
+                  }}
+                >
                   {verdict}
                 </h3>
-                <p style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", fontWeight: 500, margin: 0 }}>
+                
+                <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.75)", fontWeight: 500, margin: 0, maxWidth: 300 }}>
                   {verdictDesc}
                 </p>
               </div>
 
-              {/* Card 3: Detailed Breakdown Card */}
+              {/* Detailed head-to-head metrics breakdown */}
               <div
                 className="interactive-card"
                 style={{
-                  backgroundColor: "#161622",
+                  backgroundColor: "rgba(17,10,32,0.75)",
                   border: "1px solid rgba(255,255,255,0.06)",
                   borderRadius: 24,
                   padding: "20px 18px",
                   display: "flex",
                   flexDirection: "column",
                   gap: 16,
+                  boxShadow: "0 8px 24px rgba(0,0,0,0.35)",
+                  backdropFilter: "blur(10px)"
                 }}
               >
-                <h4 style={{ fontSize: 15, fontWeight: 900, color: "#FFFFFF", margin: 0 }}>
-                  Detailed Breakdown
-                </h4>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, borderBottom: "1px solid rgba(255,255,255,0.05)", paddingBottom: 10 }}>
+                  <Sparkles size={15} color="#D946EF" />
+                  <h4 style={{ fontSize: 14, fontWeight: 900, color: "#FFFFFF", margin: 0, letterSpacing: 0.8, textTransform: "uppercase" }}>
+                    CRUSH ATTRACTIVENESS breakdown
+                  </h4>
+                </div>
 
                 <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                   {breakdown.map((item) => (
                     <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       {/* Label */}
-                      <span style={{ width: 100, fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.45)" }}>
+                      <span style={{ width: 110, fontSize: 12, fontWeight: 900, color: "rgba(255,255,255,0.45)", letterSpacing: 0.2 }}>
                         {item.label}
                       </span>
 
-                      {/* Progress Fill bar */}
-                      <div style={{ flex: 1, height: 6, borderRadius: 3, backgroundColor: "rgba(255,255,255,0.04)", overflow: "hidden" }}>
+                      {/* Progress slider */}
+                      <div style={{ flex: 1, height: 8, borderRadius: 4, backgroundColor: "rgba(255,255,255,0.04)", overflow: "hidden" }}>
                         <div
                           style={{
                             height: "100%",
                             width: animateBars ? `${item.val * 10}%` : "0%",
                             backgroundColor: "#D946EF",
-                            borderRadius: 3,
-                            transition: "width 1.2s cubic-bezier(0.25, 1, 0.5, 1)",
+                            boxShadow: "0 0 8px #D946EF",
+                            borderRadius: 4,
+                            transition: "width 1.2s cubic-bezier(0.16, 1, 0.3, 1)",
                           }}
                         />
                       </div>
 
-                      {/* Score */}
-                      <span style={{ width: 24, fontSize: 12, fontWeight: 900, color: "#D946EF", textAlign: "right" }}>
+                      {/* Score Badge */}
+                      <span style={{ width: 28, fontSize: 13, fontWeight: 950, color: "#D946EF", textAlign: "right" }}>
                         {item.val.toFixed(1)}
                       </span>
                     </div>
@@ -607,89 +827,67 @@ export default function RateMyCrushPage() {
                 </div>
               </div>
 
-              {/* Card 4: AI Analysis speech bubble card */}
+              {/* AI Analysis Quote bubble */}
               <div
                 className="interactive-card"
                 style={{
-                  backgroundColor: "#161622",
+                  backgroundColor: "rgba(20,10,35,0.75)",
                   border: "1px solid rgba(255,255,255,0.06)",
                   borderRadius: 24,
-                  padding: 16,
+                  padding: "18px 16px",
                   display: "flex",
                   flexDirection: "column",
                   gap: 12,
+                  boxShadow: "0 8px 24px rgba(0,0,0,0.35)",
+                  backdropFilter: "blur(10px)",
+                  position: "relative"
                 }}
               >
                 <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <MessageSquare size={15} color="rgba(255,255,255,0.45)" />
-                    <span style={{ fontSize: 12, fontWeight: 800, color: "rgba(255,255,255,0.45)", letterSpacing: 0.2 }}>
-                      AI Analysis
+                    <MessageSquare size={15} color="rgba(255,255,255,0.4)" />
+                    <span style={{ fontSize: 12, fontWeight: 900, color: "rgba(255,255,255,0.45)", letterSpacing: 0.8 }}>
+                      AI CRITIQUE
                     </span>
                   </div>
 
-                  {/* Small tap-to-copy button */}
                   <button
-                    onClick={() => handleCopyText(comment)}
+                    onClick={() => {
+                      navigator.clipboard.writeText(comment);
+                      showToast("✅ Critique copied!");
+                    }}
                     style={{
-                      border: "1px solid rgba(255,255,255,0.1)",
+                      border: "1.5px solid rgba(255,255,255,0.1)",
                       backgroundColor: "rgba(255,255,255,0.04)",
-                      color: "rgba(255,255,255,0.45)",
-                      borderRadius: 8,
-                      padding: "3px 8px",
-                      fontSize: 11,
-                      fontWeight: 700,
+                      color: "rgba(255,255,255,0.6)",
+                      borderRadius: 10,
+                      padding: "4px 10px",
+                      fontSize: 10,
+                      fontWeight: 800,
                       cursor: "pointer",
-                      transition: "all 0.1s",
+                      transition: "all 0.15s",
                       display: "flex",
                       alignItems: "center",
                       gap: 4,
                     }}
-                    onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.95)")}
-                    onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.08)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.04)")}
                   >
                     <Copy size={10} />
-                    Tap to copy
+                    Copy
                   </button>
                 </div>
 
-                <p style={{ fontSize: 14, color: "rgba(255,255,255,0.9)", lineHeight: 1.55, fontWeight: 500, margin: 0 }}>
-                  {comment}
+                <p style={{ fontSize: 14, color: "rgba(255,255,255,0.9)", lineHeight: 1.6, fontWeight: 500, margin: 0, paddingLeft: 4 }}>
+                  &ldquo;{comment}&rdquo;
                 </p>
               </div>
 
-              {/* Tap to copy full verdict button */}
-              <button
-                onClick={() => handleCopyText(fullVerdictString)}
-                style={{
-                  width: "100%",
-                  paddingTop: 14,
-                  paddingBottom: 14,
-                  borderRadius: 16,
-                  border: "1px solid rgba(217, 70, 239, 0.25)",
-                  backgroundColor: "rgba(217, 70, 239, 0.03)",
-                  color: "#D946EF",
-                  fontSize: 14,
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 8,
-                  transition: "all 0.12s",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(217, 70, 239, 0.08)")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(217, 70, 239, 0.03)")}
-              >
-                <Copy size={13} />
-                Tap to copy full verdict
-              </button>
-
-              {/* Rating count info */}
+              {/* Rating counter details */}
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, opacity: 0.35, marginTop: 4 }}>
                 <span style={{ fontSize: 12 }}>👥</span>
-                <span style={{ fontSize: 11, fontWeight: 700, color: "#fff" }}>
-                  2,745 people rated crushes today
+                <span style={{ fontSize: 10.5, fontWeight: 800, color: "#fff", letterSpacing: 0.5 }}>
+                  3,124 PEOPLE RATED THEIR CRUSHES TODAY
                 </span>
               </div>
             </div>
@@ -698,7 +896,7 @@ export default function RateMyCrushPage() {
         )}
       </div>
 
-      <CopiedToast visible={toastVisible} onHide={() => setToastVisible(false)} />
+      <CopiedToast visible={toastVisible} onHide={() => setToastVisible(false)} message={toastMsg} />
     </PageLayout>
   );
 }

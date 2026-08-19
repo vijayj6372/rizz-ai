@@ -102,6 +102,7 @@ const FAQS = [
 ];
 
 const RELATED_GAMES = [
+  { title: "Ice Breakers", desc: "Fun, lighthearted prompts to spark conversation and connection with your partner.", slug: "ice-breaker-questions-for-couples", emoji: "🧊" },
   { title: "This or That", desc: "Quick-fire picks between two things. Fast, fun, and surprisingly revealing about your compatibility.", slug: "this-or-that-for-couples", emoji: "⚡" },
   { title: "Truth or Dare", desc: "The classic party game redesigned for two. Choose truth for revealing questions or dare for playful challenges.", slug: "truth-or-dare-for-couples", emoji: "🔥" },
   { title: "Never Have I Ever", desc: "Discover surprising things about each other with this classic game. Share experiences you've had (or haven't) and compare.", slug: "never-have-i-ever-for-couples", emoji: "🙈" }

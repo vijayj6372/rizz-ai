@@ -1407,7 +1407,11 @@ function PlayerOverlay({ cat, onClose, favorites, onToggleFav, onToast }: {
 ────────────────────────────────────────────── */
 function GameCard({ cat, onClick }: { cat: Category; onClick: () => void }) {
   const [hovered, setHovered] = useState(false);
-  const isIcebreaker = cat.title.toLowerCase().includes("icebreaker");
+  const isIcebreaker =
+    cat.slug === "ice-breaker-questions-for-couples" ||
+    cat.title.toLowerCase().includes("icebreaker") ||
+    cat.title.toLowerCase().includes("ice breaker") ||
+    cat.title.toLowerCase().includes("ice-breaker");
 
   const secConfig = CATEGORIES_SECTION_CONFIG[cat.domain] || {
     color: "#D9476B",

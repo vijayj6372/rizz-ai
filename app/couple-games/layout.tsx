@@ -14,7 +14,10 @@ export const metadata: Metadata = {
     "couples game questions",
     "couples games questions",
     "game of questions for couples",
-    "Free Couple Games to Play Online | lovely",
+    "couple goals",
+    "couples goals",
+    "couple goals questions",
+    "games for couples",
     "Online Games for Couples",
   ],
   alternates: {

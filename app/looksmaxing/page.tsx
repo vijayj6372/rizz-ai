@@ -1,14 +1,13 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import Image from "next/image";
 import {
   Sparkles,
   Camera,
   Image as ImageIcon,
   Download,
   Share2,
-  Bookmark,
+  Send,
   ChevronRight,
   RefreshCw,
   Lightbulb,
@@ -150,46 +149,100 @@ interface FaceData {
   noseEmoji: string;
 }
 
-/* ─── Metric Card ─── */
+/* ─── Metric Card (The Beautiful Dark Replacement for White Boxes) ─── */
 function MetricCard({ label, score }: { label: string; score: number }) {
   const tier = getTier(score);
   const [c1, c2] = barColors(score);
 
   return (
     <div
+      className="looksmaxing-card"
       style={{
-        backgroundColor: "#FFFFFF",
+        backgroundColor: "rgba(22, 17, 44, 0.75)",
         borderRadius: 20,
-        border: "1.5px solid rgba(200,210,240,0.8)",
+        border: "1px solid rgba(255,255,255,0.06)",
+        borderLeft: `3.5px solid ${c1}`,
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
         flex: 1,
-        boxShadow: "0 5px 12px rgba(136,153,204,0.18)",
+        boxShadow: "0 6px 18px rgba(0,0,0,0.25), inset 0 0 10px rgba(255,255,255,0.02)",
+        backdropFilter: "blur(8px)"
       }}
     >
-      <div style={{ height: 6, width: "100%", background: `linear-gradient(90deg, ${c1}, ${c2})` }} />
       <div style={{ padding: 14, display: "flex", flexDirection: "column", gap: 6, flex: 1 }}>
-        <span style={{ fontSize: 11, fontWeight: 900, color: "#F6766E", letterSpacing: 1.5 }}>
+        <span style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.45)", letterSpacing: 1.5 }}>
           {label.toUpperCase()}
         </span>
-        <span style={{ fontSize: 44, fontWeight: 900, color: "#1A1A2E", lineHeight: 1.1 }}>
+        <span style={{ fontSize: 40, fontWeight: 950, color: "#FFFFFF", lineHeight: 1.1, fontFamily: "LilitaOne, var(--font-lilita-one), cursive" }}>
           {score}
         </span>
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <span style={{ fontSize: 14 }}>{tier.emoji}</span>
-          <span style={{ fontSize: 13, fontWeight: 800, color: tier.textColor }}>{tier.label}</span>
+          <span style={{ fontSize: 13 }}>{tier.emoji}</span>
+          <span style={{ fontSize: 12, fontWeight: 800, color: tier.color }}>{tier.label}</span>
         </div>
-        <div style={{ height: 10, backgroundColor: "rgba(180,195,230,0.4)", borderRadius: 5, overflow: "hidden", marginTop: 4 }}>
+        <div style={{ height: 7, backgroundColor: "rgba(255,255,255,0.05)", borderRadius: 3.5, overflow: "hidden", marginTop: 4 }}>
           <div
             style={{
               width: `${score}%`,
               height: "100%",
-              borderRadius: 5,
+              borderRadius: 3.5,
               background: `linear-gradient(90deg, ${c1}, ${c2})`,
+              boxShadow: `0 0 6px ${c1}`
             }}
           />
         </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Metric Item inside Unified Ratings Card ─── */
+function MetricItem({ label, score, animate, isFemale }: { label: string; score: number; animate: boolean; isFemale?: boolean }) {
+  let barColor = "#20E070";
+  if (score >= 80) {
+    barColor = "#D946EF"; // Vibrant Neon Pink / Purple for high scores 80+ & female theme
+  } else if (score >= 70) {
+    barColor = isFemale ? "#C084FC" : "#A3E635";
+  } else if (score >= 55) {
+    barColor = isFemale ? "#E879F9" : "#C0CA33";
+  } else {
+    barColor = "#D97706";
+  }
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+      <span
+        style={{
+          fontSize: 14,
+          fontWeight: 500,
+          color: "rgba(255, 255, 255, 0.7)",
+          fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+        }}
+      >
+        {label}
+      </span>
+      <span
+        style={{
+          fontSize: 36,
+          fontWeight: 800,
+          color: "#FFFFFF",
+          lineHeight: 1.1,
+          fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+        }}
+      >
+        {score}
+      </span>
+      <div style={{ width: "100%", height: 8, backgroundColor: "rgba(255, 255, 255, 0.2)", borderRadius: 4, overflow: "hidden", marginTop: 4 }}>
+        <div
+          style={{
+            width: animate ? `${score}%` : "0%",
+            height: "100%",
+            backgroundColor: barColor,
+            borderRadius: 4,
+            transition: "width 1.2s cubic-bezier(0.16, 1, 0.3, 1)",
+          }}
+        />
       </div>
     </div>
   );
@@ -216,35 +269,37 @@ function GlowUpCard({
         flexDirection: "row",
         alignItems: "center",
         gap: 14,
-        backgroundColor: "#1E1E2E",
+        backgroundColor: "rgba(22, 17, 44, 0.7)",
         borderRadius: 18,
-        border: "1px solid #383858",
+        border: "1px solid rgba(255,255,255,0.06)",
         padding: 16,
-        boxShadow: "0 3px 8px rgba(0,0,0,0.25)",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.25)",
+        backdropFilter: "blur(8px)",
       }}
     >
       <div
         style={{
-          width: 48,
-          height: 48,
-          borderRadius: 14,
-          backgroundColor: "#2A2A3E",
+          width: 44,
+          height: 44,
+          borderRadius: 12,
+          backgroundColor: "rgba(255,255,255,0.03)",
+          border: "1px solid rgba(255,255,255,0.05)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           flexShrink: 0,
         }}
       >
-        <span style={{ fontSize: 24 }}>{emoji}</span>
+        <span style={{ fontSize: 22 }}>{emoji}</span>
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{ fontSize: 15, fontWeight: "800", color: "#FFFFFF", margin: "0 0 2px" }}>
+        <p style={{ fontSize: 15, fontWeight: "900", color: "#FFFFFF", margin: "0 0 2px" }}>
           {title}
         </p>
         <p style={{ fontSize: 9, fontWeight: "900", color: priorityColor, letterSpacing: 1.5, margin: "0 0 3px" }}>
           {priority}
         </p>
-        <p style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", fontWeight: "500", lineHeight: 1.35, margin: 0 }}>
+        <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.5)", fontWeight: "500", lineHeight: 1.35, margin: 0 }}>
           {sub}
         </p>
       </div>
@@ -257,36 +312,37 @@ function TraitCard({ emoji, label, value, accent }: { emoji: string; label: stri
   return (
     <div
       style={{
-        borderRadius: 22,
+        borderRadius: 20,
         overflow: "hidden",
-        border: `1.5px solid ${accent}40`,
-        boxShadow: "0 6px 12px rgba(160,176,216,0.18)",
-        background: `linear-gradient(135deg, ${accent}28, ${accent}0A)`,
-        padding: 18,
+        border: `1px solid ${accent}30`,
+        boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
+        background: `linear-gradient(135deg, ${accent}15, ${accent}04)`,
+        padding: 16,
         display: "flex",
         flexDirection: "column",
         gap: 8,
-        minHeight: 130,
+        minHeight: 124,
+        backdropFilter: "blur(8px)",
       }}
     >
       <div
         style={{
-          width: 48,
-          height: 48,
-          borderRadius: 14,
-          backgroundColor: `${accent}22`,
+          width: 40,
+          height: 40,
+          borderRadius: 12,
+          backgroundColor: `${accent}18`,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           marginBottom: 2,
         }}
       >
-        <span style={{ fontSize: 26 }}>{emoji}</span>
+        <span style={{ fontSize: 22 }}>{emoji}</span>
       </div>
-      <span style={{ fontSize: 10, fontWeight: "900", color: accent, letterSpacing: 1.5 }}>
+      <span style={{ fontSize: 9, fontWeight: "900", color: accent, letterSpacing: 1.5 }}>
         {label.toUpperCase()}
       </span>
-      <span style={{ fontSize: 18, fontWeight: "900", color: "#1A1A2E", lineHeight: 1.2 }}>
+      <span style={{ fontSize: 16, fontWeight: "900", color: "#FFFFFF", lineHeight: 1.25 }}>
         {value}
       </span>
     </div>
@@ -301,23 +357,24 @@ function SectionHeader({ emoji, title, sub, accent }: { emoji: string; title: st
         width: "100%",
         borderRadius: 18,
         overflow: "hidden",
-        borderWidth: "1.5px 1.5px 1.5px 4px",
+        borderWidth: "1px 1px 1px 4px",
         borderStyle: "solid",
-        borderColor: `rgba(200,210,240,0.8) rgba(200,210,240,0.8) rgba(200,210,240,0.8) ${accent}`,
+        borderColor: `rgba(255,255,255,0.06) rgba(255,255,255,0.06) rgba(255,255,255,0.06) ${accent}`,
         display: "flex",
         flexDirection: "row",
-        background: `linear-gradient(90deg, ${accent}20, ${accent}06)`,
+        background: `linear-gradient(90deg, ${accent}15, ${accent}04)`,
         padding: "14px",
         alignItems: "center",
         gap: 12,
+        backdropFilter: "blur(6px)",
       }}
     >
       <div
         style={{
-          width: 44,
-          height: 44,
+          width: 40,
+          height: 40,
           borderRadius: 12,
-          backgroundColor: accent,
+          backgroundColor: `${accent}22`,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -327,8 +384,8 @@ function SectionHeader({ emoji, title, sub, accent }: { emoji: string; title: st
         <span style={{ fontSize: 18 }}>{emoji}</span>
       </div>
       <div>
-        <p style={{ fontSize: 17, fontWeight: "900", color: "#1A1A2E", margin: 0 }}>{title}</p>
-        <p style={{ fontSize: 11, fontWeight: "600", color: "#6B7280", margin: "2px 0 0" }}>{sub}</p>
+        <p style={{ fontSize: 16, fontWeight: "900", color: "#FFFFFF", margin: 0 }}>{title}</p>
+        <p style={{ fontSize: 11, fontWeight: "600", color: "rgba(255,255,255,0.5)", margin: "2px 0 0" }}>{sub}</p>
       </div>
     </div>
   );
@@ -456,7 +513,7 @@ const CARD_METRICS = [
   { label: "Masculinity", emoji: "💪", key: "masculinity" },
 ] as const;
 
-function ShareableCard({ photoUri, scores, cardRef }: { photoUri: string | null; scores: Scores; cardRef?: React.RefObject<HTMLDivElement | null> }) {
+function ShareableCard({ photoUri, scores, cardRef, gender }: { photoUri: string | null; scores: Scores; cardRef?: React.RefObject<HTMLDivElement | null>; gender?: "male" | "female" | null }) {
   const tier = getTier(scores.overall);
   const tenthScore = Math.round(scores.overall / 10);
 
@@ -483,7 +540,7 @@ function ShareableCard({ photoUri, scores, cardRef }: { photoUri: string | null;
         </div>
         <div style={{ width: 88, height: 88, borderRadius: 44, borderWidth: 3, borderColor: "#fff", borderStyle: "solid", overflow: "hidden", flexShrink: 0, position: "relative" }}>
           {photoUri ? (
-            <Image src={photoUri} alt="Selfie" fill style={{ objectFit: "cover" }} />
+            <img src={photoUri} alt="Selfie" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           ) : (
             <div style={{ width: "100%", height: "100%", backgroundColor: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 36 }}>
               👤
@@ -496,11 +553,14 @@ function ShareableCard({ photoUri, scores, cardRef }: { photoUri: string | null;
         {CARD_METRICS.map((m, idx) => {
           const raw = scores[m.key as keyof Scores];
           const tenths = Math.round(raw / 10);
+          const isMasculinity = m.key === "masculinity";
+          const labelText = isMasculinity ? (gender === "female" ? "Femininity" : "Masculinity") : m.label;
+          const emojiIcon = isMasculinity ? (gender === "female" ? "💃" : "💪") : m.emoji;
           return (
             <div key={m.key}>
               <div style={{ display: "flex", flexDirection: "row", alignItems: "center", padding: "12px 0", gap: 12 }}>
-                <span style={{ fontSize: 22, width: 32, textAlign: "center" }}>{m.emoji}</span>
-                <span style={{ flex: 1, fontSize: 17, fontWeight: "700" }}>{m.label}</span>
+                <span style={{ fontSize: 22, width: 32, textAlign: "center" }}>{emojiIcon}</span>
+                <span style={{ flex: 1, fontSize: 17, fontWeight: "700" }}>{labelText}</span>
                 <span style={{ fontSize: 20, fontWeight: "900" }}>
                   {tenths}
                   <span style={{ fontSize: 14, fontWeight: "600", color: "rgba(255,255,255,0.65)" }}>/10</span>
@@ -524,7 +584,8 @@ export default function LooksmaxingPage() {
   const selfieCameraRef = useRef<HTMLInputElement>(null);
   const cardRef = useRef<HTMLDivElement | null>(null);
   const [photoUri, setPhotoUri] = useState<string | null>(null);
-  const [phase, setPhase] = useState<"upload" | "loading" | "result">("upload");
+  const [phase, setPhase] = useState<"gender" | "upload" | "loading" | "result">("gender");
+  const [gender, setGender] = useState<"male" | "female" | null>(null);
   const [loadStage, setLoadStage] = useState(0);
 
   const [scores, setScores] = useState<Scores | null>(null);
@@ -550,64 +611,28 @@ export default function LooksmaxingPage() {
     };
   }, []);
 
-  const triggerSelfieCapture = () => {
-    // Check if on mobile device or Instagram / TikTok / Facebook in-app browser
-    const isMobile =
-      typeof navigator !== "undefined" &&
-      /iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent);
-    const isInAppBrowser =
-      typeof navigator !== "undefined" &&
-      /Instagram|FBAN|FBAV|ByteDance|TikTok/i.test(navigator.userAgent);
-
-    if (isMobile || isInAppBrowser || !navigator?.mediaDevices?.getUserMedia) {
-      // On mobile / Instagram in-app browser, direct native camera capture is 100% reliable
-      if (selfieCameraRef.current) {
-        selfieCameraRef.current.value = "";
-        selfieCameraRef.current.click();
+  const triggerSelfieCapture = async () => {
+    // Attempt standard webcam stream
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      try {
+        setShowWebcam(true);
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 640 } },
+        });
+        streamRef.current = stream;
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      } catch (err) {
+        console.warn("Direct webcam access denied, falling back to native file input capture:", err);
+        setShowWebcam(false);
+        // Direct fallback to OS selfie camera
+        selfieCameraRef.current?.click();
       }
     } else {
-      // On desktop with webcam API available, open live webcam stream
-      startWebcam();
+      // Fallback for non-supported browsers
+      selfieCameraRef.current?.click();
     }
-  };
-
-  const startWebcam = async () => {
-    try {
-      setShowWebcam(true);
-      setTimeout(async () => {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({
-            video: { facingMode: "user" },
-            audio: false,
-          });
-          streamRef.current = stream;
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-          }
-        } catch (err) {
-          console.warn("Direct webcam stream failed, falling back to native camera picker:", err);
-          setShowWebcam(false);
-          if (selfieCameraRef.current) {
-            selfieCameraRef.current.value = "";
-            selfieCameraRef.current.click();
-          }
-        }
-      }, 100);
-    } catch (err) {
-      console.error(err);
-      if (selfieCameraRef.current) {
-        selfieCameraRef.current.value = "";
-        selfieCameraRef.current.click();
-      }
-    }
-  };
-
-  const stopWebcam = () => {
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach((track) => track.stop());
-      streamRef.current = null;
-    }
-    setShowWebcam(false);
   };
 
   const captureSelfie = () => {
@@ -629,6 +654,14 @@ export default function LooksmaxingPage() {
         runAnalysis();
       }
     }
+  };
+
+  const stopWebcam = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
+    }
+    setShowWebcam(false);
   };
 
   const showToast = (msg: string) => {
@@ -653,17 +686,26 @@ export default function LooksmaxingPage() {
 
     for (let i = 0; i < LOADING_STAGES.length; i++) {
       setLoadStage(i);
-      await new Promise((r) => setTimeout(r, 600));
+      await new Promise((r) => setTimeout(r, 650));
     }
 
-    const overall = gen100();
+    const jawline = gen100();
+    const cheekBones = gen100();
+    const skinQuality = gen100();
+    const genderScore = gen100();
+
+    // Calculate realistic correlated Overall score directly from sub-metrics
+    const subAverage = Math.round((jawline + cheekBones + skinQuality + genderScore) / 4);
+    const overall = Math.min(99, Math.max(35, subAverage));
+    const potential = Math.min(99, Math.max(overall + 5, Math.round(overall * 1.12)));
+
     setScores({
       overall,
-      potential: Math.min(100, overall + 5 + Math.floor(Math.random() * 12)),
-      jawline: gen100(),
-      cheekBones: gen100(),
-      skinQuality: gen100(),
-      masculinity: gen100(),
+      potential,
+      jawline,
+      cheekBones,
+      skinQuality,
+      masculinity: genderScore,
     });
 
     const ct = getRandomItem(CANTHAL_DATA);
@@ -718,7 +760,6 @@ export default function LooksmaxingPage() {
     if (list.length > 20) list.splice(20);
     localStorage.setItem("rizz_saved_analyses", JSON.stringify(list));
     setSaving(false);
-    showToast("✅ Analysis saved successfully!");
   };
 
   const downloadCardImage = async () => {
@@ -770,7 +811,8 @@ export default function LooksmaxingPage() {
     setScores(null);
     setFaceData(null);
     setCurrentPage(0);
-    setPhase("upload");
+    setGender(null);
+    setPhase("gender");
   };
 
   const tier = scores ? getTier(scores.overall) : null;
@@ -779,11 +821,12 @@ export default function LooksmaxingPage() {
     <PageLayout
       showBack
       backHref="/"
+      variant="dark"
       header={
         phase === "result" ? (
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span style={{ fontSize: 15, fontWeight: 700, color: "#fff", backgroundColor: "#F6766E", padding: "4px 10px", borderRadius: 12 }}>
-              {PAGE_LABELS[currentPage]}
+            <span style={{ fontSize: 13, fontWeight: 900, color: "#fff", backgroundColor: "#F6766E", padding: "4px 12px", borderRadius: 12, letterSpacing: 0.5 }}>
+              {PAGE_LABELS[currentPage].toUpperCase()}
             </span>
           </div>
         ) : (
@@ -791,6 +834,57 @@ export default function LooksmaxingPage() {
         )
       }
     >
+      {/* Dynamic Keyframes and Tech CSS Styles */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes spinnerSpin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes scanGrid {
+          from { background-position: 0 0; }
+          to { background-position: 0 40px; }
+        }
+        @keyframes pulseRing {
+          0% { transform: scale(0.96); box-shadow: 0 0 10px rgba(248, 107, 109, 0.2); }
+          50% { transform: scale(1.04); box-shadow: 0 0 25px rgba(248, 107, 109, 0.6); }
+          100% { transform: scale(0.96); box-shadow: 0 0 10px rgba(248, 107, 109, 0.2); }
+        }
+        @keyframes laserScan {
+          0% { top: 0%; opacity: 0.7; }
+          50% { top: 100%; opacity: 0.7; }
+          100% { top: 0%; opacity: 0.7; }
+        }
+        .tech-scanning-line {
+          position: absolute;
+          left: 0;
+          right: 0;
+          height: 4px;
+          background: linear-gradient(90deg, transparent, #FF6C6D, transparent);
+          box-shadow: 0 0 12px #FF6C6D;
+          z-index: 10;
+          animation: laserScan 2.2s ease-in-out infinite;
+        }
+        .tech-scanning-grid {
+          position: absolute;
+          inset: 0;
+          background-size: 24px 24px;
+          background-image: 
+            linear-gradient(to right, rgba(248, 107, 109, 0.08) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(248, 107, 109, 0.08) 1px, transparent 1px);
+          animation: scanGrid 4s linear infinite;
+          pointer-events: none;
+          z-index: 5;
+        }
+        .looksmaxing-card {
+          transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .looksmaxing-card:hover {
+          transform: translateY(-4px);
+          border-color: rgba(255,255,255,0.12) !important;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+        }
+      ` }} />
+
       {/* Hidden file input for Photo Gallery */}
       <input
         ref={fileInputRef}
@@ -802,7 +896,7 @@ export default function LooksmaxingPage() {
         aria-label="Upload photo from gallery"
       />
 
-      {/* Hidden file input for Native Selfie Camera (Instagram bio & Mobile 100% support) */}
+      {/* Hidden file input for Native Selfie Camera */}
       <input
         ref={selfieCameraRef}
         type="file"
@@ -814,13 +908,78 @@ export default function LooksmaxingPage() {
         aria-label="Take selfie with camera"
       />
 
+      {/* ─── GENDER SELECTION PHASE ─── */}
+      {phase === "gender" && (
+        <div className="w-full max-w-[400px] mx-auto flex flex-col justify-between min-h-[70vh] py-6">
+          <div style={{ display: "flex", flexDirection: "column", gap: 12, paddingTop: 12 }}>
+            <h1 style={{ fontSize: 28, fontWeight: 900, color: "#FFFFFF", margin: 0, fontFamily: "system-ui, -apple-system, sans-serif" }}>
+              Choose gender
+            </h1>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 20, width: "100%", marginTop: "auto", marginBottom: 30 }}>
+            {/* Male Button */}
+            <button
+              id="gender-select-male"
+              onClick={() => {
+                setGender("male");
+                setPhase("upload");
+              }}
+              style={{
+                width: "100%",
+                paddingTop: 18,
+                paddingBottom: 18,
+                borderRadius: 9999,
+                border: "1.5px solid rgba(255, 255, 255, 0.2)",
+                background: "linear-gradient(135deg, #8B5CF6 0%, #A855F7 50%, #D946EF 100%)",
+                color: "#FFFFFF",
+                fontSize: 18,
+                fontWeight: 700,
+                cursor: "pointer",
+                boxShadow: "0 8px 24px rgba(139, 92, 246, 0.4)",
+                transition: "transform 0.15s, opacity 0.15s",
+                textAlign: "center",
+              }}
+            >
+              Male
+            </button>
+
+            {/* Female Button */}
+            <button
+              id="gender-select-female"
+              onClick={() => {
+                setGender("female");
+                setPhase("upload");
+              }}
+              style={{
+                width: "100%",
+                paddingTop: 18,
+                paddingBottom: 18,
+                borderRadius: 9999,
+                border: "1.5px solid rgba(255, 255, 255, 0.2)",
+                background: "linear-gradient(135deg, #8B5CF6 0%, #A855F7 50%, #D946EF 100%)",
+                color: "#FFFFFF",
+                fontSize: 18,
+                fontWeight: 700,
+                cursor: "pointer",
+                boxShadow: "0 8px 24px rgba(139, 92, 246, 0.4)",
+                transition: "transform 0.15s, opacity 0.15s",
+                textAlign: "center",
+              }}
+            >
+              Female
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* ─── UPLOAD PHASE ─── */}
       {phase === "upload" && (
         <div className="w-full max-w-[400px] mx-auto" style={{ display: "flex", flexDirection: "column", gap: 20, paddingTop: 12 }}>
           
           {showWebcam ? (
             /* Webcam Stream View */
-            <div className="w-full bg-[#161622] rounded-3xl overflow-hidden p-4 flex flex-col gap-4 border border-white/10" style={{ animation: "fadeIn 0.3s ease-out" }}>
+            <div className="w-full bg-[#110B24] rounded-3xl overflow-hidden p-4 flex flex-col gap-4 border border-white/10" style={{ animation: "fadeIn 0.3s ease-out" }}>
               <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden bg-zinc-950 border border-white/5">
                 <video
                   ref={videoRef}
@@ -892,10 +1051,10 @@ export default function LooksmaxingPage() {
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, position: "relative" }}>
                 <div
                   style={{
-                    width: 100,
-                    height: 100,
-                    borderRadius: 50,
-                    background: "linear-gradient(135deg, #FF6C6D 0%, #FF865A 50%, #F69C50 100%)",
+                    width: 90,
+                    height: 90,
+                    borderRadius: 45,
+                    background: "linear-gradient(135deg, #FF6C6D 0%, #FF865A 100%)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -903,19 +1062,19 @@ export default function LooksmaxingPage() {
                     zIndex: 1,
                   }}
                 >
-                  <Sparkles size={48} color="#fff" />
+                  <Sparkles size={40} color="#fff" />
                 </div>
-                <div style={{ position: "absolute", width: 120, height: 120, borderRadius: 60, border: "2px dashed #FF865A", opacity: 0.35 }} />
+                <div style={{ position: "absolute", width: 110, height: 110, borderRadius: 55, border: "2px dashed #FF865A", opacity: 0.35 }} />
               </div>
 
               <div style={{ textAlign: "center", display: "flex", flexDirection: "column", gap: 6 }}>
-                <h2 style={{ fontSize: 28, fontWeight: 900, color: "#1F1A3A", margin: "0 0 4px" }}>Get Your Ratings</h2>
-                <p style={{ fontSize: 13.5, color: "#3730A3", fontWeight: 600, margin: 0, lineHeight: 1.45 }}>
+                <h2 style={{ fontSize: 26, fontWeight: 900, color: "#fff", margin: "0 0 4px", fontFamily: "LilitaOne, var(--font-lilita-one), cursive", letterSpacing: 0.5 }}>Get Your Ratings</h2>
+                <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.6)", fontWeight: 600, margin: 0, lineHeight: 1.45 }}>
                   AI analyzes 6 facial metrics and gives you an honest attractiveness score
                 </p>
               </div>
 
-              {/* Positioning frame */}
+              {/* Positioning frame (Tech Styled) */}
               <div
                 onClick={() => {
                   if (fileInputRef.current) {
@@ -924,22 +1083,22 @@ export default function LooksmaxingPage() {
                   }
                 }}
                 style={{
-                  border: "2px dashed rgba(248,107,109,0.45)",
+                  border: "2px dashed rgba(248,107,109,0.35)",
                   borderRadius: 24,
-                  padding: "48px 24px",
+                  padding: "40px 20px",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
                   gap: 12,
                   cursor: "pointer",
-                  backgroundColor: "#FFFFFF",
-                  boxShadow: "0 8px 24px rgba(0, 0, 0, 0.04)",
-                  transition: "border-color 0.2s",
+                  backgroundColor: "rgba(255,255,255,0.02)",
+                  boxShadow: "0 8px 24px rgba(0, 0, 0, 0.2)",
+                  transition: "all 0.2s",
                 }}
               >
-                <Eye size={56} color="#F86B6D" />
-                <span style={{ fontSize: 14, fontWeight: 800, color: "#1F1A3A" }}>Position your face here</span>
+                <Eye size={48} color="#F86B6D" />
+                <span style={{ fontSize: 13, fontWeight: 800, color: "#FFFFFF" }}>Position your face here</span>
               </div>
 
               {/* Grid Stats */}
@@ -953,16 +1112,16 @@ export default function LooksmaxingPage() {
                     key={stat.lbl}
                     style={{
                       flex: 1,
-                      backgroundColor: "#FFFFFF",
-                      border: "1px solid rgba(31, 26, 58, 0.08)",
+                      backgroundColor: "rgba(255,255,255,0.02)",
+                      border: "1px solid rgba(255, 255, 255, 0.05)",
                       borderRadius: 16,
                       padding: 12,
                       textAlign: "center",
-                      boxShadow: "0 4px 12px rgba(0,0,0,0.02)",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
                     }}
                   >
-                    <p style={{ fontSize: 20, fontWeight: 950, color: "#F86B6D", margin: "0 0 2px" }}>{stat.val}</p>
-                    <p style={{ fontSize: 11, color: "#475569", fontWeight: 800, textTransform: "uppercase", letterSpacing: 0.5, margin: 0 }}>{stat.lbl}</p>
+                    <p style={{ fontSize: 18, fontWeight: 950, color: "#F86B6D", margin: "0 0 2px" }}>{stat.val}</p>
+                    <p style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", fontWeight: 800, textTransform: "uppercase", letterSpacing: 0.5, margin: 0 }}>{stat.lbl}</p>
                   </div>
                 ))}
               </div>
@@ -1007,9 +1166,9 @@ export default function LooksmaxingPage() {
                     paddingTop: 14,
                     paddingBottom: 14,
                     borderRadius: 18,
-                    border: "1.5px solid rgba(31, 26, 58, 0.15)",
-                    background: "rgba(255, 255, 255, 0.45)",
-                    color: "#1F1A3A",
+                    border: "1.5px solid rgba(255, 255, 255, 0.12)",
+                    background: "rgba(255, 255, 255, 0.04)",
+                    color: "#FFFFFF",
                     fontSize: 15,
                     fontWeight: 800,
                     cursor: "pointer",
@@ -1020,7 +1179,7 @@ export default function LooksmaxingPage() {
                   }}
                   id="take-selfie-btn"
                 >
-                  <Camera size={18} color="#1F1A3A" />
+                  <Camera size={18} color="#FFFFFF" />
                   Take a Selfie
                 </button>
               </div>
@@ -1029,7 +1188,7 @@ export default function LooksmaxingPage() {
         </div>
       )}
 
-      {/* ─── LOADING PHASE ─── */}
+      {/* ─── LOADING PHASE (Bigger Photo & Laser Scans) ─── */}
       {phase === "loading" && (
         <div style={{ display: "flex", flexDirection: "column", gap: 24, paddingTop: 16 }}>
           {photoUri && (
@@ -1037,27 +1196,31 @@ export default function LooksmaxingPage() {
               <div
                 className="loading-pulse-ring"
                 style={{
-                  width: 140,
-                  height: 140,
-                  borderRadius: 70,
+                  width: 180,
+                  height: 180,
+                  borderRadius: 90,
                   border: "4px solid #F86B6D",
                   overflow: "hidden",
                   position: "relative",
-                  boxShadow: "0 0 20px rgba(248,107,109,0.5)",
+                  boxShadow: "0 0 25px rgba(248,107,109,0.55)",
+                  animation: "pulseRing 2s infinite ease-in-out",
                 }}
               >
-                <Image src={photoUri} alt="Analyzing preview" fill style={{ objectFit: "cover" }} />
+                <img src={photoUri} alt="Analyzing preview" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <div className="tech-scanning-grid" />
+                <div className="tech-scanning-line" />
+                
                 <div
                   style={{
                     position: "absolute",
                     inset: 0,
-                    backgroundColor: "rgba(0,0,0,0.2)",
+                    backgroundColor: "rgba(8, 2, 26, 0.25)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                   }}
                 >
-                  <RefreshCw size={36} color="#fff" style={{ animation: "spin 1.2s linear infinite" }} />
+                  <RefreshCw size={36} color="#fff" style={{ animation: "spinnerSpin 1.4s linear infinite" }} />
                 </div>
               </div>
             </div>
@@ -1065,19 +1228,20 @@ export default function LooksmaxingPage() {
 
           <div
             style={{
-              backgroundColor: "rgba(255,255,255,0.06)",
-              borderRadius: 20,
+              backgroundColor: "rgba(22, 17, 44, 0.75)",
+              borderRadius: 24,
               padding: 20,
               display: "flex",
               flexDirection: "column",
               gap: 12,
-              border: "1px solid rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.06)",
+              backdropFilter: "blur(10px)"
             }}
           >
-            <p style={{ fontSize: 16, fontWeight: 900, color: "var(--text)", margin: 0 }}>
+            <p style={{ fontSize: 16, fontWeight: 900, color: "#FFFFFF", margin: 0, letterSpacing: 0.5 }}>
               Analyzing your face...
             </p>
-            <div style={{ height: 1, backgroundColor: "rgba(255,255,255,0.15)" }} />
+            <div style={{ height: 1, backgroundColor: "rgba(255,255,255,0.08)" }} />
 
             {LOADING_STAGES.map((stage, idx) => (
               <div key={stage} style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }}>
@@ -1086,14 +1250,14 @@ export default function LooksmaxingPage() {
                     width: 10,
                     height: 10,
                     borderRadius: 5,
-                    backgroundColor: idx < loadStage ? "#22C55E" : idx === loadStage ? "#FF865A" : "rgba(255,255,255,0.2)",
+                    backgroundColor: idx < loadStage ? "#22C55E" : idx === loadStage ? "#FF865A" : "rgba(255,255,255,0.15)",
                   }}
                 />
                 <span
                   style={{
                     fontSize: 13,
                     fontWeight: idx === loadStage ? "700" : "500",
-                    color: idx < loadStage ? "#22C55E" : idx === loadStage ? "var(--text)" : "var(--text-muted)",
+                    color: idx < loadStage ? "#22C55E" : idx === loadStage ? "#FFFFFF" : "rgba(255,255,255,0.45)",
                     textDecoration: idx < loadStage ? "line-through" : "none",
                   }}
                 >
@@ -1107,125 +1271,139 @@ export default function LooksmaxingPage() {
         </div>
       )}
 
-      {/* ─── RESULT PHASE ─── */}
+      {/* ─── RESULT PHASE (Bigger Photo & Neon Rating Blocks) ─── */}
       {phase === "result" && scores && faceData && tier && (
         <div className="w-full max-w-[600px] mx-auto flex flex-col gap-4">
-            {/* Tab Page Controller */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                backgroundColor: "rgba(255, 255, 255, 0.45)",
-                border: "1px solid rgba(31, 26, 58, 0.08)",
-                borderRadius: 14,
-                padding: 4,
-                gap: 4,
-                overflowX: "auto",
-              }}
-            >
-              {PAGE_LABELS.map((lbl, idx) => (
-                <button
-                  key={lbl}
-                  id={`lookmax-tab-${lbl.toLowerCase().replace(/\s+/g, "-")}`}
-                  onClick={() => setCurrentPage(idx)}
-                  style={{
-                    flex: 1,
-                    padding: "8px 10px",
-                    borderRadius: 10,
-                    border: "none",
-                    backgroundColor: currentPage === idx ? "#F86B6D" : "transparent",
-                    color: currentPage === idx ? "#fff" : "#1F1A3A",
-                    fontSize: 12,
-                    fontWeight: 700,
-                    cursor: "pointer",
-                    whiteSpace: "nowrap",
-                    transition: "all 0.2s",
-                  }}
-                >
-                  {lbl}
-                </button>
-              ))}
-            </div>
-
             {/* PAGE CONTENT CONTAINER */}
             <div style={{ minHeight: 380 }}>
               {/* ── PAGE 0: RATINGS ── */}
               {currentPage === 0 && (
-                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                  {/* Hero section */}
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, marginBottom: 12 }}>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", maxWidth: 400, margin: "0 auto" }}>
+                  
+                  {/* Scorecard ref capture container */}
+                  <div ref={cardRef} style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", backgroundColor: "transparent" }}>
+                    {/* Centered photo at the top overlapping card */}
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: -75, zIndex: 10, position: "relative" }}>
+                      <div
+                        style={{
+                          width: 150,
+                          height: 150,
+                          borderRadius: 75,
+                          overflow: "hidden",
+                          boxShadow: "0 10px 25px rgba(0,0,0,0.6)",
+                          backgroundColor: "#161622",
+                        }}
+                      >
+                        {photoUri ? (
+                          <img src={photoUri} alt="Selfie" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                        ) : (
+                          <div style={{ width: "100%", height: "100%", backgroundColor: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 42 }}>
+                            👤
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Unified Ratings Card */}
                     <div
                       style={{
-                        width: 96,
-                        height: 96,
-                        borderRadius: 48,
-                        border: `4px solid ${tier.color}`,
-                        overflow: "hidden",
-                        boxShadow: `0 0 16px ${tier.color}66`,
+                        width: "100%",
+                        backgroundColor: "#1B1B26",
+                        borderRadius: 28,
+                        border: "1px solid rgba(255, 255, 255, 0.08)",
+                        padding: "100px 24px 24px 24px",
+                        display: "flex",
+                        flexDirection: "column",
+                        boxShadow: "0 15px 35px rgba(0,0,0,0.4)",
                         position: "relative",
                       }}
                     >
-                      {photoUri ? (
-                        <Image src={photoUri} alt="Selfie" fill style={{ objectFit: "cover" }} />
-                      ) : (
-                        <div style={{ width: "100%", height: "100%", backgroundColor: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 38 }}>
-                          👤
-                        </div>
-                      )}
-                    </div>
+                      {/* 2x3 Grid of Metrics matching reference screenshot */}
+                      <div
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "1fr 1fr",
+                          gap: "28px 24px",
+                        }}
+                      >
+                        <MetricItem label="Overall" score={scores.overall} animate={true} />
+                        <MetricItem label="Potential" score={scores.potential} animate={true} />
+                        <MetricItem label={gender === "female" ? "Femininity" : "Masculinity"} score={scores.masculinity} animate={true} />
+                        <MetricItem label="Skin quality" score={scores.skinQuality} animate={true} />
+                        <MetricItem label="Jawline" score={scores.jawline} animate={true} />
+                        <MetricItem label="Cheekbones" score={scores.cheekBones} animate={true} />
+                      </div>
 
-                    <div style={{ display: "flex", flexDirection: "row", alignItems: "baseline", gap: 4 }}>
-                      <span style={{ fontSize: 68, fontWeight: 900, color: "var(--text)", lineHeight: 1 }}>
-                        {scores.overall}
-                      </span>
-                      <span style={{ fontSize: 20, fontWeight: 700, color: "var(--text-muted)" }}>/100</span>
+                      {/* Bottom-center watermark text */}
+                      <div style={{ textAlign: "center", marginTop: 20 }}>
+                        <span style={{ fontSize: 13, fontWeight: 700, color: "rgba(255, 255, 255, 0.4)", letterSpacing: 1 }}>
+                          rizzai.space
+                        </span>
+                      </div>
                     </div>
+                  </div>
 
-                    <div
+                  {/* Save & Share CTA Buttons matching reference screenshot */}
+                  <div style={{ display: "flex", flexDirection: "row", gap: 14, width: "100%", marginTop: 18 }}>
+                    <button
+                      id="save-scorecard-btn"
+                      onClick={downloadCardImage}
                       style={{
+                        flex: 1,
+                        paddingTop: 14,
+                        paddingBottom: 14,
+                        borderRadius: 9999,
+                        border: "none",
+                        backgroundColor: "#FFFFFF",
+                        color: "#000000",
+                        fontSize: 16,
+                        fontWeight: 800,
+                        cursor: "pointer",
                         display: "flex",
-                        flexDirection: "row",
                         alignItems: "center",
+                        justifyContent: "center",
                         gap: 8,
-                        padding: "8px 20px",
-                        borderRadius: 24,
-                        border: `1.5px solid ${tier.color}90`,
-                        backgroundColor: `${tier.color}15`,
+                        boxShadow: "0 6px 16px rgba(255,255,255,0.12)",
+                        transition: "transform 0.15s",
                       }}
                     >
-                      <span style={{ fontSize: 16 }}>{tier.emoji}</span>
-                      <span style={{ fontSize: 15, fontWeight: 900, color: tier.textColor }}>{tier.label}</span>
-                    </div>
-                  </div>
+                      <span>Save</span>
+                      <Download size={18} color="#000000" />
+                    </button>
 
-                <div style={{ marginTop: 8 }}>
-                  <span style={{ fontSize: 11, fontWeight: 900, color: "#F86B6D", letterSpacing: 2 }}>
-                    YOUR RATINGS
-                  </span>
+                    <button
+                      id="share-scorecard-btn"
+                      onClick={handleShareScore}
+                      style={{
+                        flex: 1,
+                        paddingTop: 14,
+                        paddingBottom: 14,
+                        borderRadius: 9999,
+                        border: "none",
+                        backgroundColor: "#FFFFFF",
+                        color: "#000000",
+                        fontSize: 16,
+                        fontWeight: 800,
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 8,
+                        boxShadow: "0 6px 16px rgba(255,255,255,0.12)",
+                        transition: "transform 0.15s",
+                      }}
+                    >
+                      <span>Share</span>
+                      <Send size={18} color="#000000" />
+                    </button>
+                  </div>
                 </div>
-
-                {/* Score cards grid */}
-                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                  <div style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-                    <MetricCard label="Overall" score={scores.overall} />
-                    <MetricCard label="Potential" score={scores.potential} />
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-                    <MetricCard label="Jawline" score={scores.jawline} />
-                    <MetricCard label="Cheekbones" score={scores.cheekBones} />
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-                    <MetricCard label="Eyes" score={scores.skinQuality} />
-                    <MetricCard label="Masculinity" score={scores.masculinity} />
-                  </div>
-                </div>
-              </div>
-            )}
+              )}
 
             {/* ── PAGE 1: LOOK SCORE CARD ── */}
             {currentPage === 1 && (
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                <ShareableCard photoUri={photoUri} scores={scores} cardRef={cardRef} />
+                <ShareableCard photoUri={photoUri} scores={scores} cardRef={cardRef} gender={gender} />
 
                 {/* Save + Share CTA */}
                 <div style={{ display: "flex", flexDirection: "row", gap: 10 }}>
@@ -1246,6 +1424,7 @@ export default function LooksmaxingPage() {
                       alignItems: "center",
                       justifyContent: "center",
                       gap: 8,
+                      boxShadow: "0 6px 16px rgba(246,118,110,0.3)",
                     }}
                   >
                     <Download size={18} />
@@ -1268,6 +1447,7 @@ export default function LooksmaxingPage() {
                       alignItems: "center",
                       justifyContent: "center",
                       gap: 8,
+                      boxShadow: "0 6px 16px rgba(124,58,237,0.3)",
                     }}
                   >
                     <Share2 size={18} />
@@ -1324,8 +1504,8 @@ export default function LooksmaxingPage() {
                 <div
                   style={{
                     borderRadius: 16,
-                    background: "linear-gradient(90deg, rgba(255,134,90,0.16) 0%, rgba(246,156,80,0.07) 100%)",
-                    border: "1px dashed rgba(246,156,80,0.25)",
+                    background: "linear-gradient(90deg, rgba(255,134,90,0.08) 0%, rgba(246,156,80,0.02) 100%)",
+                    border: "1px dashed rgba(255,255,255,0.12)",
                     padding: 14,
                     display: "flex",
                     flexDirection: "row",
@@ -1334,7 +1514,7 @@ export default function LooksmaxingPage() {
                   }}
                 >
                   <span style={{ fontSize: 18 }}>💡</span>
-                  <p style={{ fontSize: 12, color: "var(--text)", opacity: 0.85, lineHeight: 1.45, margin: 0 }}>
+                  <p style={{ fontSize: 12, color: "#E2E8F0", opacity: 0.85, lineHeight: 1.45, margin: 0 }}>
                     These traits are determined by your bone structure and facial geometry — some can improve with targeted exercises and habits.
                   </p>
                 </div>
@@ -1353,9 +1533,9 @@ export default function LooksmaxingPage() {
 
                 <div
                   style={{
-                    backgroundColor: "#161628",
+                    backgroundColor: "rgba(22, 17, 44, 0.7)",
                     borderRadius: 24,
-                    border: "1px solid rgba(248, 107, 109, 0.25)",
+                    border: "1px solid rgba(255, 255, 255, 0.06)",
                     padding: "24px 20px 20px",
                     display: "flex",
                     flexDirection: "column",
@@ -1376,7 +1556,7 @@ export default function LooksmaxingPage() {
                       width: 220,
                       height: 200,
                       borderRadius: 100,
-                      background: "radial-gradient(circle, rgba(248, 107, 109, 0.2) 0%, rgba(0,0,0,0) 70%)",
+                      background: "radial-gradient(circle, rgba(248, 107, 109, 0.15) 0%, rgba(0,0,0,0) 70%)",
                       pointerEvents: "none",
                     }}
                   />
@@ -1394,7 +1574,7 @@ export default function LooksmaxingPage() {
                     }}
                   >
                     {photoUri ? (
-                      <Image src={photoUri} alt="Thumbnail" fill style={{ objectFit: "cover" }} />
+                      <img src={photoUri} alt="Thumbnail" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                     ) : (
                       <div style={{ width: "100%", height: "100%", backgroundColor: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26 }}>
                         👤
@@ -1403,7 +1583,7 @@ export default function LooksmaxingPage() {
                   </div>
 
                   <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", fontWeight: 800, letterSpacing: 1.5, textTransform: "uppercase" }}>Overall Rating</span>
-                  <span style={{ fontSize: 48, fontWeight: 900, color: "#fff", lineHeight: 1, textShadow: "0 2px 12px rgba(248,107,109,0.3)" }}>{scores.overall}</span>
+                  <span style={{ fontSize: 44, fontWeight: 900, color: "#fff", lineHeight: 1, textShadow: "0 2px 12px rgba(248,107,109,0.3)" }}>{scores.overall}</span>
 
                   {/* Bell curve graphic */}
                   <BellCurveView percentile={percentile} accentColor="#F86B6D" />
@@ -1419,17 +1599,17 @@ export default function LooksmaxingPage() {
                       gap: 4,
                       padding: "12px 18px",
                       borderRadius: 16,
-                      backgroundColor: "rgba(255,255,255,0.05)",
-                      border: "1px solid rgba(255,255,255,0.08)",
+                      backgroundColor: "rgba(255,255,255,0.03)",
+                      border: "1px solid rgba(255,255,255,0.05)",
                       width: "100%",
-                      boxShadow: "inset 0 1px 0 rgba(255,255,255,0.1)",
+                      boxShadow: "inset 0 1px 0 rgba(255,255,255,0.05)",
                     }}
                   >
                     <span style={{ fontSize: 14, fontWeight: 800, color: "#fff" }}>
                       Your Overall is better than{" "}
                       <span style={{ color: "#F86B6D", fontWeight: 900, textDecoration: "underline", textUnderlineOffset: 3 }}>{percentile}%</span> of people
                     </span>
-                    <span style={{ fontSize: 11.5, color: "rgba(255,255,255,0.55)", fontWeight: 600 }}>
+                    <span style={{ fontSize: 11.5, color: "rgba(255,255,255,0.5)", fontWeight: 600 }}>
                       🔥 Top {100 - percentile > 0 ? 100 - percentile : 1}% Worldwide
                     </span>
                   </div>
@@ -1437,33 +1617,48 @@ export default function LooksmaxingPage() {
               </div>
             )}
           </div>
-          
-          {/* Try another button */}
-          <div className="w-full">
-            <button
-              onClick={handleReset}
-              style={{
-                marginTop: 12,
-                width: "100%",
-                paddingTop: 16,
-                paddingBottom: 16,
-                borderRadius: 18,
-                border: "none",
-                background: "linear-gradient(135deg, #FF6C6D 0%, #FF865A 100%)",
-                color: "#FFFFFF",
-                fontSize: 16,
-                fontWeight: 700,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 10,
-                boxShadow: "0 4px 16px rgba(246,118,110,0.35)",
-              }}
-            >
-              <Camera size={20} color="#fff" />
-              Try Another Photo
-            </button>
+
+
+
+          {/* Bottom Navigation Bar */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              backgroundColor: "rgba(22, 17, 44, 0.85)",
+              border: "1px solid rgba(255, 255, 255, 0.08)",
+              borderRadius: 20,
+              padding: 5,
+              gap: 4,
+              overflowX: "auto",
+              marginTop: 16,
+              boxShadow: "0 10px 30px rgba(0, 0, 0, 0.4)",
+              backdropFilter: "blur(16px)",
+            }}
+          >
+            {PAGE_LABELS.map((lbl, idx) => (
+              <button
+                key={lbl}
+                id={`lookmax-tab-${lbl.toLowerCase().replace(/\s+/g, "-")}`}
+                onClick={() => setCurrentPage(idx)}
+                style={{
+                  flex: 1,
+                  padding: "10px 8px",
+                  borderRadius: 14,
+                  border: "none",
+                  background: currentPage === idx ? "linear-gradient(135deg, #FF6C6D 0%, #FF865A 100%)" : "transparent",
+                  color: currentPage === idx ? "#FFFFFF" : "rgba(255,255,255,0.55)",
+                  fontSize: 12.5,
+                  fontWeight: currentPage === idx ? 800 : 700,
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                  transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
+                  boxShadow: currentPage === idx ? "0 4px 14px rgba(246,118,110,0.4)" : "none",
+                }}
+              >
+                {lbl}
+              </button>
+            ))}
           </div>
         </div>
       )}
@@ -1489,7 +1684,7 @@ export default function LooksmaxingPage() {
             style={{
               width: "100%",
               maxWidth: 400,
-              backgroundColor: "#161622",
+              backgroundColor: "#110B24",
               border: "1px solid rgba(255,255,255,0.08)",
               borderRadius: 28,
               padding: 24,
@@ -1604,7 +1799,7 @@ export default function LooksmaxingPage() {
               </button>
             </div>
 
-            {/* Photo Sharing Info (Instagram, Snapchat, TikTok, YouTube) */}
+            {/* Photo Sharing Info */}
             <div
               style={{
                 backgroundColor: "rgba(255,255,255,0.03)",
@@ -1617,14 +1812,13 @@ export default function LooksmaxingPage() {
               }}
             >
               <span style={{ fontSize: 12, fontWeight: 900, color: "#FF6C6D" }}>📸 INSTAGRAM / SNAPCHAT / TIKTOK / YOUTUBE</span>
-              <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.6)", margin: 0, lineHeight: 1.4 }}>
+              <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.5)", margin: 0, lineHeight: 1.4 }}>
                 These platforms do not support direct web link sharing. Download your card image using the **Save Score** button and upload it to your stories, posts, or feeds!
               </p>
             </div>
           </div>
         </div>
       )}
-
 
     </PageLayout>
   );

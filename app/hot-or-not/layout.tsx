@@ -5,8 +5,11 @@ export const metadata: Metadata = {
   description:
     "Play Hot or Not online! The legendary hot or not website where you can rate photos, rate my bf, rate my gf, and roast my ex with AI rating scores.",
   keywords: [
+    "hot or not",
     "hot or not hot",
     "hot or not website",
+    "hot or not game",
+    "hot or not quiz",
     "hot and not",
     "roast my ex",
     "roast me",
