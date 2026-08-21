@@ -71,7 +71,7 @@ export function Footer({
           margin: "0 auto 12px",
         }}
       >
-        <h1
+        <h2
           style={{
             fontSize: 22,
             fontWeight: 900,
@@ -82,7 +82,7 @@ export function Footer({
           }}
         >
           Rizz AI — #1 Free AI Wingman App, Rizz Generator & Dating Assistant
-        </h1>
+        </h2>
         <p style={{ fontSize: 14, lineHeight: 1.6, color: isDark ? "#94A3B8" : "#475569", marginBottom: 18, textAlign: "center" }}>
           Welcome to <strong>Rizz AI</strong> (<code>rizzai.space</code>) — the ultimate <strong>free AI wingman app</strong>, <strong>rizz generator</strong>, and dating reply assistant. Whether you are looking for <strong>flirting pick up lines</strong> for Tinder, Hinge, or Bumble, instant <strong>looksmaxing AI face ratings</strong> on the <strong>PSL scale</strong>, or <strong>free couple games to play online</strong>, Rizz AI gives you the confidence to level up your dating game.
         </p>

@@ -318,7 +318,7 @@ export default function LoveTestPage() {
               >
                 ❤️
               </div>
-              <h2
+              <h1
                 style={{
                   fontSize: 22,
                   fontWeight: 800,
@@ -328,7 +328,7 @@ export default function LoveTestPage() {
                 }}
               >
                 Love Calculator
-              </h2>
+              </h1>
               <p style={{ fontSize: 13, opacity: 0.8, margin: 0, color: "#FFFFFF" }}>
                 Enter your names to compute deep compatibility vectors
               </p>
@@ -516,7 +516,7 @@ export default function LoveTestPage() {
               <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: 2, color: "#FFD3E1", textTransform: "uppercase", marginBottom: 6 }}>
                 💘 Love Test Result 💘
               </div>
-              <h1
+              <h2
                 style={{
                   fontSize: 28,
                   fontWeight: 900,
@@ -527,7 +527,7 @@ export default function LoveTestPage() {
                 }}
               >
                 {name1} + {name2}
-              </h1>
+              </h2>
 
               {/* Glowing Heart Ring Container */}
               <div
@@ -1114,9 +1114,9 @@ export default function LoveTestPage() {
             color: "#FFFFFF",
           }}
         >
-          <h1 style={{ fontSize: 20, fontWeight: 900, color: "#FF8A9E", marginBottom: 8 }}>
+          <h2 style={{ fontSize: 20, fontWeight: 900, color: "#FF8A9E", marginBottom: 8 }}>
             Love Test by Name & Love Match Compatibility Quiz
-          </h1>
+          </h2>
           <p style={{ fontSize: 13, lineHeight: 1.6, color: "rgba(255, 255, 255, 0.8)", margin: 0 }}>
             Discover your <strong>love match test</strong> score and <strong>name compatibility quiz</strong> percentage! Our free <strong>love meter</strong> and <strong>love calculator names</strong> tool analyzes name numerology, emotional vibe alignment, and marriage timeline for couples.
           </p>

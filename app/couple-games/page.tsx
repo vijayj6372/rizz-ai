@@ -1823,9 +1823,9 @@ export default function CoupleGamesPage() {
               textAlign: "left",
             }}
           >
-            <h1 style={{ fontSize: "1.4rem", fontWeight: 900, color: "#ff6c6d", marginBottom: 10 }}>
+            <h2 style={{ fontSize: "1.4rem", fontWeight: 900, color: "#ff6c6d", marginBottom: 10 }}>
               Free Couple Games to Play Online | Lovely & Rizz AI
-            </h1>
+            </h2>
             <p style={{ fontSize: "0.9rem", lineHeight: 1.6, color: "#94a3b8", marginBottom: 16 }}>
               Looking for <strong>online games for couples</strong>, <strong>couple games questions</strong>, or <strong>game of questions for couples</strong>? Play 89 free online couple games with deep questions, truth or dare, relationship quizzes, and <strong>coup card game</strong> inspired challenges.
             </p>
