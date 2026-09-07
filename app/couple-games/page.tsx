@@ -1407,22 +1407,14 @@ function PlayerOverlay({ cat, onClose, favorites, onToggleFav, onToast }: {
 ────────────────────────────────────────────── */
 function GameCard({ cat, onClick }: { cat: Category; onClick: () => void }) {
   const [hovered, setHovered] = useState(false);
-  const isIcebreaker =
-    cat.slug === "ice-breaker-questions-for-couples" ||
-    cat.title.toLowerCase().includes("icebreaker") ||
-    cat.title.toLowerCase().includes("ice breaker") ||
-    cat.title.toLowerCase().includes("ice-breaker");
 
   const secConfig = CATEGORIES_SECTION_CONFIG[cat.domain] || {
     color: "#D9476B",
     bg: "rgba(217, 71, 107, 0.12)",
   };
 
-  const isWyr = cat.title.toLowerCase().includes("would you rather") || cat.slug === "would-you-rather-for-couples";
-
   const cardContent = (
     <div
-      onClick={(isIcebreaker || isWyr) ? undefined : onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -1472,23 +1464,11 @@ function GameCard({ cat, onClick }: { cat: Category; onClick: () => void }) {
     </div>
   );
 
-  if (isIcebreaker) {
-    return (
-      <Link href="/games/ice-breaker-questions-for-couples" style={{ textDecoration: "none", color: "inherit" }}>
-        {cardContent}
-      </Link>
-    );
-  }
-
-  if (isWyr) {
-    return (
-      <Link href="/games/would-you-rather-for-couples" style={{ textDecoration: "none", color: "inherit" }}>
-        {cardContent}
-      </Link>
-    );
-  }
-
-  return cardContent;
+  return (
+    <Link href={`/couple-games/${cat.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
+      {cardContent}
+    </Link>
+  );
 }
 
 /* ──────────────────────────────────────────────

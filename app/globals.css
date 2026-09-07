@@ -223,6 +223,60 @@ input[type="file"] {
   display: none;
 }
 
+/* Couple games player */
+.couple-player {
+  min-height: 100svh;
+  padding: 18px 16px 34px;
+  color: #f8fafc;
+  background: radial-gradient(circle at 50% -10%, rgba(255, 75, 114, 0.2), transparent 38%), #0b0f19;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+}
+.player-shell { width: min(100%, 720px); margin: 0 auto; }
+.player-header, .progress-copy, .prompt-card-top, .player-controls, .utility-row, .seo-facts, .related-games { display: flex; align-items: center; }
+.player-header { justify-content: space-between; margin-bottom: 28px; }
+.player-title { display: flex; align-items: center; gap: 9px; font-weight: 800; font-size: 1.05rem; }
+.icon-button, .control-button, .favorite-button, .close-dialog { display: inline-flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,.12); color: #f8fafc; background: rgba(255,255,255,.07); cursor: pointer; }
+.icon-button, .control-button { width: 42px; height: 42px; border-radius: 50%; text-decoration: none; }
+.progress-copy { justify-content: space-between; color: #a8b0c2; font-size: .78rem; font-weight: 700; margin-bottom: 8px; }
+.progress-track { height: 5px; border-radius: 10px; overflow: hidden; background: rgba(255,255,255,.1); margin-bottom: 22px; }
+.progress-track span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#ff4b72,#a855f7); transition: width .3s ease; }
+.prompt-card { min-height: 430px; padding: 25px; border: 1px solid rgba(255,255,255,.13); border-radius: 26px; background: linear-gradient(145deg,rgba(255,255,255,.1),rgba(255,255,255,.035)); box-shadow: 0 24px 70px rgba(0,0,0,.35); display: flex; flex-direction: column; justify-content: space-between; }
+.eyebrow { display: inline-flex; align-items: center; gap: 6px; color: #ff91aa; text-transform: uppercase; letter-spacing: .12em; font-size: .7rem; font-weight: 800; }
+.favorite-button { width: 40px; height: 40px; border-radius: 50%; color: #b4bac8; }
+.favorite-button.is-saved { color: #ff6688; border-color: rgba(255,102,136,.6); background: rgba(255,75,114,.14); }
+.prompt-text { max-width: 590px; margin: 50px auto; color: #fff; text-align: center; font-size: clamp(1.55rem, 4vw, 2.35rem); line-height: 1.18; letter-spacing: -.03em; font-weight: 800; }
+.choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.choice-option { min-height: 92px; padding: 16px; display: flex; align-items: center; gap: 10px; border: 1px solid rgba(255,255,255,.14); border-radius: 16px; color: #e7eaf0; background: rgba(255,255,255,.06); cursor: pointer; font: inherit; font-weight: 700; text-align: left; }
+.choice-option span { display: inline-flex; align-items: center; justify-content: center; width: 27px; height: 27px; flex: 0 0 27px; border-radius: 50%; color: #fff; background: #ff4b72; font-size: .78rem; }
+.choice-option.selected { border-color: #ff6688; background: rgba(255,75,114,.16); }
+.mode-switcher { display: flex; gap: 8px; margin: 0 auto; }
+.mode-switcher button, .prompt-actions button, .utility-row button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 1px solid rgba(255,255,255,.13); border-radius: 999px; padding: 10px 15px; color: #c7ccda; background: rgba(255,255,255,.06); cursor: pointer; font: inherit; font-size: .8rem; font-weight: 800; }
+.mode-switcher button.active { color: #fff; background: #ff4b72; border-color: #ff4b72; }
+.prompt-actions { display: flex; justify-content: center; gap: 8px; margin-top: 26px; }
+.player-controls { justify-content: center; gap: 12px; margin: 18px 0 14px; }
+.next-button { min-height: 46px; padding: 0 23px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 999px; color: #fff; background: linear-gradient(100deg,#ff4b72,#c04dca); cursor: pointer; font: inherit; font-weight: 800; box-shadow: 0 12px 30px rgba(255,75,114,.25); }
+.utility-row { justify-content: center; gap: 8px; flex-wrap: wrap; }
+.utility-row button { padding: 8px 12px; font-weight: 700; }
+.play-hint { color: #747d90; font-size: .75rem; text-align: center; }
+.utility-modal { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 20px; background: rgba(5,7,12,.75); backdrop-filter: blur(10px); }
+.utility-dialog { position: relative; width: min(100%, 350px); padding: 28px; border: 1px solid rgba(255,255,255,.15); border-radius: 24px; background: #171c29; text-align: center; }
+.utility-dialog h2 { margin: 8px 0; font-size: 2.7rem; }
+.utility-dialog p { color: #aeb6c7; }
+.utility-symbol { font-size: 3rem; }
+.close-dialog { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 50%; }
+.player-toast { position: fixed; left: 50%; bottom: 24px; z-index: 30; transform: translateX(-50%); padding: 11px 16px; border-radius: 999px; color: #fff; background: #242b3b; font-size: .8rem; font-weight: 800; box-shadow: 0 12px 30px rgba(0,0,0,.3); }
+.game-seo-footer { padding: 52px 16px 90px; color: #e7eaf0; background: #121724; }
+.game-seo-inner { width: min(100%, 720px); margin: 0 auto; }
+.seo-kicker { color: #ff819b; font-size: .76rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.game-seo-footer h1 { margin: 10px 0; font-size: clamp(1.8rem, 5vw, 2.6rem); }
+.game-seo-footer p:not(.seo-kicker) { color: #aeb6c7; line-height: 1.7; }
+.seo-facts { gap: 8px; flex-wrap: wrap; margin: 24px 0; }
+.seo-facts span { padding: 8px 12px; border: 1px solid rgba(255,255,255,.1); border-radius: 999px; color: #d5d9e3; font-size: .78rem; }
+.related-games { gap: 10px; flex-wrap: wrap; margin-top: 28px; }
+.related-games strong { width: 100%; color: #fff; }
+.related-games a { color: #ff9ab0; text-decoration: none; font-size: .88rem; font-weight: 700; }
+@media (max-width: 520px) { .prompt-card { min-height: 400px; padding: 19px; } .choice-grid { grid-template-columns: 1fr; } .prompt-text { margin: 40px auto; } .prompt-actions button { padding: 9px 12px; } }
+
 /* ─────────────────────────────────────────
    9. Modal / dialog backdrop
 ───────────────────────────────────────── */
