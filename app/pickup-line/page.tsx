@@ -197,6 +197,14 @@ export default function PickupLinePage() {
 
       {/* Main Area */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", minHeight: "calc(100vh - 120px)" }}>
+        <section style={{ width: "100%", maxWidth: 520, margin: "0 auto", padding: "8px 16px 0", textAlign: "center" }}>
+          <h1 style={{ margin: 0, color: "#1F2937", fontSize: 28, fontWeight: 900 }}>
+            AI Pickup Lines and Rizz Generator
+          </h1>
+          <p style={{ margin: "8px auto 0", maxWidth: 460, color: "#64748B", fontSize: 14, lineHeight: 1.5 }}>
+            Get smooth, funny, poetic, and bold pickup lines for dating apps, text messages, Tinder, Hinge, and Bumble. Tap a line to copy it.
+          </p>
+        </section>
         
         {/* iMessage Stack */}
         <div className="imessage-container">

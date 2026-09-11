@@ -820,6 +820,15 @@ export default function LooksmaxingTipsPage() {
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column", width: "100%", maxWidth: 450, margin: "0 auto", gap: 16, animation: "fadeIn 0.3s ease-out" }}>
         
+        <section style={{ textAlign: "center", padding: "4px 8px 0" }}>
+          <h1 style={{ color: "#FFFFFF", fontSize: 28, fontWeight: 900, lineHeight: 1.1, margin: 0 }}>
+            Looksmaxing Tips for a Better Glow Up
+          </h1>
+          <p style={{ color: "rgba(255, 255, 255, 0.65)", fontSize: 14, lineHeight: 1.5, margin: "8px auto 0", maxWidth: 420 }}>
+            Browse practical skincare, grooming, style, fitness, and confidence tips to build a simple looksmaxing routine that fits you.
+          </p>
+        </section>
+
         {/* Header Label Info */}
         <p
           style={{

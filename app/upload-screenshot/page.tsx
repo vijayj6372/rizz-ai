@@ -238,6 +238,15 @@ export default function UploadScreenshotPage() {
         }
       ` }} />
 
+      <section style={{ width: "100%", maxWidth: 520, margin: "0 auto", padding: "8px 16px 0", textAlign: "center" }}>
+        <h1 style={{ margin: 0, color: isDark ? "#FFFFFF" : "#1F2937", fontSize: 28, fontWeight: 900 }}>
+          AI Screenshot Rizz Reply Assistant
+        </h1>
+        <p style={{ margin: "8px auto 0", maxWidth: 460, color: isDark ? "rgba(255,255,255,0.7)" : "#64748B", fontSize: 14, lineHeight: 1.5 }}>
+          Upload a dating chat screenshot to get ideas for smooth, funny, and confident replies for Tinder, Hinge, Bumble, or Instagram.
+        </p>
+      </section>
+
       {/* Hidden File Input */}
       <input
         ref={fileInputRef}

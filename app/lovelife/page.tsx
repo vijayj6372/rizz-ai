@@ -147,6 +147,13 @@ export default function LoveLifePage() {
 
       {/* Main Container */}
       <div className="w-full max-w-xl mx-auto space-y-6 pb-20 text-white font-sans">
+        <section className="text-center pt-1">
+          <h1 className="text-2xl md:text-3xl font-extrabold text-white">LoveLife Compatibility Calculator</h1>
+          <p className="text-sm text-slate-300 max-w-lg mx-auto mt-2">
+            Explore a playful compatibility score, marriage forecast, and future family prediction for two names. This calculator is for entertainment and conversation starters.
+          </p>
+        </section>
+
         {/* Header Tagline */}
         <div className="text-center pt-1 pb-1">
           <p className="text-xs md:text-sm text-slate-300 max-w-sm mx-auto">
