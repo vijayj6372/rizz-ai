@@ -25,6 +25,8 @@ import { PageLayout } from "@/components/PageLayout";
 import { CopiedToast } from "@/components/CopiedToast";
 import { HeaderTitle } from "@/components/HeaderTitle";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useLanguage } from "@/context/LanguageContext";
+import { TRANSLATIONS } from "@/data/translations";
 import { calculateLoveLife, LoveLifeResult } from "@/data/loveLifeData";
 
 const PRESET_COUPLES = [
@@ -35,6 +37,8 @@ const PRESET_COUPLES = [
 ];
 
 export default function LoveLifePage() {
+  const { language } = useLanguage();
+  const t = TRANSLATIONS[language] || TRANSLATIONS.en;
   // Input States - Empty by default with clear hint placeholders
   const [name1, setName1] = useState("");
   const [name2, setName2] = useState("");

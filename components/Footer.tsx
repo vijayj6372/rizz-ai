@@ -3,6 +3,8 @@
 import React from "react";
 import Link from "next/link";
 import { BottomNav } from "@/components/BottomNav";
+import { useLanguage } from "@/context/LanguageContext";
+import { TRANSLATIONS } from "@/data/translations";
 
 interface FooterProps {
   variant?: "light" | "dark";
@@ -16,6 +18,8 @@ export function Footer({
   showInlineNav = true,
 }: FooterProps) {
   const isDark = variant === "dark";
+  const { language } = useLanguage();
+  const t = TRANSLATIONS[language] || TRANSLATIONS.en;
 
   return (
     <footer
@@ -167,7 +171,7 @@ export function Footer({
             transition: "all 0.2s",
           }}
         >
-          About
+          {t.footerAbout || "About"}
         </Link>
         <span style={{ color: isDark ? "rgba(255,255,255,0.2)" : "rgba(17,24,28,0.25)", fontSize: 16 }}>•</span>
         <Link
@@ -180,7 +184,7 @@ export function Footer({
             transition: "all 0.2s",
           }}
         >
-          Contact
+          {t.footerContact || "Contact"}
         </Link>
         <span style={{ color: isDark ? "rgba(255,255,255,0.2)" : "rgba(17,24,28,0.25)", fontSize: 16 }}>•</span>
         <Link
@@ -193,7 +197,7 @@ export function Footer({
             transition: "all 0.2s",
           }}
         >
-          Privacy Policy
+          {t.footerPrivacy || t.privacyPolicy || "Privacy Policy"}
         </Link>
         <span style={{ color: isDark ? "rgba(255,255,255,0.2)" : "rgba(17,24,28,0.25)", fontSize: 16 }}>•</span>
         <Link
@@ -206,7 +210,7 @@ export function Footer({
             transition: "all 0.2s",
           }}
         >
-          Terms of Service
+          {t.footerTerms || "Terms of Service"}
         </Link>
       </div>
 
@@ -226,15 +230,15 @@ export function Footer({
         }}
       >
         <Link href="/pickup-line" style={{ color: isDark ? "#E2E8F0" : "#475569", textDecoration: "none" }}>
-          Pickup Lines & Rizz Lines
+          {t.pickupLineTitle}
         </Link>
         <span>•</span>
         <Link href="/looksmaxing" style={{ color: isDark ? "#E2E8F0" : "#475569", textDecoration: "none" }}>
-          Looksmaxing AI Rating
+          {t.looksmaxingTitle}
         </Link>
         <span>•</span>
         <Link href="/couple-games" style={{ color: isDark ? "#E2E8F0" : "#475569", textDecoration: "none" }}>
-          Online Couple Games
+          {t.coupleGamesTitle}
         </Link>
         <span>•</span>
         <Link href="/hot-or-not" style={{ color: isDark ? "#E2E8F0" : "#475569", textDecoration: "none" }}>
@@ -242,7 +246,7 @@ export function Footer({
         </Link>
         <span>•</span>
         <Link href="/lovetest" style={{ color: isDark ? "#E2E8F0" : "#475569", textDecoration: "none" }}>
-          Love Test Calculator
+          {t.loveTestTitle}
         </Link>
       </div>
 
@@ -256,7 +260,7 @@ export function Footer({
           letterSpacing: "-0.01em",
         }}
       >
-        Rizz AI © 2026 · rizzai.space · Free AI Wingman App
+        {t.footerCopyright || "Rizz AI © 2026 · rizzai.space · Free AI Wingman App"}
       </p>
     </footer>
   );

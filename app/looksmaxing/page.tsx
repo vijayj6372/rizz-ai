@@ -22,6 +22,8 @@ import { HeaderTitle } from "@/components/HeaderTitle";
 import { CopiedToast } from "@/components/CopiedToast";
 import { useTheme } from "@/hooks/useTheme";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useLanguage } from "@/context/LanguageContext";
+import { TRANSLATIONS } from "@/data/translations";
 import { AppColors } from "@/constants/theme";
 
 /* ─── Data & Constants ─── */
@@ -580,6 +582,8 @@ function ShareableCard({ photoUri, scores, cardRef, gender }: { photoUri: string
 
 /* ─── Main Looksmaxing Page ─── */
 export default function LooksmaxingPage() {
+  const { language } = useLanguage();
+  const t = TRANSLATIONS[language] || TRANSLATIONS.en;
   const fileInputRef = useRef<HTMLInputElement>(null);
   const selfieCameraRef = useRef<HTMLInputElement>(null);
   const cardRef = useRef<HTMLDivElement | null>(null);

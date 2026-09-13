@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>RIZZ — Your Social Assessment Results</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        .result-container { 
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            text-align: center;
+        }
+
+        .crystal-ball-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 24px;
+        }
+
+        .crystal-ball-glow {
+            position: absolute;
+            inset: -20px;
+            background: radial-gradient(circle, rgba(196, 181, 253, 0.25) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .crystal-ball {
+            width: 90px;
+            height: 90px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .result-title {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: clamp(32px, 6vw, 48px);
+            font-weight: 400;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .result-desc {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            max-width: 580px;
+            margin: 0 auto 36px;
+        }
+
+        .action-plan-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 48px;
+            background: var(--gradient-btn);
+            color: #1a1a1a;
+            border: none;
+            border-radius: var(--radius-full);
+            font-family: inherit;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 30px rgba(196, 181, 253, 0.2);
+            text-decoration: none;
+        }
+
+        .action-plan-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 40px rgba(196, 181, 253, 0.35);
+        }
+
+        .lucky-banner {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-pink);
+            margin-top: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .section-header {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 28px;
+            margin: 64px 0 28px;
+            text-align: center;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .insight-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            transition: border-color 0.3s ease;
+        }
+
+        .insight-card:hover {
+            border-color: var(--border-highlight);
+        }
+
+        .insight-emoji {
+            font-size: 28px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .insight-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-white);
+        }
+
+        .insight-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .lock-card {
+            grid-column: span 2;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1.5px dashed var(--border-card);
+            cursor: pointer;
+            padding: 32px 24px;
+            transition: all 0.3s ease;
+        }
+
+        .lock-card:hover {
+            border-color: var(--accent);
+            background: rgba(196, 181, 253, 0.02);
+        }
+
+        .lock-icon {
+            font-size: 24px;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .lock-text {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .lock-subtext {
+            font-size: 11px;
+            color: var(--text-dim);
+            margin-top: 4px;
+        }
+
+        .superpower-card {
+            background: var(--bg-card);
+            border: 1.5px solid rgba(16, 185, 129, 0.2);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            text-align: left;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .superpower-card:hover {
+            border-color: rgba(16, 185, 129, 0.4);
+            background: rgba(16, 185, 129, 0.02);
+        }
+
+        .superpower-badge {
+            font-size: 11px;
+            font-weight: 700;
+            color: #10b981;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .superpower-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .superpower-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .growth-card {
+            background: var(--bg-card);
+            border: 1.5px solid rgba(239, 68, 68, 0.15);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            text-align: left;
+            margin-bottom: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .growth-card:hover {
+            border-color: rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.02);
+        }
+
+        .growth-badge {
+            font-size: 11px;
+            font-weight: 700;
+            color: #ef4444;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .growth-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .growth-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .unlock-overlay-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-full);
+            padding: 10px 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent);
+            cursor: pointer;
+            margin-top: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .unlock-overlay-btn:hover {
+            background: rgba(196, 181, 253, 0.1);
+            border-color: var(--border-highlight);
+        }
+
+        .plan-includes-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 48px;
+            text-align: left;
+        }
+
+        .plan-include-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .plan-include-emoji {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .plan-include-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .plan-include-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .unlock-mini-btn {
+            padding: 6px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-full);
+            color: var(--accent-light);
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .plan-include-card:hover .unlock-mini-btn {
+            background: var(--gradient-btn);
+            color: #1a1a1a;
+            border-color: transparent;
+        }
+
+        .saved-banner {
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            max-width: 320px;
+            margin: 40px auto 0;
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        @media (max-width: 768px) {
+            .insights-grid, .plan-includes-grid {
+                grid-template-columns: 1fr;
+            }
+            .lock-card {
+                grid-column: span 1;
+            }
+            .superpower-card, .growth-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Celebration Modal -->
+    <div class="modal-overlay" id="celebrationModal">
+        <div class="modal-box" style="text-align: center;">
+            <div style="font-size: 56px; margin-bottom: 16px; animation: float 3s ease-in-out infinite;">🎉</div>
+            <h3 class="modal-title" style="font-size: 24px; margin-bottom: 12px; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Lucky Winner!</h3>
+            <p class="modal-desc" style="font-size: 15px; color: var(--text-light); line-height: 1.6; margin-bottom: 24px;">
+                ✨ You are lucky! You get unlimited free premium $ 100 worth of paid features for free✨
+            </p>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-primary" onclick="closeCelebration()">Let's Go! 🚀</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="result-container animate-fade-in-up">
+        
+        <!-- Header / Crystal Ball -->
+        <div class="crystal-ball-wrapper">
+            <div class="crystal-ball-glow"></div>
+            <div class="crystal-ball">🔮</div>
+        </div>
+
+        <h1 class="result-title">
+            You're <span class="accent-text" id="personalityTitle">The Thoughtful Observer</span>
+        </h1>
+
+        <p class="result-desc" id="personalityDesc">
+            You process deeply before speaking, which is actually a superpower. You notice things others miss. Your growth edge is translating those observations into confident action.
+        </p>
+
+        <button class="action-plan-btn" onclick="unlockActionPlan()">
+            See Your AI-Powered Action Plan →
+        </button>
+        
+        <div class="lucky-banner">
+            ✨ You are lucky! You get unlimited free premium paid features ✨
+        </div>
+
+        <!-- What We Learned Section -->
+        <h2 class="section-header">What We Learned About You</h2>
+        
+        <div class="insights-grid">
+            <div class="insight-card">
+                <span class="insight-emoji" id="insightEmoji1">🔋</span>
+                <h3 class="insight-title" id="insightTitle1">Energy-Conscious Socializer</h3>
+                <p class="insight-desc" id="insightDesc1">You're an introvert who recharges alone. We'll teach you high-impact techniques that don't drain your battery.</p>
+            </div>
+            
+            <div class="insight-card">
+                <span class="insight-emoji" id="insightEmoji2">👥</span>
+                <h3 class="insight-title" id="insightTitle2">Deep Diver</h3>
+                <p class="insight-desc" id="insightDesc2">You excel in intimate conversations. We'll help you bring that same depth to group settings.</p>
+            </div>
+
+            <!-- Lock Card -->
+            <div class="lock-card insight-card" id="lockCard" onclick="revealInsights()">
+                <div class="lock-icon">🔒</div>
+                <div class="lock-text">+2 more insights</div>
+                <div class="lock-subtext">Tap to unlock for free</div>
+            </div>
+        </div>
+
+        <!-- Superpower Card -->
+        <div class="superpower-card">
+            <span style="font-size: 40px;">💖</span>
+            <div>
+                <div class="superpower-badge">YOUR SUPERPOWER</div>
+                <h3 class="superpower-title" id="superpowerTitle">Emotional Intelligence</h3>
+                <p class="superpower-desc" id="superpowerDesc">You sense what others feel. Use this to validate emotions before offering solutions or changing topics.</p>
+            </div>
+        </div>
+
+        <!-- Growth Edge Card -->
+        <div class="growth-card">
+            <span style="font-size: 40px; filter: grayscale(1) sepia(1) hue-rotate(15deg) saturate(3);">💪</span>
+            <div>
+                <div class="growth-badge">YOUR GROWTH EDGE</div>
+                <h3 class="growth-title" id="growthTitle">Building Resilience</h3>
+                <p class="growth-desc" id="growthDesc">Collect 'No's as badges of courage. Each rejection is proof you're putting yourself out there and mastering social confidence.</p>
+                <button class="unlock-overlay-btn" onclick="unlockActionPlan()">
+                    🔓 Unlock personalized growth plan
+                </button>
+            </div>
+        </div>
+
+        <!-- Plan Includes Section -->
+        <h2 class="section-header">Your Personalized Plan Includes</h2>
+
+        <div class="plan-includes-grid">
+            <div class="plan-include-card">
+                <span class="plan-include-emoji">📱</span>
+                <h3 class="plan-include-title">AI Reply Suggestions</h3>
+                <p class="plan-include-desc">Get 3 clever responses for any message, instantly.</p>
+                <button class="unlock-mini-btn" onclick="unlockActionPlan()">UNLOCK FREE</button>
+            </div>
+            
+            <div class="plan-include-card">
+                <span class="plan-include-emoji">🎯</span>
+                <h3 class="plan-include-title">Daily Exercises</h3>
+                <p class="plan-include-desc">5-minute drills tailored to your profile type.</p>
+                <button class="unlock-mini-btn" onclick="unlockActionPlan()">UNLOCK FREE</button>
+            </div>
+            
+            <div class="plan-include-card">
+                <span class="plan-include-emoji">💬</span>
+                <h3 class="plan-include-title">Conversation Starters</h3>
+                <p class="plan-include-desc">Never run out of things to say again.</p>
+                <button class="unlock-mini-btn" onclick="unlockActionPlan()">UNLOCK FREE</button>
+            </div>
+            
+            <div class="plan-include-card">
+                <span class="plan-include-emoji">📊</span>
+                <h3 class="plan-include-title">Progress Tracking</h3>
+                <p class="plan-include-desc">Watch your confidence score rise over time.</p>
+                <button class="unlock-mini-btn" onclick="unlockActionPlan()">UNLOCK FREE</button>
+            </div>
+        </div>
+
+        <!-- Footer CTA -->
+        <button class="action-plan-btn" onclick="unlockActionPlan()">
+            See Your AI-Powered Action Plan →
+        </button>
+
+        <div class="lucky-banner" style="margin-bottom: 20px;">
+            ✨ You are lucky! You get unlimited free premium paid features ✨
+        </div>
+
+        <div class="saved-banner">
+            🔒 Your personalized results are saved
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        const personalities = [
+            {
+                title: "The Thoughtful Observer",
+                desc: "You process deeply before speaking, which is actually a superpower. You notice details others completely miss. Your growth edge is translating those sharp observations into confident action.",
+                superpowerTitle: "Emotional Intelligence",
+                superpowerDesc: "You sense what others feel. Use this to validate emotions before offering solutions or changing topics.",
+                growthTitle: "Building Resilience",
+                growthDesc: "Collect 'No's as badges of courage. Each rejection is proof you're putting yourself out there and mastering social confidence.",
+                insight1: { emoji: "🔋", title: "Energy-Conscious Socializer", desc: "You recharge alone. We will teach you high-impact conversation techniques that don't drain your social battery." },
+                insight2: { emoji: "👥", title: "Deep Diver", desc: "You excel in intimate one-on-one settings. We will help you bring that same depth into group environments." }
+            },
+            {
+                title: "The Charismatic Connector",
+                desc: "You bring positive energy to every group you enter. You excel at keeping conversations alive and engaging. Your growth edge is learning to listen with depth rather than just responding with wit.",
+                superpowerTitle: "Social Alignment",
+                superpowerDesc: "You match the vibe of the room effortlessly. Use this to make people feel safe, respected, and heard.",
+                growthTitle: "Active Listening",
+                growthDesc: "Slow down the pace. Letting silences hang briefly creates a comfortable space for deeper connection.",
+                insight1: { emoji: "⚡", title: "High-Energy Initiator", desc: "You thrive on group interactions. We will help you optimize your energy for meaningful interactions." },
+                insight2: { emoji: "🌟", title: "Magnet Personality", desc: "People naturally gravitate to you. Learn how to convert simple magnetism into lasting relationships." }
+            },
+            {
+                title: "The Witty Conversationalist",
+                desc: "Your mind works at lightning speed, allowing you to break the ice with sharp humor and creative banter. Your growth edge is showing vulnerability to build trust.",
+                superpowerTitle: "Creative Spark",
+                superpowerDesc: "You see humorous connections instantly. Use this to defuse awkwardness and put others at ease.",
+                growthTitle: "Expressing Authenticity",
+                growthDesc: "Vulnerability is charisma. Sharing real, unpolished parts of yourself makes you immediately relatable.",
+                insight1: { emoji: "🧠", title: "Mental Agility", desc: "You think fast on your feet. Learn to align your verbal responses with emotional depth." },
+                insight2: { emoji: "😂", title: "Icebreaker Master", desc: "You lead with humor. Discover when to switch from comedy to sincere conversation." }
+            },
+            {
+                title: "The Bold Initiator",
+                desc: "You are not afraid of making the first move. You lead with confidence and direction. Your growth edge is ensuring your directness doesn't overshadow the quiet voices in the room.",
+                superpowerTitle: "Unshakable Direction",
+                superpowerDesc: "You guide the path of interactions clearly. Use this to step in and support shy peers in groups.",
+                growthTitle: "Conversational Balance",
+                growthDesc: "Ask open questions and pass the mic. True confidence lies in building up those around you.",
+                insight1: { emoji: "🔥", title: "Action-Oriented Leader", desc: "You create opportunities instead of waiting. Let's direct that drive to target your perfect matches." },
+                insight2: { emoji: "🛡️", title: "Confidence Engine", desc: "You face social challenges head-on. Let's structure your approach to yield optimal results." }
+            }
+        ];
+
+        function initResults() {
+            // Select a personality profile based on their answers, or fallback to a random one
+            let index = 0;
+            try {
+                // Determine profile based on style choices if available
+                const ans = state.quizAnswers;
+                if (ans) {
+                    if (ans[2] === 0) index = 1; // Charismatic Connector
+                    else if (ans[2] === 3) index = 2; // Witty Conversationalist
+                    else if (ans[0] === 4) index = 3; // Bold Initiator
+                }
+            } catch (e) {}
+
+            // Select profile
+            const profile = personalities[index] || personalities[0];
+
+            // Render
+            document.getElementById('personalityTitle').textContent = profile.title;
+            document.getElementById('personalityDesc').textContent = profile.desc;
+            document.getElementById('superpowerTitle').textContent = profile.superpowerTitle;
+            document.getElementById('superpowerDesc').textContent = profile.superpowerDesc;
+            document.getElementById('growthTitle').textContent = profile.growthTitle;
+            document.getElementById('growthDesc').textContent = profile.growthDesc;
+            document.getElementById('insightEmoji1').textContent = profile.insight1.emoji;
+            document.getElementById('insightTitle1').textContent = profile.insight1.title;
+            document.getElementById('insightDesc1').textContent = profile.insight1.desc;
+            document.getElementById('insightEmoji2').textContent = profile.insight2.emoji;
+            document.getElementById('insightTitle2').textContent = profile.insight2.title;
+            document.getElementById('insightDesc2').textContent = profile.insight2.desc;
+        }
+
+        function revealInsights() {
+            const lockCard = document.getElementById('lockCard');
+            lockCard.innerHTML = `
+                <span class="insight-emoji">📈</span>
+                <h3 class="insight-title">Rapid Growth Curve</h3>
+                <p class="insight-desc">You are highly adaptive. Your rate of confidence growth is currently projected in the top 5% of users.</p>
+            `;
+            lockCard.classList.remove('lock-card');
+            lockCard.removeAttribute('onclick');
+            
+            // Add a fourth dynamic card
+            const grid = document.querySelector('.insights-grid');
+            const card = document.createElement('div');
+            card.className = 'insight-card animate-fade-in-up';
+            card.innerHTML = `
+                <span class="insight-emoji">🎯</span>
+                <h3 class="insight-title">Context Optimization</h3>
+                <p class="insight-desc">You perform exceptionally well in digital (text-based) interactions. Let's capitalize on this strength.</p>
+            `;
+            grid.appendChild(card);
+            showToast("Dynamic insights unlocked successfully! 🔓");
+        }
+
+        function unlockActionPlan() {
+            showToast("Premium features unlocked successfully! Redirecting... 🚀");
+            setTimeout(() => {
+                window.location.href = 'app.html';
+            }, 1000);
+        }
+
+        function closeCelebration() {
+            closeModal('celebrationModal');
+        }
+
+        function checkCelebration() {
+            if (localStorage.getItem('show_celebration') === 'true' || window.location.search.includes('celebrate=true')) {
+                localStorage.removeItem('show_celebration');
+                setTimeout(() => {
+                    openModal('celebrationModal');
+                    startConfetti();
+                }, 300);
+            }
+        }
+
+        function startConfetti() {
+            const canvas = document.createElement('canvas');
+            canvas.id = 'confettiCanvas';
+            canvas.style.position = 'fixed';
+            canvas.style.inset = '0';
+            canvas.style.width = '100vw';
+            canvas.style.height = '100vh';
+            canvas.style.pointerEvents = 'none';
+            canvas.style.zIndex = '9999';
+            document.body.appendChild(canvas);
+
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            const onResize = () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            };
+            window.addEventListener('resize', onResize);
+
+            const colors = ['#c4b5fd', '#e8b4f8', '#ddd6fe', '#a78bfa', '#ffb3ba', '#baffc9', '#bae1ff'];
+            const confettiCount = 150;
+            const pieces = [];
+
+            class ConfettiPiece {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * -height - 20;
+                    this.size = Math.random() * 8 + 6;
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.speed = Math.random() * 3 + 4;
+                    this.rotation = Math.random() * 360;
+                    this.rotationSpeed = Math.random() * 4 - 2;
+                    this.oscillationSpeed = Math.random() * 0.03 + 0.01;
+                    this.oscillationDistance = Math.random() * 30 + 10;
+                    this.oscillationOffset = Math.random() * 100;
+                }
+
+                update() {
+                    this.y += this.speed;
+                    this.rotation += this.rotationSpeed;
+                    this.x += Math.sin(this.oscillationOffset) * 0.5;
+                    this.oscillationOffset += this.oscillationSpeed;
+
+                    if (this.y > height) {
+                        this.y = -20;
+                        this.x = Math.random() * width;
+                    }
+                }
+
+                draw() {
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.rotation * Math.PI / 180);
+                    ctx.fillStyle = this.color;
+                    ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                    ctx.restore();
+                }
+            }
+
+            for (let i = 0; i < confettiCount; i++) {
+                pieces.push(new ConfettiPiece());
+            }
+
+            let animationId;
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                pieces.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                animationId = requestAnimationFrame(animate);
+            }
+
+            animate();
+
+            // Stop after 6 seconds
+            setTimeout(() => {
+                cancelAnimationFrame(animationId);
+                window.removeEventListener('resize', onResize);
+                canvas.remove();
+            }, 6000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initResults();
+            checkCelebration();
+        });
+    </script>
+</body>
+</html>

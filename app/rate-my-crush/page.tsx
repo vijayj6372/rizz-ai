@@ -5,6 +5,8 @@ import { Heart, RefreshCw, Copy, Sparkles, MessageSquare, Download, Share2, Aler
 import { PageLayout } from "@/components/PageLayout";
 import { CopiedToast } from "@/components/CopiedToast";
 import { HeaderTitle } from "@/components/HeaderTitle";
+import { useLanguage } from "@/context/LanguageContext";
+import { TRANSLATIONS } from "@/data/translations";
 import { CRUSH_COMMENTS } from "@/data/crushAnalysisData";
 
 function getRandomItem<T>(arr: T[]): T {
@@ -36,6 +38,8 @@ const LOADING_PHRASES = [
 ];
 
 export default function RateMyCrushPage() {
+  const { language } = useLanguage();
+  const t = TRANSLATIONS[language] || TRANSLATIONS.en;
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -363,12 +367,12 @@ export default function RateMyCrushPage() {
               }}
             >
               <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                <label style={{ fontSize: 10, fontWeight: 900, color: "rgba(255,255,255,0.5)", letterSpacing: 0.5 }}>YOUR NAME</label>
+                <label style={{ fontSize: 10, fontWeight: 900, color: "rgba(255,255,255,0.5)", letterSpacing: 0.5 }}>{t.yourNameLabel.toUpperCase()}</label>
                 <input
                   type="text"
                   value={yourName}
                   onChange={(e) => setYourName(e.target.value)}
-                  placeholder="Your name"
+                  placeholder={t.yourNameLabel}
                   style={{
                     width: "100%",
                     backgroundColor: "rgba(0,0,0,0.4)",
@@ -382,12 +386,12 @@ export default function RateMyCrushPage() {
                 />
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                <label style={{ fontSize: 10, fontWeight: 900, color: "rgba(255,255,255,0.5)", letterSpacing: 0.5 }}>CRUSH&apos;S NAME</label>
+                <label style={{ fontSize: 10, fontWeight: 900, color: "rgba(255,255,255,0.5)", letterSpacing: 0.5 }}>{t.crushNameLabel.toUpperCase()}</label>
                 <input
                   type="text"
                   value={crushName}
                   onChange={(e) => setCrushName(e.target.value)}
-                  placeholder="Crush's name"
+                  placeholder={t.crushNameLabel}
                   style={{
                     width: "100%",
                     backgroundColor: "rgba(0,0,0,0.4)",

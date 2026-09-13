@@ -7,25 +7,30 @@ import { HeaderTitle } from "@/components/HeaderTitle";
 import { BottomNav } from "@/components/BottomNav";
 import { Footer } from "@/components/Footer";
 import { Heart, Sparkles, ShieldCheck, Flame, Users, Zap } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import { TRANSLATIONS } from "@/data/translations";
 
 export default function AboutPage() {
+  const { language } = useLanguage();
+  const t = TRANSLATIONS[language] || TRANSLATIONS.en;
+
   return (
     <PageLayout
       showBack={true}
       backHref="/"
       variant="dark"
-      header={<HeaderTitle title="About Rizz AI ❤️" />}
+      header={<HeaderTitle title={t.aboutTitle || "About Rizz AI ❤️"} />}
     >
       <div className="w-full max-w-2xl mx-auto space-y-8 pb-12 text-slate-200 font-sans">
         {/* Hero Section */}
         <section className="text-center space-y-3 pt-2">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs font-extrabold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5 text-rose-400" />
-            <span>AI Love & Relationship Platform</span>
+            <span>{t.aboutSubtitle || "AI Love & Relationship Platform"}</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            About Rizz AI
+            {t.aboutTitle || "About Rizz AI"}
           </h1>
 
           <p className="text-sm sm:text-base text-slate-300 max-w-lg mx-auto leading-relaxed">
@@ -78,7 +83,7 @@ export default function AboutPage() {
 
         {/* Mission Statement */}
         <section className="bg-gradient-to-r from-rose-950/40 via-purple-950/40 to-slate-900/80 border border-rose-500/20 rounded-3xl p-6 sm:p-8 space-y-3 text-center">
-          <h2 className="text-xl font-bold text-white">Our Mission</h2>
+          <h2 className="text-xl font-bold text-white">{t.aboutMission || "Our Mission"}</h2>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-md mx-auto">
             To bring playfulness, deep conversation, and joyful AI entertainment into every date night and relationship experience.
           </p>

@@ -6,6 +6,8 @@ import { PageLayout } from "@/components/PageLayout";
 import { HeaderTitle } from "@/components/HeaderTitle";
 import { CopiedToast } from "@/components/CopiedToast";
 import { useTheme } from "@/hooks/useTheme";
+import { useLanguage } from "@/context/LanguageContext";
+import { TRANSLATIONS } from "@/data/translations";
 import { flirtyLines, poeticLines, boldSexyLines } from "@/data/pickupLines";
 
 function ChiliSlider({ value, onChange }: { value: number; onChange: (v: number) => void }) {
@@ -70,6 +72,8 @@ function ChiliSlider({ value, onChange }: { value: number; onChange: (v: number)
 
 export default function UploadScreenshotPage() {
   const { theme, isDark } = useTheme();
+  const { language } = useLanguage();
+  const t = TRANSLATIONS[language] || TRANSLATIONS.en;
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [lines, setLines] = useState<string[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -180,7 +184,7 @@ export default function UploadScreenshotPage() {
         .imessage-container {
           display: flex;
           flex-direction: column;
-          align-items: flex-end;
+          alignItems: flex-end;
           justify-content: center;
           gap: 12px;
           margin: 0 auto;
@@ -240,10 +244,10 @@ export default function UploadScreenshotPage() {
 
       <section style={{ width: "100%", maxWidth: 520, margin: "0 auto", padding: "8px 16px 0", textAlign: "center" }}>
         <h1 style={{ margin: 0, color: isDark ? "#FFFFFF" : "#1F2937", fontSize: 28, fontWeight: 900 }}>
-          AI Screenshot Rizz Reply Assistant
+          {t.uploadScreenshotHeader}
         </h1>
         <p style={{ margin: "8px auto 0", maxWidth: 460, color: isDark ? "rgba(255,255,255,0.7)" : "#64748B", fontSize: 14, lineHeight: 1.5 }}>
-          Upload a dating chat screenshot to get ideas for smooth, funny, and confident replies for Tinder, Hinge, Bumble, or Instagram.
+          {t.uploadScreenshotSub}
         </p>
       </section>
 
@@ -289,7 +293,7 @@ export default function UploadScreenshotPage() {
             }}
           >
             <RefreshCw size={36} color="#F86B6D" style={{ animation: "spin 1s linear infinite" }} />
-            <span style={{ color: "#fff", fontWeight: 700, fontSize: 16 }}>Analyzing screenshot...</span>
+            <span style={{ color: "#fff", fontWeight: 700, fontSize: 16 }}>{t.analyzingScreenshot}</span>
           </div>
         </div>
       )}
@@ -347,7 +351,7 @@ export default function UploadScreenshotPage() {
                     textAlign: "center",
                   }}
                 >
-                  Upload a conversation screenshot
+                  {t.uploadZoneTitle}
                 </p>
                 <p
                   style={{
@@ -358,7 +362,7 @@ export default function UploadScreenshotPage() {
                     textAlign: "center",
                   }}
                 >
-                  JPG, PNG, HEIC — any chat screenshot
+                  {t.uploadZoneSub}
                 </p>
               </div>
             </div>
@@ -378,7 +382,7 @@ export default function UploadScreenshotPage() {
                 }}
               >
                 <span>💡</span>
-                <span>Tap or press any line to copy</span>
+                <span>{t.tapToCopy}</span>
               </div>
 
               {/* Chilly Slider */}
@@ -414,7 +418,7 @@ export default function UploadScreenshotPage() {
                 }}
                 id="generate-rizz-btn"
               >
-                generate rizz lines
+                {t.generateLinesBtn}
               </button>
             </div>
           </div>
@@ -425,9 +429,9 @@ export default function UploadScreenshotPage() {
             {/* Left Column: Stats/Controls */}
             <div className="w-full md:w-[320px] order-last md:order-first flex-shrink-0 flex flex-col gap-4 bg-white/40 dark:bg-white/[0.04] p-5 rounded-[24px] border border-black/[0.04] dark:border-white/[0.05] items-center">
               <div style={{ fontSize: 44 }}>💬</div>
-              <h3 style={{ fontSize: 18, fontWeight: 900, color: "var(--text)", margin: 0, textAlign: "center" }}>Screenshot Analyzed!</h3>
+              <h3 style={{ fontSize: 18, fontWeight: 900, color: "var(--text)", margin: 0, textAlign: "center" }}>{t.screenshotAnalyzed}</h3>
               <p style={{ fontSize: 13, color: "var(--text-muted)", margin: 0, textAlign: "center", lineHeight: 1.4 }}>
-                We&apos;ve scanned the conversation. Adjust the spice levels below to match your vibe.
+                {t.screenshotAnalyzedSub}
               </p>
 
               {/* Chilly Slider */}
@@ -463,7 +467,7 @@ export default function UploadScreenshotPage() {
                 }}
                 id="gimme-another-btn"
               >
-                gimme another
+                {t.gimmeAnother}
               </button>
             </div>
 
@@ -500,7 +504,7 @@ export default function UploadScreenshotPage() {
                 }}
               >
                 <span>💡</span>
-                <span>Tap or press any line to copy</span>
+                <span>{t.tapToCopy}</span>
               </div>
             </div>
 

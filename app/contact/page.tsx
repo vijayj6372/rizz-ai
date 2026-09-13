@@ -7,11 +7,15 @@ import { HeaderTitle } from "@/components/HeaderTitle";
 import { BottomNav } from "@/components/BottomNav";
 import { Footer } from "@/components/Footer";
 import { Mail, MessageSquare, Send, CheckCircle2 } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import { TRANSLATIONS } from "@/data/translations";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const { language } = useLanguage();
+  const t = TRANSLATIONS[language] || TRANSLATIONS.en;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,15 +28,15 @@ export default function ContactPage() {
       showBack={true}
       backHref="/"
       variant="dark"
-      header={<HeaderTitle title="Contact Us ✉️" />}
+      header={<HeaderTitle title={t.contactTitle || "Contact Us ✉️"} />}
     >
       <div className="w-full max-w-xl mx-auto space-y-6 pb-12 text-slate-200 font-sans">
         <section className="text-center space-y-2 pt-2">
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-            Get in Touch
+            {t.contactTitle || "Get in Touch"}
           </h1>
           <p className="text-xs sm:text-sm text-slate-400 max-w-sm mx-auto">
-            Have questions, feedback, or feature requests for Rizz AI? We&apos;d love to hear from you!
+            {t.contactSub || "Have questions, feedback, or feature requests for Rizz AI? We'd love to hear from you!"}
           </p>
         </section>
 

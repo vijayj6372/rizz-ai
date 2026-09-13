@@ -7,14 +7,19 @@ import { HeaderTitle } from "@/components/HeaderTitle";
 import { BottomNav } from "@/components/BottomNav";
 import { Footer } from "@/components/Footer";
 import { FileText, Sparkles, AlertCircle } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import { TRANSLATIONS } from "@/data/translations";
 
 export default function TermsPage() {
+  const { language } = useLanguage();
+  const t = TRANSLATIONS[language] || TRANSLATIONS.en;
+
   return (
     <PageLayout
       showBack={true}
       backHref="/"
       variant="dark"
-      header={<HeaderTitle title="Terms of Service 📜" />}
+      header={<HeaderTitle title={t.termsTitle || "Terms of Service 📜"} />}
     >
       <div className="w-full max-w-2xl mx-auto space-y-6 pb-12 text-slate-300 font-sans text-sm leading-relaxed">
         <section className="text-center space-y-2 pt-2">
@@ -22,7 +27,7 @@ export default function TermsPage() {
             <FileText size={28} />
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-            Terms of Service
+            {t.termsTitle || "Terms of Service"}
           </h1>
           <p className="text-xs text-slate-400">Last updated: July 2025</p>
         </section>

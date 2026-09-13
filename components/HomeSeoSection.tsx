@@ -14,12 +14,22 @@ import {
   Star,
   Compass,
   Heart,
+  Tag,
 } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface FAQItem {
   q: string;
   a: string;
 }
+
+export const SPANISH_SEO_KEYWORDS = [
+  "asistente de ligue con IA", "asistente de citas con IA", "asistente de seducción con IA", "IA para ligar", "IA para citas", "IA para coquetear", "app de rizz", "aplicación de rizz", "rizz IA", "generador de rizz", "rizz en español", "rizz español", "frases de rizz", "frases de ligue", "frases para ligar", "frases de ligue graciosas", "frases para ligar por Tinder", "frases para ligar por WhatsApp", "frases para ligar por Instagram", "frases para romper el hielo", "frases para iniciar una conversación", "frases de apertura", "frases para conquistar", "frases coquetas", "frases de coqueteo", "frases románticas", "frases atrevidas", "frases graciosas para ligar", "frases para conquistar a una chica", "frases para conquistar a un chico", "generador de frases para ligar", "generador de frases de ligue", "generador de frases de apertura", "generador de mensajes para ligar", "generador de mensajes de Tinder", "generador de respuestas para ligar", "generador de rizz IA", "generador de rizz en español", "primer mensaje Tinder", "primer mensaje después de un match", "qué escribir después de un match", "qué decirle a mi match", "qué responder a un match", "qué responder a una chica", "qué responder a un chico", "qué responder a mi crush", "qué escribirle a mi crush", "cómo iniciar una conversación en Tinder", "cómo ligar en Tinder", "cómo ligar por chat", "cómo coquetear por chat", "consejos para ligar", "consejos de seducción", "consejos de citas", "coach de ligue con IA", "coach de seducción con IA", "coach de citas con IA", "IA para Tinder", "Tinder IA", "Bumble IA", "Hinge IA", "asistente de Tinder", "respuestas para Tinder", "respuestas coquetas", "respuestas graciosas", "respuestas ingeniosas", "respuestas para ligar", "cumplidos para ligar", "cumplidos para una chica", "cumplidos para un chico", "cómo tener rizz", "tener más rizz", "qué es el rizz", "Rizzler", "app para ligar", "app de ligue", "app de citas con IA"
+];
+
+export const JAPANESE_SEO_KEYWORDS = [
+  "AIナンパアシスタント", "AI恋愛アシスタント", "AI恋愛相談", "AI恋愛コーチ", "AIマッチングアシスタント", "AIでモテる", "AIで恋愛", "AIでナンパ", "AIで口説く", "AIデートアシスタント", "AIマッチングアプリ", "Rizzアプリ", "Rizz AI", "Rizzジェネレーター", "Rizz生成AI", "日本語Rizz", "Rizz 日本語", "Rizzフレーズ", "モテるセリフ", "モテる言葉", "口説き文句", "口説き文句メーカー", "口説き文句生成AI", "ナンパのセリフ", "ナンパフレーズ", "ナンパフレーズメーカー", "ナンパの言葉", "恋愛フレーズ", "恋愛セリフ", "恋愛メッセージ", "恋愛メッセージ生成AI", "恋愛LINE", "モテるLINE", "モテるLINE術", "LINEで口説く", "LINEでの口説き方", "好きな人へのLINE", "好きな人に送るメッセージ", "気になる人へのメッセージ", "初デート メッセージ", "マッチングアプリ メッセージ", "マッチングアプリ 会話", "マッチングアプリ 返信", "マッチングアプリ 最初のメッセージ", "マッチングアプリ 何を話す", "マッチングアプリ 何を送る", "マッチ後のメッセージ", "マッチ後 何を送る", "マッチした後 何を話す", "マッチングアプリ 返信例", "Tinder メッセージ", "Tinder 最初のメッセージ", "Tinder マッチ後", "Tinder 会話", "Tinder 返信", "Tinder 口説き方", "Bumble メッセージ", "Bumble 最初のメッセージ", "Hinge メッセージ", "恋愛相談 AI", "恋愛アドバイス AI", "恋愛コーチ AI", "モテる方法", "モテるための方法", "モテる会話", "モテる会話術", "会話のきっかけ", "会話のネタ", "会話を続ける方法", "会話の始め方", "初対面 会話", "好きな人との会話", "好きな人とLINE", "好きな人 返信", "何て返せばいい", "なんて返信すればいい", "LINE 何て返す", "好きな人 何て送る", "恋愛 返信例", "脈あり LINE", "褒め言葉", "女性を褒める言葉", "男性を褒める言葉", "面白いメッセージ", "面白い返し", "気の利いた返し", "口説き方", "女性の口説き方", "男性の口説き方", "恋愛テクニック", "モテテク", "恋愛テクニック AI", "Rizzler", "Rizzとは", "Rizz 日本語 ジェネレーター"
+];
 
 const FAQS: FAQItem[] = [
   {
@@ -89,6 +99,7 @@ const SEO_HIGHLIGHTS = [
 
 export function HomeSeoSection() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const { language } = useLanguage();
 
   const toggleFaq = (idx: number) => {
     setOpenFaq(openFaq === idx ? null : idx);

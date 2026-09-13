@@ -753,11 +753,232 @@ export const boldSexyLines = [
   "Are you ready? Because I'm about to make your night.",
 ];
 
-export function getRandomPickupLines(): string[] {
-  // Get one random line from EACH category
+// Multi-language support collections
+export const localizedPickupLines: Record<string, { flirty: string[]; poetic: string[]; boldSexy: string[] }> = {
+  zh: {
+    flirty: [
+      "你是魔术师吗？因为每当我看着你，其他人就都消失了。",
+      "你有地图吗？我在你的眼神里迷路了。",
+      "你是不是自带Wi-Fi？因为我和你很有感应。",
+      "你累不累啊？因为你在我脑海里跑了一整天！",
+      "你是谷歌吗？因为你身上有我正在寻找的一切。",
+      "我相信缘分，因为遇见你是我今天最大的惊喜。",
+    ],
+    poetic: [
+      "如果美是一秒钟，你就是我的永恒。",
+      "你是我平淡岁月里唯一的浪漫与星光。",
+      "手握玫瑰的人，怎能不被你的温柔惊艳。",
+      "世间万物皆甜，但都比不上你笑起来的瞬间。",
+      "你是我写过最美的诗，也是我做过最甜的梦。",
+    ],
+    boldSexy: [
+      "今晚你的床大吗？不大也没关系，我不占地方。",
+      "我不是地理学家，但我很想探索你的每一个角落。",
+      "你今晚很辣，要不要和我去喝一杯？",
+      "这里很热吗？还是因为你太迷人了？",
+      "我不是摄影师，但我已经能想象我们今晚的合影了。",
+    ],
+  },
+  ja: {
+    flirty: [
+      "魔法使いですか？あなたを見ていると、周りの人が消えてしまいます。",
+      "Wi-Fiですか？強力な接続を感じています。",
+      "地図を持っていますか？あなたの瞳の中で迷子になってしまいました。",
+      "Googleですか？私がを探していたすべてがあなたの中にあります。",
+      "一目惚れを信じますか？それとももう一度目の前を通った方がいいですか？",
+    ],
+    poetic: [
+      "美しさが時間なら、あなたは永遠です。",
+      "あなたと過ごす時間は、私の一番好きな季節です。",
+      "夜空の星よりも、あなたの笑顔が私を照らしてくれます。",
+      "世界中のどの花よりも、あなたは美しく咲いています。",
+      "あなたの声は、私の心に響く一番美しいメロディです。",
+    ],
+    boldSexy: [
+      "今夜、あなたの夢に登場してもいいですか？",
+      "私の心が盗まれました。容疑者はあなたです。",
+      "今夜は帰したくないな、一緒にいよう？",
+      "ここ、暑くないですか？それともあなたが熱いだけ？",
+      "写真家ではないけれど、今夜の二人の未来が見えます。",
+    ],
+  },
+  pt: {
+    flirty: [
+      "Você tem um mapa? Fiquei perdido no brilho dos seus olhos.",
+      "Você é Wi-Fi? Porque estou sentindo uma conexão forte.",
+      "Seu pai é padeiro? Porque você é um sonho!",
+      "Seu nome é Google? Porque você tem tudo o que eu procuro.",
+      "Você acredita em amor à primeira vista ou tenho que passar aqui de novo?",
+    ],
+    poetic: [
+      "Se a beleza fosse tempo, você seria a eternidade.",
+      "Você é como o pôr do sol: impossível de olhar sem se apaixonar.",
+      "Sua luz ilumina até os meus dias mais escuros.",
+      "Você é a poesia mais bonita que o universo já escreveu.",
+      "Se beijos fossem estrelas, eu te daria a galáxia inteira.",
+    ],
+    boldSexy: [
+      "Seu vestido ficaria lindo no chão do meu quarto.",
+      "Eu não sou astrônomo, mas vejo um futuro lindo entre nós dois hoje à noite.",
+      "Você é muito quente, precisa de um ar-condicionado ou de mim?",
+      "Está quente aqui ou é só a sua presença?",
+      "Não sou fotógrafo, mas consigo nos imaginar juntos hoje à noite.",
+    ],
+  },
+  it: {
+    flirty: [
+      "Hai una mappa? Continuo a perdermi nei tuoi occhi.",
+      "Sei il Wi-Fi? Perché sento una connessione fortissima.",
+      "Credi nell'amore a prima vista o devo ripassare?",
+      "Il tuo nome è Google? Perché hai tutto quello che stavo cercando.",
+      "Sei un mago? Perché quando ti guardo, tutti gli altri scompaiono.",
+    ],
+    poetic: [
+      "Se la bellezza fosse il tempo, tu saresti l'eternità.",
+      "Sei la melodia più bella che il mio cuore abbia mai ascoltato.",
+      "Tra tutte le stelle nel cielo, tu sei quella che brilla di più.",
+      "Il tuo sorriso potrebbe illuminare anche la notte più buia.",
+      "Se i baci fossero fiocchi di neve, ti manderei una tempesta.",
+    ],
+    boldSexy: [
+      "Sei un incendio, perché sei davvero bollente stasera.",
+      "Non sono un fotografo, ma ci vedo benissimo insieme al buio.",
+      "Fa caldo qui o sei solo tu?",
+      "Ho persino dimenticato il mio nome da quanto sei bella.",
+      "Facciamo un patto: stasera tu sarai mia e io sarò tuo.",
+    ],
+  },
+  ru: {
+    flirty: [
+      "У тебя есть карта? Я заблудился в твоих глазах.",
+      "Ты случайно не Wi-Fi? Я чувствую сильную связь.",
+      "Твоя мама случайно не ангел? Откуда у нее такое сокровище?",
+      "Тебя зовут Google? Потому что в тебе есть всё, что я искал.",
+      "Ты веришь в любовь с первого взгляда или мне пройти мимо еще раз?",
+    ],
+    poetic: [
+      "Если бы красота была временем, ты была бы вечностью.",
+      "Ты как солнечный луч в самый пасмурный день.",
+      "Твой голос — моя любимая мелодия.",
+      "Если бы поцелуи были снежинками, я бы подарил тебе метель.",
+      "Ты самое прекрасное стихотворение, написанное Вселенной.",
+    ],
+    boldSexy: [
+      "Тебе не жарко? Или это просто ты такая горячая?",
+      "Я не фотограф, но уже представляю нас вместе сегодня вечером.",
+      "Ты выглядишь как мечта, от которой я не хочу просыпаться.",
+      "Здесь становится слишком жарко из-за твоей энергии.",
+      "У меня предложение: давай продолжим наш вечер в более уютном месте.",
+    ],
+  },
+  fr: {
+    flirty: [
+      "Tu as une carte ? Je me suis perdu dans tes yeux.",
+      "Es-tu du Wi-Fi ? Parce que je sens une connexion très forte.",
+      "Est-ce qu'il fait chaud ici ou c'est juste toi ?",
+      "Ton prénom c'est Google ? Parce que tu as tout ce que je cherche.",
+      "Tu crois au coup de foudre ou je dois repasser une deuxième fois ?",
+    ],
+    poetic: [
+      "Si la beauté était le temps, tu serais l'éternité.",
+      "Tu es comme une douce mélodie qui ne quitte jamais mon esprit.",
+      "Les étoiles sont jalouses de l'éclat de ton regard.",
+      "Si les baisers étaient des flocons, je t'offrirais une tempête de neige.",
+      "Tu es la plus belle fleur de ce jardin.",
+    ],
+    boldSexy: [
+      "Ta robe est magnifique, mais elle le serait encore plus sur mon lit.",
+      "Je ne suis pas devin, mais je nous vois très bien ensemble ce soir.",
+      "Es-tu un volcan ? Parce que tu es brûlante !",
+      "J'ai perdu mon numéro, tu peux me donner le tien ?",
+      "Tu as un charme auquel il est absolument impossible de résister.",
+    ],
+  },
+  de: {
+    flirty: [
+      "Hast du eine Karte? Ich habe mich in deinen Augen verloren.",
+      "Bist du Wi-Fi? Ich spüre eine starke Verbindung.",
+      "Glaubst du an Liebe auf den ersten Blick oder soll ich nochmal vorbeigehen?",
+      "Heiße du Google? Du hast alles, wonach ich suche.",
+      "Bist du ein Zauberer? Sobald ich dich ansehe, verschwinden alle anderen.",
+    ],
+    poetic: [
+      "Wenn Schönheit Zeit wäre, wärst du die Ewigkeit.",
+      "Du bist der Sonnenstrahl an meinem dunkelsten Tag.",
+      "Deine Stimme ist mein Lieblingslied.",
+      "Wenn Küsse Schneeflocken wären, würde ich dir einen Schneesturm schicken.",
+      "Du bist das schönste Wunder, das mir begegnet ist.",
+    ],
+    boldSexy: [
+      "Ist es hier heiß oder bist du das?",
+      "Ich bin kein Fotograf, aber ich kann uns heute Abend perfekt zusammen vorstellen.",
+      "Bist du ein Feuerwerk? Du bringst mich zum Explodieren!",
+      "Ich habe meinen Schlüssel verloren, kann ich bei dir schlafen?",
+      "Du siehst einfach umwerfend aus stetig heute Nacht.",
+    ],
+  },
+  es: {
+    flirty: [
+      "¿Tienes un mapa? Es que me perdí en tus ojos.",
+      "¿Eres Wi-Fi? Porque siento una conexión increíble.",
+      "¿Crees en el amor a primera vista o tengo que volver a pasar?",
+      "¿Te llamas Google? Porque tienes todo lo que busco.",
+      "¿Eres un mago? Porque cuando te miro, todos los demás desaparecen.",
+    ],
+    poetic: [
+      "Si la belleza fuera tiempo, tú serías la eternidad.",
+      "Eres el sol que ilumina todos mis días oscuros.",
+      "Tu sonrisa es la poesía más bonita que he leído jamás.",
+      "Si los besos fueran copos de nieve, te mandaría una nevada entera.",
+      "Eres como una melodía inolvidable que suena en mi mente.",
+    ],
+    boldSexy: [
+      "¿Hace calor aquí o solo eres tú?",
+      "No soy fotógrafo, pero nos imagino juntos esta noche.",
+      "Tienes una sonrisa tentadora y muchas ganas de verme.",
+      "Perdí mi número de teléfono, ¿me das el tuyo?",
+      "Haces que mi corazón se acelere más rápido que un deportivo.",
+    ],
+  },
+  hi: {
+    flirty: [
+      "Kya tum Wi-Fi ho? Kyunki hamara connection ekdum solid hai!",
+      "Aapke paas map hai kya? Main aapki aankhon mein kho gaya hoon.",
+      "Kya aap magician ho? Kyunki jabse aapko dekha hai baaki sab गायब ho gaye!",
+      "Kya aap doctor ho? Kyunki mera dil aapko dekh kar fast dhadak raha hai!",
+      "Kya aapka naam Google hai? Kyunki jo bhi main dhoondh raha tha, wo sab aap mein hai!",
+    ],
+    poetic: [
+      "Agar khubsurati time hoti, toh tum ek eternity hoti.",
+      "Tumhari smile dekh kar lagta hai jaise poori duniya mein sirf khushi hi khushi hai.",
+      "Chand bhi sharma jaaye jab tum aise pyaari si smile do!",
+      "Tum mere har din ka sabse khoobsurat khwab ho.",
+      "Agar chumma ek taara hota, toh main tumhein poora aasmaan de deta!",
+    ],
+    boldSexy: [
+      "Yahan itni garmi kyun hai? Oh wait, tumhari wajah se!",
+      "Main koi photographer nahi hoon, par hamari jodi aaj raat ekdum picture perfect lag sakti hai.",
+      "Kya tum matchstick ho? Kyunki tumne mere dil mein aag laga di hai!",
+      "Mera phone chargable nahi lag raha, tumhari ek smile se charge ho gaya!",
+      "Aaj raat ka plan kya hai? Tum aur main ek saath kaisa rahega?",
+    ],
+  },
+};
+
+export function getRandomPickupLines(lang: string = "en"): string[] {
+  if (lang !== "en" && localizedPickupLines[lang]) {
+    const loc = localizedPickupLines[lang];
+    const flirtyLine = loc.flirty[Math.floor(Math.random() * loc.flirty.length)];
+    const poeticLine = loc.poetic[Math.floor(Math.random() * loc.poetic.length)];
+    const boldSexyLine = loc.boldSexy[Math.floor(Math.random() * loc.boldSexy.length)];
+    return [flirtyLine, poeticLine, boldSexyLine];
+  }
+
+  // Fallback to English lines
   const flirtyLine = flirtyLines[Math.floor(Math.random() * flirtyLines.length)];
   const poeticLine = poeticLines[Math.floor(Math.random() * poeticLines.length)];
   const boldSexyLine = boldSexyLines[Math.floor(Math.random() * boldSexyLines.length)];
 
   return [flirtyLine, poeticLine, boldSexyLine];
 }
+

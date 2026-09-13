@@ -2,151 +2,20 @@
 
 import React, { useState, useCallback } from "react";
 import Link from "next/link";
-import { Settings, Menu, ScanLine, MessageCircle, Sparkles, Plus } from "lucide-react";
+import { Settings, Menu } from "lucide-react";
 import SplashScreen from "@/components/SplashScreen";
 import { HeaderTitle } from "@/components/HeaderTitle";
 import { BottomNav } from "@/components/BottomNav";
 import { Footer } from "@/components/Footer";
 import { HomeSeoSection } from "@/components/HomeSeoSection";
+import { SettingsSheet } from "@/components/SettingsSheet";
+import { useLanguage } from "@/context/LanguageContext";
+import { TRANSLATIONS } from "@/data/translations";
+import OnboardingFlow from "@/components/OnboardingFlow";
 import { useTheme } from "@/hooks/useTheme";
-import { AppColors } from "@/constants/theme";
 
 /* ─────────────────────────────────────────
-   Settings / About bottom sheet
-───────────────────────────────────────── */
-function SettingsSheet({
-  isOpen,
-  onClose,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-}) {
-  return (
-    <>
-      {/* Backdrop */}
-      <div
-        onClick={onClose}
-        aria-hidden="true"
-        style={{
-          position: "fixed",
-          inset: 0,
-          backgroundColor: "rgba(0,0,0,0.45)",
-          zIndex: 998,
-          opacity: isOpen ? 1 : 0,
-          pointerEvents: isOpen ? "all" : "none",
-          transition: "opacity 0.3s ease",
-          backdropFilter: isOpen ? "blur(2px)" : "none",
-        }}
-      />
-
-      {/* Sheet */}
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-label="Settings"
-        style={{
-          position: "fixed",
-          bottom: 0,
-          left: "50%",
-          transform: `translateX(-50%) translateY(${isOpen ? "0%" : "105%"})`,
-          width: "100%",
-          maxWidth: 480,
-          zIndex: 999,
-          transition: "transform 0.38s cubic-bezier(0.34, 1.26, 0.64, 1)",
-          borderTopLeftRadius: 32,
-          borderTopRightRadius: 32,
-          overflow: "hidden",
-          background: "linear-gradient(180deg, #FF6C6D 0%, #FF865A 50%, #F69C50 100%)",
-          padding: "12px 24px 52px",
-        }}
-      >
-        {/* Drag handle */}
-        <div
-          style={{
-            width: 44,
-            height: 4,
-            borderRadius: 2,
-            backgroundColor: "rgba(255,255,255,0.45)",
-            margin: "0 auto 32px",
-          }}
-        />
-
-        {/* Buttons */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-          <a
-            href="mailto:vijayj6372@gmail.com"
-            id="settings-email"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "#FFFFFF",
-              borderRadius: 999,
-              padding: "17px 24px",
-              fontSize: 16,
-              fontWeight: 700,
-              color: "#1a1a1a",
-              textDecoration: "none",
-              boxShadow: "0 2px 16px rgba(0,0,0,0.12)",
-              transition: "opacity 0.15s",
-            }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.88")}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")}
-          >
-            Send us an Email
-          </a>
-
-          <a
-            href="https://x.com/Vijay_Jadav_7"
-            target="_blank"
-            rel="noopener noreferrer"
-            id="settings-about"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "#FFFFFF",
-              borderRadius: 999,
-              padding: "17px 24px",
-              fontSize: 16,
-              fontWeight: 700,
-              color: "#1a1a1a",
-              textDecoration: "none",
-              boxShadow: "0 2px 16px rgba(0,0,0,0.12)",
-              transition: "opacity 0.15s",
-            }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.88")}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")}
-          >
-            About me
-          </a>
-        </div>
-
-        {/* Privacy Policy */}
-        <div style={{ marginTop: 28, textAlign: "center" }}>
-          <a
-            href="https://sites.google.com/view/rizz-ai-privacy-policy-com/home"
-            target="_blank"
-            rel="noopener noreferrer"
-            id="settings-privacy"
-            style={{
-              fontSize: 14,
-              color: "rgba(255,255,255,0.9)",
-              textDecoration: "underline",
-              fontWeight: 500,
-              letterSpacing: 0.2,
-            }}
-          >
-            Privacy Policy
-          </a>
-        </div>
-      </div>
-    </>
-  );
-}
-
-/* ─────────────────────────────────────────
-   Feature button icons (matching the photo)
+   Feature button icons
 ───────────────────────────────────────── */
 function ScanBracketIcon() {
   return (
@@ -209,53 +78,68 @@ function FaceSparkleIcon() {
 }
 
 /* ─────────────────────────────────────────
-   Feature button data
-───────────────────────────────────────── */
-const HOME_FEATURES = [
-  {
-    id: "upload-screenshot",
-    href: "/upload-screenshot",
-    icon: <ScanBracketIcon />,
-    label: "Upload Screenshot\nof a Convo",
-    ariaLabel: "Upload a conversation screenshot",
-  },
-  {
-    id: "pickup-line",
-    href: "/pickup-line",
-    icon: <ChatBubbleIcon />,
-    label: "Give me a pickup line",
-    ariaLabel: "Get a pickup line",
-  },
-  {
-    id: "looksmaxing",
-    href: "/looksmaxing",
-    icon: <FaceSparkleIcon />,
-    label: "Looksmaxing",
-    ariaLabel: "Looksmaxing tips",
-  },
-];
-
-/* ─────────────────────────────────────────
    Home Page
 ───────────────────────────────────────── */
 let globalSplashDone = false;
 
 export default function HomePage() {
   const [splashDone, setSplashDone] = useState(globalSplashDone);
+  const [onboarded, setOnboarded] = useState<boolean | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const { isDark, theme } = useTheme();
+  const { language } = useLanguage();
+  const t = TRANSLATIONS[language] || TRANSLATIONS.en;
+
+  React.useEffect(() => {
+    try {
+      const isDone = localStorage.getItem("rizz_onboarded") === "true";
+      setOnboarded(isDone);
+    } catch {
+      setOnboarded(true);
+    }
+  }, []);
 
   const handleSplashFinish = useCallback(() => {
     globalSplashDone = true;
     setSplashDone(true);
   }, []);
 
+  const homeFeatures = [
+    {
+      id: "upload-screenshot",
+      href: "/upload-screenshot",
+      icon: <ScanBracketIcon />,
+      label: t.uploadScreenshotTitle,
+      ariaLabel: t.uploadScreenshotTitle,
+    },
+    {
+      id: "pickup-line",
+      href: "/pickup-line",
+      icon: <ChatBubbleIcon />,
+      label: t.pickupLineTitle,
+      ariaLabel: t.pickupLineTitle,
+    },
+    {
+      id: "looksmaxing",
+      href: "/looksmaxing",
+      icon: <FaceSparkleIcon />,
+      label: t.looksmaxingTitle,
+      ariaLabel: t.looksmaxingTitle,
+    },
+  ];
+
   const bg = "linear-gradient(180deg, #ABBFF2 0%, #BCCFFA 100%)";
+
+  if (!splashDone) {
+    return <SplashScreen onFinish={handleSplashFinish} />;
+  }
+
+  if (onboarded === false) {
+    return <OnboardingFlow onComplete={() => setOnboarded(true)} />;
+  }
 
   return (
     <>
-      {!splashDone && <SplashScreen onFinish={handleSplashFinish} />}
-
       <main
         style={{
           minHeight: "100dvh",
@@ -345,7 +229,7 @@ export default function HomePage() {
             className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-6"
             style={{ marginTop: 28, marginBottom: 40 }}
           >
-            {HOME_FEATURES.map((feat) => (
+            {homeFeatures.map((feat) => (
               <Link
                 key={feat.id}
                 href={feat.href}
@@ -412,7 +296,7 @@ export default function HomePage() {
         </div>
       </main>
 
-      <SettingsSheet isOpen={sheetOpen} onClose={() => setSheetOpen(false)} />
+      <SettingsSheet isOpen={sheetOpen} onCloseAction={() => setSheetOpen(false)} />
     </>
   );
 }

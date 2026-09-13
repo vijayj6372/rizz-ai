@@ -6,6 +6,8 @@ import { Camera, Upload, RefreshCw, Copy, MessageSquare, Flame } from "lucide-re
 import { PageLayout } from "@/components/PageLayout";
 import { CopiedToast } from "@/components/CopiedToast";
 import { HeaderTitle } from "@/components/HeaderTitle";
+import { useLanguage } from "@/context/LanguageContext";
+import { TRANSLATIONS } from "@/data/translations";
 import { ROASTS, RoastMode } from "@/data/roastData";
 
 function getRandomItem<T>(arr: T[]): T {
@@ -28,6 +30,8 @@ const MODES = [
 ];
 
 export default function RoastMySelfiePage() {
+  const { language } = useLanguage();
+  const t = TRANSLATIONS[language] || TRANSLATIONS.en;
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedMode, setSelectedMode] = useState<RoastMode>("savage");
@@ -343,7 +347,7 @@ export default function RoastMySelfiePage() {
               }}
             >
               <Flame size={16} fill={imagePreview ? "#fff" : "none"} stroke={imagePreview ? "#fff" : "currentColor"} />
-              Roast Me!
+              {t.roastBtn}
             </button>
 
             {/* Bottom info row labels */}

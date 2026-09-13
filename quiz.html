@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>RIZZ — Assessment Quiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div class="quiz-page">
+        <div class="quiz-header">
+            <button class="quiz-back-btn" id="quizBackBtn" onclick="prevQuizStep()" title="Back">←</button>
+            <div class="quiz-progress-container">
+                <div class="quiz-progress-bar">
+                    <div class="quiz-progress-fill" id="quizProgressFill" style="width: 0%"></div>
+                </div>
+                <div class="quiz-step-count" id="quizStepCount">1 of 10</div>
+            </div>
+            <!-- Removed Close Button -->
+        </div>
+
+        <div class="quiz-body" id="quizBody">
+            <!-- Dynamically rendered -->
+        </div>
+
+        <div class="quiz-footer" id="quizFooter">
+            <button class="quiz-next-btn" id="quizNextBtn" onclick="nextQuizStep()" disabled>
+                Continue <span class="arrow">→</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        const quizQuestions = [
+            {
+                emoji: '😰',
+                title: 'How confident do you feel in social situations?',
+                desc: 'Be honest — this helps us personalize your experience',
+                options: [
+                    { icon: '😰', text: 'Not confident at all' },
+                    { icon: '😅', text: 'Somewhat shy' },
+                    { icon: '🤔', text: 'Depends on the situation' },
+                    { icon: '😎', text: 'Pretty confident' },
+                    { icon: '🔥', text: 'Extremely confident' }
+                ]
+            },
+            {
+                emoji: '🔋',
+                title: 'How do you feel after spending time with people?',
+                desc: 'There\'s no wrong answer — we\'re all wired differently',
+                options: [
+                    { icon: '🔋', text: 'Usually drained — I need alone time to recharge' },
+                    { icon: '⚖️', text: 'It depends on who I\'m with' },
+                    { icon: '😌', text: 'Pretty neutral either way' },
+                    { icon: '⚡', text: 'Usually energized — I love being around people' }
+                ]
+            },
+            {
+                emoji: '📱',
+                title: 'What brings you here today?',
+                desc: 'Select the option that resonates most',
+                options: [
+                    { icon: '📱', text: 'Get better at texting' },
+                    { icon: '👋', text: 'Talk to people I just met' },
+                    { icon: '💋', text: 'Get better at flirting' },
+                    { icon: '💕', text: 'Improve my dating life' },
+                    { icon: '💑', text: 'Deepen my current relationship' }
+                ]
+            },
+            {
+                emoji: '💬',
+                title: 'How do you typically start conversations?',
+                desc: 'There\'s no wrong answer — choose what feels natural',
+                options: [
+                    { icon: '🕐', text: 'I wait for others to approach me' },
+                    { icon: '👋', text: 'A simple hello or hi' },
+                    { icon: '💬', text: 'I ask a question about something around us' },
+                    { icon: '🌟', text: 'I give a genuine compliment' },
+                    { icon: '😂', text: 'I lead with humor' }
+                ]
+            },
+            {
+                emoji: '👂',
+                title: 'What\'s your social superpower?',
+                desc: 'Everyone has something — what comes naturally to you?',
+                options: [
+                    { icon: '👂', text: 'I\'m a great listener' },
+                    { icon: '💗', text: 'I understand how others feel' },
+                    { icon: '😄', text: 'I can make people laugh' },
+                    { icon: '📖', text: 'I tell great stories' },
+                    { icon: '🤔', text: 'I ask thoughtful questions' },
+                    { icon: '🔍', text: 'I\'m not sure yet' }
+                ]
+            },
+            {
+                emoji: '😓',
+                title: 'What\'s your biggest social challenge?',
+                desc: 'We\'ll focus on helping you overcome this',
+                options: [
+                    { icon: '😓', text: 'Social anxiety' },
+                    { icon: '💔', text: 'Fear of rejection' },
+                    { icon: '🤐', text: 'Running out of things to say' },
+                    { icon: '🔍', text: 'Reading social cues' },
+                    { icon: '🎭', text: 'Being my authentic self' },
+                    { icon: '📱', text: 'Following up and maintaining connections' }
+                ]
+            },
+            {
+                emoji: '🚶',
+                title: 'When does social anxiety hit you hardest?',
+                desc: 'Understanding your triggers helps us help you',
+                options: [
+                    { icon: '🚶', text: 'Walking up to someone new' },
+                    { icon: '👀', text: 'When all eyes are on me' },
+                    { icon: '😶', text: 'Awkward silences in conversation' },
+                    { icon: '💔', text: 'Fear of being rejected' },
+                    { icon: '💬', text: 'Making small talk' },
+                    { icon: '😎', text: 'I rarely feel anxious' }
+                ]
+            },
+            {
+                emoji: '🌊',
+                title: 'Imagine your ideal social self — what would change?',
+                desc: 'Paint a picture of where you want to be',
+                options: [
+                    { icon: '🌊', text: 'Conversations would feel effortless' },
+                    { icon: '✨', text: 'I\'d leave lasting impressions' },
+                    { icon: '🔗', text: 'I\'d have deeper connections' },
+                    { icon: '🚪', text: 'I\'d walk into any room with confidence' },
+                    { icon: '💯', text: 'I\'d be unapologetically myself' }
+                ]
+            },
+            {
+                emoji: '⚡',
+                title: 'How much time can you dedicate to improving?',
+                desc: 'Choose a daily commitment that fits your lifestyle',
+                options: [
+                    { icon: '⚡', text: '5 minutes a day' },
+                    { icon: '📖', text: '15 minutes a day' },
+                    { icon: '💪', text: '30 minutes a day' },
+                    { icon: '🎯', text: 'Flexible — whenever I can' }
+                ]
+            },
+            {
+                emoji: '🚀',
+                title: 'What\'s your name?',
+                desc: 'Last step — we\'ll personalize everything for you',
+                isNameInput: true
+            }
+        ];
+
+        let isTransitioning = false; // Double-click lock
+
+        function initQuiz() {
+            // Reset quiz progress for a fresh attempt
+            currentQuizStep = 0;
+            isTransitioning = false;
+            state.quizAnswers = {};
+            saveState();
+            renderQuizStep();
+        }
+
+        function renderQuizStep() {
+            const total = quizQuestions.length;
+            if (currentQuizStep < 0) currentQuizStep = 0;
+            if (currentQuizStep >= total) currentQuizStep = total - 1;
+
+            const q = quizQuestions[currentQuizStep];
+            const progress = ((currentQuizStep) / total) * 100;
+
+            document.getElementById('quizProgressFill').style.width = progress + '%';
+            document.getElementById('quizStepCount').textContent = `${currentQuizStep + 1} of ${total}`;
+
+            // Handle back button visibility
+            const backBtn = document.getElementById('quizBackBtn');
+            if (currentQuizStep === 0) {
+                backBtn.style.opacity = '0.3';
+                backBtn.style.pointerEvents = 'none';
+            } else {
+                backBtn.style.opacity = '1';
+                backBtn.style.pointerEvents = 'auto';
+            }
+
+            const body = document.getElementById('quizBody');
+            const footer = document.getElementById('quizFooter');
+            quizSelectedOption = -1;
+
+            if (q.isNameInput) {
+                // Show footer for Name Input step
+                footer.classList.remove('hidden');
+
+                body.innerHTML = `
+                    <div class="quiz-question">
+                        <span class="quiz-question-emoji">${q.emoji}</span>
+                        <h2 class="quiz-question-title">${q.title}</h2>
+                        <p class="quiz-question-desc">${q.desc}</p>
+                    </div>
+                    <div style="width: 100%;">
+                        <input type="text" class="modal-input" id="quizNameInput" placeholder="Enter your name..." maxlength="30" style="text-align: center; font-size: 18px; padding: 18px;" oninput="onQuizNameInput()" value="${state.userName || ''}">
+                    </div>
+                `;
+                const btn = document.getElementById('quizNextBtn');
+                btn.disabled = !(state.userName && state.userName.trim().length > 0);
+                btn.innerHTML = "Let's Go! 🚀";
+                setTimeout(() => {
+                    const inputEl = document.getElementById('quizNameInput');
+                    if (inputEl) {
+                        inputEl.focus();
+                        inputEl.setSelectionRange(inputEl.value.length, inputEl.value.length);
+                    }
+                }, 200);
+            } else {
+                // Hide footer/continue button for multiple-choice steps
+                footer.classList.add('hidden');
+
+                let optionsHtml = '';
+                const savedAns = state.quizAnswers[currentQuizStep];
+
+                q.options.forEach((opt, i) => {
+                    const isSel = savedAns === i;
+                    if (isSel) quizSelectedOption = i;
+
+                    optionsHtml += `
+                        <button class="quiz-option ${isSel ? 'selected' : ''}" onclick="selectAndProceed(${i})" data-idx="${i}">
+                            <span class="quiz-option-icon">${opt.icon}</span>
+                            ${opt.text}
+                            <span class="quiz-option-radio"></span>
+                        </button>
+                    `;
+                });
+
+                body.innerHTML = `
+                    <div class="quiz-question">
+                        <span class="quiz-question-emoji">${q.emoji}</span>
+                        <h2 class="quiz-question-title">${q.title}</h2>
+                        <p class="quiz-question-desc">${q.desc}</p>
+                    </div>
+                    <div class="quiz-options">${optionsHtml}</div>
+                `;
+            }
+        }
+
+        function selectAndProceed(idx) {
+            if (isTransitioning) return;
+            isTransitioning = true;
+            quizSelectedOption = idx;
+            
+            // Highlight selected option visually
+            document.querySelectorAll('.quiz-option').forEach((el, i) => {
+                el.classList.toggle('selected', i === idx);
+            });
+
+            // Save state immediately
+            state.quizAnswers[currentQuizStep] = idx;
+            saveState();
+
+            // Wait 250ms for visual feedback before auto-proceeding
+            setTimeout(() => {
+                currentQuizStep++;
+                quizSelectedOption = -1;
+                renderQuizStep();
+                isTransitioning = false;
+            }, 250);
+        }
+
+        function onQuizNameInput() {
+            const val = document.getElementById('quizNameInput').value.trim();
+            document.getElementById('quizNextBtn').disabled = val.length === 0;
+        }
+
+        function nextQuizStep() {
+            const total = quizQuestions.length;
+            if (currentQuizStep >= total) return;
+            const q = quizQuestions[currentQuizStep];
+
+            if (q.isNameInput) {
+                const name = document.getElementById('quizNameInput').value.trim();
+                if (!name) return;
+                state.userName = name;
+                state.onboarded = true;
+                saveState();
+                localStorage.setItem('show_celebration', 'true');
+                window.location.href = 'result.html?celebrate=true';
+                return;
+            }
+        }
+
+        function prevQuizStep() {
+            if (currentQuizStep > 0) {
+                currentQuizStep--;
+                renderQuizStep();
+            }
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Enter') {
+                if (document.activeElement.id === 'quizNameInput') {
+                    e.preventDefault();
+                    nextQuizStep();
+                }
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', initQuiz);
+    </script>
+</body>
+</html>

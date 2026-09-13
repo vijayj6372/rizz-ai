@@ -1,20 +1,13 @@
 "use client";
 
-import React, { useState, useRef, useCallback, useEffect } from "react";
-import { RefreshCw } from "lucide-react";
+import React, { useState, useCallback, useEffect } from "react";
 import { PageLayout } from "@/components/PageLayout";
 import { HeaderTitle } from "@/components/HeaderTitle";
 import { CopiedToast } from "@/components/CopiedToast";
 import { useTheme } from "@/hooks/useTheme";
-import { flirtyLines, poeticLines, boldSexyLines } from "@/data/pickupLines";
-
-type Category = "Flirty" | "Poetic" | "Bold & Sexy";
-
-const categoryData: Record<Category, string[]> = {
-  Flirty: flirtyLines,
-  Poetic: poeticLines,
-  "Bold & Sexy": boldSexyLines,
-};
+import { useLanguage } from "@/context/LanguageContext";
+import { TRANSLATIONS } from "@/data/translations";
+import { getRandomPickupLines } from "@/data/pickupLines";
 
 function ChiliSlider({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   const trackWidth = 280;
@@ -78,19 +71,18 @@ function ChiliSlider({ value, onChange }: { value: number; onChange: (v: number)
 
 export default function PickupLinePage() {
   const { theme, isDark } = useTheme();
+  const { language } = useLanguage();
+  const t = TRANSLATIONS[language] || TRANSLATIONS.en;
   const [lines, setLines] = useState<string[]>([]);
   const [sliderValue, setSliderValue] = useState(0.5);
   const [toastVisible, setToastVisible] = useState(false);
   const [copiedLine, setCopiedLine] = useState("");
 
   const generateNewLines = useCallback(() => {
-    const f = flirtyLines[Math.floor(Math.random() * flirtyLines.length)];
-    const p = poeticLines[Math.floor(Math.random() * poeticLines.length)];
-    const b = boldSexyLines[Math.floor(Math.random() * boldSexyLines.length)];
-    return [f, p, b];
-  }, []);
+    return getRandomPickupLines(language);
+  }, [language]);
 
-  // Initialize on mount
+  // Initialize & update on language change
   useEffect(() => {
     setLines(generateNewLines());
   }, [generateNewLines]);
@@ -199,10 +191,10 @@ export default function PickupLinePage() {
       <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", minHeight: "calc(100vh - 120px)" }}>
         <section style={{ width: "100%", maxWidth: 520, margin: "0 auto", padding: "8px 16px 0", textAlign: "center" }}>
           <h1 style={{ margin: 0, color: "#1F2937", fontSize: 28, fontWeight: 900 }}>
-            AI Pickup Lines and Rizz Generator
+            {t.pickupLineTitle}
           </h1>
           <p style={{ margin: "8px auto 0", maxWidth: 460, color: "#64748B", fontSize: 14, lineHeight: 1.5 }}>
-            Get smooth, funny, poetic, and bold pickup lines for dating apps, text messages, Tinder, Hinge, and Bumble. Tap a line to copy it.
+            {t.pickupLineDesc}
           </p>
         </section>
         

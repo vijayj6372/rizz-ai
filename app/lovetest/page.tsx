@@ -22,6 +22,8 @@ import {
 import { PageLayout } from "@/components/PageLayout";
 import { HeaderTitle } from "@/components/HeaderTitle";
 import { useTheme } from "@/hooks/useTheme";
+import { useLanguage } from "@/context/LanguageContext";
+import { TRANSLATIONS } from "@/data/translations";
 import { AppColors } from "@/constants/theme";
 import {
   LOVE_VIBES,
@@ -145,6 +147,8 @@ const LOADING_STEPS = [
 
 export default function LoveTestPage() {
   const { theme, isDark } = useTheme();
+  const { language } = useLanguage();
+  const t = TRANSLATIONS[language] || TRANSLATIONS.en;
   
   const [name1, setName1] = useState("");
   const [name2, setName2] = useState("");

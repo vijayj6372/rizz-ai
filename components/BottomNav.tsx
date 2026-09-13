@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Plus } from "lucide-react";
 import { playClickSound, playHoverSound } from "@/lib/sound";
+import { useLanguage } from "@/context/LanguageContext";
+import { TRANSLATIONS } from "@/data/translations";
 
 interface BottomNavProps {
   currentPath?: string;
@@ -25,17 +27,19 @@ export function BottomNav({ currentPath, variant = "dark", inline = false }: Bot
   const activePath = currentPath || pathname || "";
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [pressedId, setPressedId] = useState<string | null>(null);
+  const { language } = useLanguage();
+  const t = TRANSLATIONS[language] || TRANSLATIONS.en;
 
   const isDark = variant === "dark";
 
   const navItems = [
-    { href: "/", label: "Home", icon: "🏠", id: "nav-home" },
-    { href: "/lovetest", label: "Love Test", icon: "❤️", id: "nav-lovetest" },
-    { href: "/looksmaxing", label: "Looksmaxing", icon: "🗿", id: "nav-looksmaxing" },
-    { href: "/fun-features", label: "Fun Features", isPlus: true, id: "nav-fun-features" },
-    { href: "/firefun", label: "FireFun AI", icon: "🔥", id: "nav-firefun" },
-    { href: "/lovelife", label: "LoveLife", icon: "💋", id: "nav-lovelife" },
-    { href: "/couple-games", label: "Couple Games", icon: "🎮", id: "nav-couple-games" },
+    { href: "/", label: t.navHome || "Home", icon: "🏠", id: "nav-home" },
+    { href: "/lovetest", label: t.navLoveTest || "Love Test", icon: "❤️", id: "nav-lovetest" },
+    { href: "/looksmaxing", label: t.navLooksmaxing || "Looksmaxing", icon: "🗿", id: "nav-looksmaxing" },
+    { href: "/fun-features", label: t.navFeatures || "Features", isPlus: true, id: "nav-fun-features" },
+    { href: "/firefun", label: t.navFireFun || "FireFun AI", icon: "🔥", id: "nav-firefun" },
+    { href: "/lovelife", label: t.navLoveLife || "LoveLife", icon: "💋", id: "nav-lovelife" },
+    { href: "/couple-games", label: t.navGames || "Games", icon: "🎮", id: "nav-couple-games" },
   ];
 
   return (
