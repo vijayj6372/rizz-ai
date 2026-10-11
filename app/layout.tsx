@@ -109,9 +109,6 @@ const seoKeywords = [
   "tinder",
   "hinge",
   "bumble",
-  "couple games",
-  "couples games",
-  "game of questions for couples",
   "hot or not website",
   "roast my selfie",
   "rate my crush",
@@ -575,7 +572,7 @@ export const metadata: Metadata = {
   publisher: "Rizz AI",
   metadataBase: new URL("https://www.rizzai.space"),
   alternates: {
-    canonical: "/",
+    canonical: "https://www.rizzai.space/",
   },
   icons: {
     icon: [
@@ -707,7 +704,7 @@ const faqPageSchema = {
       name: "What is Rizz AI and how does it work?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Rizz AI (rizzai.space) is a free AI dating app and AI wingman designed to generate charismatic pickup lines, witty conversation replies for Tinder, Hinge, and Bumble, PSL face rating analysis, and couple games.",
+        text: "Rizz AI (rizzai.space) is a free AI dating app and AI wingman designed to generate charismatic pickup lines, witty conversation replies for Tinder, Hinge, and Bumble, PSL face rating analysis, and love compatibility tests.",
       },
     },
     {

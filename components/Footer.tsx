@@ -88,7 +88,7 @@ export function Footer({
           Rizz AI — #1 Free AI Wingman App, Rizz Generator & Dating Assistant
         </h2>
         <p style={{ fontSize: 14, lineHeight: 1.6, color: isDark ? "#94A3B8" : "#475569", marginBottom: 18, textAlign: "center" }}>
-          Welcome to <strong>Rizz AI</strong> (<code>rizzai.space</code>) — the ultimate <strong>free AI wingman app</strong>, <strong>rizz generator</strong>, and dating reply assistant. Whether you are looking for <strong>flirting pick up lines</strong> for Tinder, Hinge, or Bumble, instant <strong>looksmaxing AI face ratings</strong> on the <strong>PSL scale</strong>, or <strong>free couple games to play online</strong>, Rizz AI gives you the confidence to level up your dating game.
+          Welcome to <strong>Rizz AI</strong> (<code>rizzai.space</code>) — the ultimate <strong>free AI wingman app</strong>, <strong>rizz generator</strong>, and dating reply assistant. Whether you are looking for <strong>flirting pick up lines</strong> for Tinder, Hinge, or Bumble, instant <strong>looksmaxing AI face ratings</strong> on the <strong>PSL scale</strong>, or <strong>fun love test compatibility quizzes</strong>, Rizz AI gives you the confidence to level up your dating game.
         </p>
 
         <h2 style={{ fontSize: 18, fontWeight: 800, color: isDark ? "#F8FAFC" : "#0F172A", marginTop: 20, marginBottom: 10 }}>
@@ -108,9 +108,9 @@ export function Footer({
             </p>
           </div>
           <div style={{ padding: 12, background: isDark ? "rgba(255,255,255,0.04)" : "#EFF6FF", borderRadius: 14, border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid #DBEAFE" }}>
-            <h3 style={{ fontSize: 15, fontWeight: 700, color: isDark ? "#60A5FA" : "#2563EB", margin: "0 0 4px" }}>❤️ Online Couple Games & Love Test</h3>
+            <h3 style={{ fontSize: 15, fontWeight: 700, color: isDark ? "#60A5FA" : "#2563EB", margin: "0 0 4px" }}>❤️ Love Test & FireFun AI</h3>
             <p style={{ fontSize: 12.5, color: isDark ? "#94A3B8" : "#64748B", margin: 0, lineHeight: 1.45 }}>
-              Play <strong>free couple games online</strong>, answer deep <strong>couple game questions</strong>, test <strong>name compatibility quiz</strong> scores, and enjoy <strong>Hot or Not photo rater</strong>.
+              Test <strong>name compatibility quiz</strong> scores, answer fun flirty questions, and enjoy <strong>Hot or Not photo rater</strong>.
             </p>
           </div>
         </div>
@@ -134,7 +134,7 @@ export function Footer({
               Is Rizz AI free to use?
             </summary>
             <p style={{ fontSize: 13, color: isDark ? "#94A3B8" : "#475569", marginTop: 6, margin: 0, lineHeight: 1.5 }}>
-              Yes! Rizz AI is 100% free with no login required. You can generate unlimited rizz lines, test face ratings on the PSL scale, play couple games, and roast selfies anytime online.
+              Yes! Rizz AI is 100% free with no login required. You can generate unlimited rizz lines, test face ratings on the PSL scale, take love tests, and roast selfies anytime online.
             </p>
           </details>
 
@@ -237,8 +237,8 @@ export function Footer({
           {t.looksmaxingTitle}
         </Link>
         <span>•</span>
-        <Link href="/couple-games" style={{ color: isDark ? "#E2E8F0" : "#475569", textDecoration: "none" }}>
-          {t.coupleGamesTitle}
+        <Link href="/firefun" style={{ color: isDark ? "#E2E8F0" : "#475569", textDecoration: "none" }}>
+          FireFun AI
         </Link>
         <span>•</span>
         <Link href="/hot-or-not" style={{ color: isDark ? "#E2E8F0" : "#475569", textDecoration: "none" }}>

@@ -404,11 +404,22 @@ html body {
   overflow-x: hidden;
 }
 
-/* Touch targets — min 44px */
-button,
-a {
+/* Touch targets — min 44px for buttons and nav links */
+button {
   min-height: 44px;
   touch-action: manipulation;
+}
+
+a {
+  touch-action: manipulation;
+}
+
+/* Ensure nav/CTA links meet 44px tap target */
+nav a,
+.btn-primary,
+.btn-secondary,
+.home-feature-btn {
+  min-height: 44px;
 }
 
 /* Desktop: center the mobile card with subtle background */

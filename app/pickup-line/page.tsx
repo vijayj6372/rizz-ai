@@ -10,12 +10,10 @@ import { TRANSLATIONS } from "@/data/translations";
 import { getRandomPickupLines } from "@/data/pickupLines";
 
 function ChiliSlider({ value, onChange }: { value: number; onChange: (v: number) => void }) {
-  const trackWidth = 280;
   const thumbSize = 46;
-  const leftPos = value * (trackWidth - thumbSize);
 
   return (
-    <div style={{ position: "relative", width: trackWidth, height: thumbSize, display: "flex", alignItems: "center", margin: "20px auto 0" }}>
+    <div style={{ position: "relative", width: "min(100%, 280px)", height: thumbSize, display: "flex", alignItems: "center", margin: "20px auto 0" }}>
       {/* Visual Track */}
       <div
         style={{
@@ -28,11 +26,11 @@ function ChiliSlider({ value, onChange }: { value: number; onChange: (v: number)
           pointerEvents: "none",
         }}
       />
-      {/* Visual Thumb */}
+      {/* Visual Thumb — position driven by CSS custom property via inline style */}
       <div
         style={{
           position: "absolute",
-          left: leftPos,
+          left: `calc((100% - ${thumbSize}px) * ${value})`,
           width: thumbSize,
           height: thumbSize,
           borderRadius: thumbSize / 2,

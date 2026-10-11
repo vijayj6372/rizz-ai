@@ -46,6 +46,50 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  /* ─── SEO Redirects for removed or aliased routes ─── */
+  async redirects() {
+    return [
+      /* ── Canonical domain: always https://www ── */
+      {
+        source: "/(.*)",
+        has: [{ type: "host", value: "rizzai.space" }],
+        destination: "https://www.rizzai.space/$1",
+        permanent: true,
+      },
+      {
+        source: "/(.*)",
+        has: [{ type: "host", value: "http://rizzai.space" }],
+        destination: "https://www.rizzai.space/$1",
+        permanent: true,
+      },
+      /* ── Removed / aliased routes ── */
+      {
+        source: "/couple-games",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/couple-games/:path*",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/games",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/games/:path*",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/funfire",
+        destination: "/firefun",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

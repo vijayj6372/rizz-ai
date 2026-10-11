@@ -39,7 +39,6 @@ export function BottomNav({ currentPath, variant = "dark", inline = false }: Bot
     { href: "/fun-features", label: t.navFeatures || "Features", isPlus: true, id: "nav-fun-features" },
     { href: "/firefun", label: t.navFireFun || "FireFun AI", icon: "🔥", id: "nav-firefun" },
     { href: "/lovelife", label: t.navLoveLife || "LoveLife", icon: "💋", id: "nav-lovelife" },
-    { href: "/couple-games", label: t.navGames || "Games", icon: "🎮", id: "nav-couple-games" },
   ];
 
   return (

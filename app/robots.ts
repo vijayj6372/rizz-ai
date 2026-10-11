@@ -6,23 +6,39 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/"],
+        disallow: [
+          "/api/",
+          "/favicon.ico",
+          "/favicon.png",
+          "/*.ico$",
+          "/pickup-line?q=",
+        ],
       },
       {
         userAgent: "Googlebot",
         allow: "/",
+        disallow: [
+          "/api/",
+          "/favicon.ico",
+          "/favicon.png",
+          "/*.ico$",
+          "/pickup-line?q=",
+        ],
       },
       {
         userAgent: "Googlebot-Image",
-        allow: ["/", "/images/", "/icon.png", "/favicon.ico", "/apple-touch-icon.png"],
+        allow: ["/", "/images/", "/icon.png", "/apple-touch-icon.png"],
+        disallow: ["/favicon.ico"],
       },
       {
         userAgent: "Bingbot",
         allow: "/",
+        disallow: ["/api/", "/favicon.ico"],
       },
       {
         userAgent: "Applebot",
         allow: "/",
+        disallow: ["/api/", "/favicon.ico"],
       },
     ],
     sitemap: "https://www.rizzai.space/sitemap.xml",

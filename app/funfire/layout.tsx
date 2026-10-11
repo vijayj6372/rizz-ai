@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description:
     "Try FunFire for playful couple games, conversation starters, and fun relationship challenges.",
   alternates: {
-    canonical: "https://www.rizzai.space/funfire",
+    canonical: "https://www.rizzai.space/firefun",
   },
 };
 

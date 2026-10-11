@@ -53,11 +53,11 @@ export default function NotFound() {
 
           <div className="grid grid-cols-2 gap-2.5">
             <Link
-              href="/couple-games"
+              href="/pickup-line"
               className="py-3 px-4 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
             >
-              <Gamepad2 className="w-3.5 h-3.5 text-rose-400" />
-              <span>Couple Games</span>
+              <Sparkles className="w-3.5 h-3.5 text-rose-400" />
+              <span>Pickup Lines</span>
             </Link>
 
             <Link
