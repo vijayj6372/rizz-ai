@@ -2,7 +2,6 @@ import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://www.rizzai.space";
-  const currentDate = new Date();
 
   const routes = [
     "",
@@ -21,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
     "/privacy",
     "/terms",
+    "/cookies",
   ];
 
   return routes.map((route) => {
@@ -44,7 +44,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     return {
       url: `${baseUrl}${route}`,
-      lastModified: currentDate,
       changeFrequency: changeFreq,
       priority,
     };

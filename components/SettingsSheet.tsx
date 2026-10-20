@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import Link from "next/link";
 import { useLanguage, LANGUAGES, LanguageCode } from "@/context/LanguageContext";
 import { TRANSLATIONS } from "@/data/translations";
 import { Globe, ChevronRight, Check, X, Search } from "lucide-react";
@@ -234,12 +235,9 @@ export function SettingsSheet({
           </a>
         </div>
 
-        {/* Privacy Policy */}
-        <div style={{ marginTop: 24, textAlign: "center" }}>
-          <a
-            href="https://sites.google.com/view/rizz-ai-privacy-policy-com/home"
-            target="_blank"
-            rel="noopener noreferrer"
+        <div style={{ marginTop: 24, display: "flex", justifyContent: "center", gap: 18, flexWrap: "wrap" }}>
+          <Link
+            href="/privacy"
             id="settings-privacy"
             style={{
               fontSize: 14,
@@ -250,7 +248,20 @@ export function SettingsSheet({
             }}
           >
             {t.privacyPolicy}
-          </a>
+          </Link>
+          <Link
+            href="/cookies"
+            id="settings-cookies"
+            style={{
+              fontSize: 14,
+              color: "rgba(255,255,255,0.95)",
+              textDecoration: "underline",
+              fontWeight: 600,
+              letterSpacing: 0.2,
+            }}
+          >
+            Cookie Policy
+          </Link>
         </div>
       </div>
 

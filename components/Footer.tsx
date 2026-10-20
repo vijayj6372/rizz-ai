@@ -149,7 +149,7 @@ export function Footer({
         </div>
       </section>
 
-      {/* ── 4. Links: About • Contact • Privacy Policy • Terms of Service ── */}
+      {/* ── 4. Links: About • Contact • Privacy • Cookies • Terms ── */}
       <div
         style={{
           display: "flex",
@@ -211,6 +211,19 @@ export function Footer({
           }}
         >
           {t.footerTerms || "Terms of Service"}
+        </Link>
+        <span style={{ color: isDark ? "rgba(255,255,255,0.2)" : "rgba(17,24,28,0.25)", fontSize: 16 }}>•</span>
+        <Link
+          href="/cookies"
+          style={{
+            color: isDark ? "#FB7185" : "#E11D48",
+            textDecoration: "none",
+            padding: "4px 8px",
+            borderRadius: 8,
+            transition: "all 0.2s",
+          }}
+        >
+          Cookie Policy
         </Link>
       </div>
 
