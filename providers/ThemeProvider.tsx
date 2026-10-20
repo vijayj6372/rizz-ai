@@ -46,7 +46,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     <ThemeContext.Provider value={value}>
       <div
         data-theme="light"
-        style={{ minHeight: "100vh", background: theme.backgroundRoot }}
+        style={{ minHeight: "100dvh", background: theme.backgroundRoot }}
       >
         {children}
       </div>

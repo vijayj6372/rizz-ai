@@ -95,7 +95,7 @@ const LOADING_STAGES = [
   "Generating your verdict...",
 ];
 
-const PAGE_LABELS = ["Ratings", "Look Score", "Tips", "Analysis", "Rank"];
+const PAGE_LABELS = ["Ratings", "Score", "Tips", "Analysis", "Rank"];
 
 function getRandomItem<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -1646,16 +1646,19 @@ export default function LooksmaxingPage() {
                 id={`lookmax-tab-${lbl.toLowerCase().replace(/\s+/g, "-")}`}
                 onClick={() => setCurrentPage(idx)}
                 style={{
-                  flex: 1,
-                  padding: "10px 8px",
+                  flex: "1 1 0",
+                  minWidth: 0,
+                  padding: "10px 6px",
                   borderRadius: 14,
                   border: "none",
                   background: currentPage === idx ? "linear-gradient(135deg, #FF6C6D 0%, #FF865A 100%)" : "transparent",
                   color: currentPage === idx ? "#FFFFFF" : "rgba(255,255,255,0.55)",
-                  fontSize: 12.5,
+                  fontSize: "clamp(11px, 3.2vw, 12.5px)",
                   fontWeight: currentPage === idx ? 800 : 700,
                   cursor: "pointer",
                   whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
                   transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
                   boxShadow: currentPage === idx ? "0 4px 14px rgba(246,118,110,0.4)" : "none",
                 }}

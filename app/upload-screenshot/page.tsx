@@ -11,12 +11,20 @@ import { TRANSLATIONS } from "@/data/translations";
 import { flirtyLines, poeticLines, boldSexyLines } from "@/data/pickupLines";
 
 function ChiliSlider({ value, onChange }: { value: number; onChange: (v: number) => void }) {
-  const trackWidth = 280;
   const thumbSize = 46;
-  const leftPos = value * (trackWidth - thumbSize);
 
   return (
-    <div style={{ position: "relative", width: trackWidth, height: thumbSize, display: "flex", alignItems: "center", margin: "20px auto 0" }}>
+    <div
+      style={{
+        position: "relative",
+        width: "min(100%, 280px)",
+        maxWidth: 280,
+        height: thumbSize,
+        display: "flex",
+        alignItems: "center",
+        margin: "20px auto 0",
+      }}
+    >
       {/* Visual Track */}
       <div
         style={{
@@ -33,7 +41,7 @@ function ChiliSlider({ value, onChange }: { value: number; onChange: (v: number)
       <div
         style={{
           position: "absolute",
-          left: leftPos,
+          left: `calc((100% - ${thumbSize}px) * ${value})`,
           width: thumbSize,
           height: thumbSize,
           borderRadius: thumbSize / 2,
@@ -299,7 +307,7 @@ export default function UploadScreenshotPage() {
       )}
 
       {/* Main Area */}
-      <div className="w-full max-w-[400px] md:max-w-[900px] mx-auto" style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", minHeight: "calc(100vh - 120px)" }}>
+      <div className="w-full max-w-[400px] md:max-w-[900px] mx-auto" style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", minHeight: "calc(100dvh - 120px)" }}>
         
         {!hasUploaded ? (
           /* Initial State - Dashed Upload Zone + Slider + Generate button */

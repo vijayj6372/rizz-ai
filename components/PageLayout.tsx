@@ -52,7 +52,7 @@ export function PageLayout({
   return (
     <div
       style={{
-        minHeight: "100vh",
+        minHeight: "100dvh",
         background: bg,
         display: "flex",
         flexDirection: "column",
@@ -68,7 +68,7 @@ export function PageLayout({
           display: "flex",
           flexDirection: "column",
           flex: 1,
-          minHeight: "100vh",
+          minHeight: "100dvh",
         }}
       >
         {/* Top bar */}
@@ -96,6 +96,7 @@ export function PageLayout({
               <div
                 style={{
                   flex: showBack ? 1 : undefined,
+                  minWidth: 0,
                   display: "flex",
                   justifyContent: "center",
                 }}

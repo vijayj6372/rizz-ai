@@ -340,6 +340,18 @@ export default function RateMyCrushPage() {
           /* STATE 1: INITIAL UPLOAD VIEW */
           <div className="animate-slide-up max-w-[420px] mx-auto w-full flex flex-col gap-5" style={{ flex: 1 }}>
             <div style={{ textAlign: "center", display: "flex", flexDirection: "column", gap: 5 }}>
+              <h1
+                style={{
+                  margin: 0,
+                  color: "#FFFFFF",
+                  fontFamily: "LilitaOne, var(--font-lilita-one), cursive",
+                  fontSize: "clamp(24px, 7vw, 32px)",
+                  lineHeight: 1.15,
+                  letterSpacing: 0.3,
+                }}
+              >
+                Rate My Crush
+              </h1>
               <p
                 style={{
                   fontSize: 11,

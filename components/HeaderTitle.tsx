@@ -3,20 +3,22 @@ import { AppColors } from "@/constants/theme";
 
 interface HeaderTitleProps {
   title: string;
-  /** Override the font size (px). Default 28 for headers, 58 for home hero. */
+  /** Maximum font size (px). Scales down fluidly on narrow screens. Default 28. */
   fontSize?: number;
 }
 
 /**
  * Recreates the layered-text thick-white-outline style from the RN source.
  * Uses CSS -webkit-text-stroke + paint-order for the outline effect.
+ * The size is clamped so titles never overflow 320px-wide viewports.
  */
 export function HeaderTitle({ title, fontSize = 28 }: HeaderTitleProps) {
-  const strokeWidth = Math.round(fontSize * 0.09);
-  const shadowOffset = Math.round(fontSize * 0.07);
+  const strokeWidth = (Math.round(fontSize * 0.09) / fontSize).toFixed(3);
+  const shadowOffset = (Math.round(fontSize * 0.07) / fontSize).toFixed(3);
+  const minFontSize = Math.max(16, Math.round(fontSize * 0.64));
 
   const baseStyle: React.CSSProperties = {
-    fontSize,
+    fontSize: `clamp(${minFontSize}px, ${(fontSize / 4.5).toFixed(1)}vw, ${fontSize}px)`,
     fontWeight: 700,
     fontFamily: "var(--font-lilita-one), 'LilitaOne', cursive",
     textAlign: "center",
@@ -27,15 +29,15 @@ export function HeaderTitle({ title, fontSize = 28 }: HeaderTitleProps) {
   };
 
   const shadow = [
-    `-${shadowOffset}px 0 #FFFFFF`,
-    `${shadowOffset}px 0 #FFFFFF`,
-    `0 -${shadowOffset}px #FFFFFF`,
-    `0 ${shadowOffset}px #FFFFFF`,
-    `-${shadowOffset}px -${shadowOffset}px #FFFFFF`,
-    `${shadowOffset}px -${shadowOffset}px #FFFFFF`,
-    `-${shadowOffset}px ${shadowOffset}px #FFFFFF`,
-    `${shadowOffset}px ${shadowOffset}px #FFFFFF`,
-    `0 ${shadowOffset + 4}px 6px rgba(0, 0, 0, 0.15)`,
+    `-${shadowOffset}em 0 #FFFFFF`,
+    `${shadowOffset}em 0 #FFFFFF`,
+    `0 -${shadowOffset}em #FFFFFF`,
+    `0 ${shadowOffset}em #FFFFFF`,
+    `-${shadowOffset}em -${shadowOffset}em #FFFFFF`,
+    `${shadowOffset}em ${shadowOffset}em #FFFFFF`,
+    `-${shadowOffset}em ${shadowOffset}em #FFFFFF`,
+    `${shadowOffset}em -${shadowOffset}em #FFFFFF`,
+    `0 0.12em 6px rgba(0, 0, 0, 0.15)`,
   ].join(", ");
 
   return (
@@ -45,18 +47,22 @@ export function HeaderTitle({ title, fontSize = 28 }: HeaderTitleProps) {
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
+        maxWidth: "100%",
+        minWidth: 0,
       }}
     >
       <span
         style={{
           ...baseStyle,
           color: AppColors.primary,
-          WebkitTextStroke: `${strokeWidth}px #FFFFFF`,
+          WebkitTextStroke: `${strokeWidth}em #FFFFFF`,
           paintOrder: "stroke fill",
           textShadow: shadow,
           position: "relative",
           zIndex: 1,
           display: "block",
+          maxWidth: "100%",
+          overflowWrap: "break-word",
         }}
       >
         {title}

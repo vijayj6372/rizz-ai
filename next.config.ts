@@ -56,12 +56,6 @@ const nextConfig: NextConfig = {
         destination: "https://www.rizzai.space/$1",
         permanent: true,
       },
-      {
-        source: "/(.*)",
-        has: [{ type: "host", value: "http://rizzai.space" }],
-        destination: "https://www.rizzai.space/$1",
-        permanent: true,
-      },
       /* ── Removed / aliased routes ── */
       {
         source: "/couple-games",

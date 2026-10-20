@@ -209,7 +209,20 @@ export default function RoastMySelfiePage() {
 
       {/* Main Container */}
       <div className="w-full max-w-[400px] md:max-w-[900px] mx-auto" style={{ flex: 1, display: "flex", flexDirection: "column", width: "100%", gap: 16 }}>
-        
+        <h1
+          style={{
+            margin: 0,
+            textAlign: "center",
+            color: "#FFFFFF",
+            fontFamily: "LilitaOne, var(--font-lilita-one), cursive",
+            fontSize: "clamp(24px, 7vw, 32px)",
+            lineHeight: 1.15,
+            letterSpacing: 0.3,
+          }}
+        >
+          Roast My Selfie
+        </h1>
+
         {/* Roast Intensity Selector (Always visible at the top) */}
         <div style={{ display: "flex", flexDirection: "row", gap: 8, padding: "0 4px" }}>
           {MODES.map((m) => {

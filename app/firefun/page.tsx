@@ -122,7 +122,12 @@ function SvgRadarChart({ data }: { data: RadarPoint[] }) {
 
   return (
     <div className="flex flex-col items-center justify-center w-full py-2">
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+      <svg
+        viewBox={`0 0 ${size} ${size}`}
+        style={{ width: "100%", maxWidth: size, height: "auto" }}
+        role="img"
+        aria-label="Compatibility radar chart"
+      >
         {/* Background Grid Concentric Polygons */}
         {bgGridLevels.map((lvl) => {
           const gridPoints = data
@@ -406,7 +411,19 @@ export default function FireFunPage() {
       <div className="w-full max-w-2xl mx-auto space-y-6 pb-20 text-white font-sans">
         {/* Hero Tagline */}
         <div className="text-center pt-1 pb-1">
-          <p className="text-xs md:text-sm text-slate-300 max-w-md mx-auto">
+          <h1
+            className="text-white"
+            style={{
+              margin: 0,
+              fontFamily: "LilitaOne, var(--font-lilita-one), cursive",
+              fontSize: "clamp(26px, 7vw, 36px)",
+              lineHeight: 1.15,
+              letterSpacing: 0.3,
+            }}
+          >
+            FireFun — Fun Dating Questions &amp; Games
+          </h1>
+          <p className="text-xs md:text-sm text-slate-300 max-w-md mx-auto mt-2">
             Discover marriage odds, who falls first, who loves more, soulmate probability & savage ex audits!
           </p>
         </div>

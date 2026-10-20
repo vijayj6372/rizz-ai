@@ -688,11 +688,6 @@ const softwareAppSchema = {
     price: "0",
     priceCurrency: "USD",
   },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.9",
-    ratingCount: "14850",
-  },
 };
 
 const faqPageSchema = {

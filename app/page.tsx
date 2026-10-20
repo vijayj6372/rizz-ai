@@ -130,16 +130,15 @@ export default function HomePage() {
 
   const bg = "linear-gradient(180deg, #ABBFF2 0%, #BCCFFA 100%)";
 
-  if (!splashDone) {
-    return <SplashScreen onFinish={handleSplashFinish} />;
-  }
-
   if (onboarded === false) {
     return <OnboardingFlow onComplete={() => setOnboarded(true)} />;
   }
 
   return (
     <>
+      {/* Splash overlays the page (position: fixed) so the full SEO content
+          is still server-rendered for search engines and Lighthouse. */}
+      {!splashDone && <SplashScreen onFinish={handleSplashFinish} />}
       <main
         style={{
           minHeight: "100dvh",

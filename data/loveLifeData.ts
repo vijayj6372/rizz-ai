@@ -288,8 +288,8 @@ export function calculateLoveLife(
   const quizBonus = quizAnswers ? Object.keys(quizAnswers).length * 2 : 0;
   
   // Base overall score
-  let baseMin = mode === "roast-ex" ? 42 : mode === "rate-ex" ? 55 : 76;
-  let scoreRange = mode === "roast-ex" ? 50 : mode === "rate-ex" ? 40 : 23;
+  const baseMin = mode === "roast-ex" ? 42 : mode === "rate-ex" ? 55 : 76;
+  const scoreRange = mode === "roast-ex" ? 50 : mode === "rate-ex" ? 40 : 23;
   const rawScore = baseMin + (absHash % scoreRange) + (quizBonus % 5);
   const score = Math.min(99, Math.max(35, rawScore));
 

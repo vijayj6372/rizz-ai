@@ -47,7 +47,7 @@ export function ErrorFallback({ error, resetErrorAction }: ErrorFallbackProps) {
       style={{
         flex: 1,
         width: "100%",
-        minHeight: "100vh",
+        minHeight: "100dvh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",

@@ -383,7 +383,8 @@ dialog::backdrop {
 /* Use dynamic viewport height on mobile to avoid address bar issues */
 html,
 body {
-  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
   overscroll-behavior: none;
 }
 

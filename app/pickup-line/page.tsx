@@ -186,7 +186,7 @@ export default function PickupLinePage() {
       ` }} />
 
       {/* Main Area */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", minHeight: "calc(100vh - 120px)" }}>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", minHeight: "calc(100dvh - 120px)" }}>
         <section style={{ width: "100%", maxWidth: 520, margin: "0 auto", padding: "8px 16px 0", textAlign: "center" }}>
           <h1 style={{ margin: 0, color: "#1F2937", fontSize: 28, fontWeight: 900 }}>
             {t.pickupLineTitle}

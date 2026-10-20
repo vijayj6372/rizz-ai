@@ -11,7 +11,6 @@ export default function robots(): MetadataRoute.Robots {
           "/favicon.ico",
           "/favicon.png",
           "/*.ico$",
-          "/pickup-line?q=",
         ],
       },
       {
@@ -22,7 +21,6 @@ export default function robots(): MetadataRoute.Robots {
           "/favicon.ico",
           "/favicon.png",
           "/*.ico$",
-          "/pickup-line?q=",
         ],
       },
       {

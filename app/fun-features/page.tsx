@@ -366,6 +366,21 @@ export default function FunFeaturesPage() {
             padding: "4px 16px 60px",
           }}
         >
+          {/* Page heading (primary H1) */}
+          <h1
+            style={{
+              margin: 0,
+              padding: "2px 4px 4px",
+              color: "#FFFFFF",
+              fontFamily: "LilitaOne, var(--font-lilita-one), cursive",
+              fontSize: "clamp(26px, 7vw, 36px)",
+              lineHeight: 1.15,
+              letterSpacing: 0.3,
+            }}
+          >
+            Fun Features
+          </h1>
+
           {/* Hero card */}
           <div
             style={{

@@ -489,7 +489,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       canvas.style.position = "fixed";
       canvas.style.inset = "0";
       canvas.style.width = "100vw";
-      canvas.style.height = "100vh";
+      canvas.style.height = "100dvh";
       canvas.style.pointerEvents = "none";
       canvas.style.zIndex = "9999";
       document.body.appendChild(canvas);
@@ -653,7 +653,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
     const profile = getPersonalityProfile();
 
     return (
-      <div className="result-page-wrapper" style={{ minHeight: "100vh", background: "#0a0a0a", color: "#ffffff", paddingBottom: 40 }}>
+      <div className="result-page-wrapper" style={{ minHeight: "100dvh", background: "#0a0a0a", color: "#ffffff", paddingBottom: 40 }}>
         {renderToast()}
 
         {/* Celebration Modal */}
@@ -945,7 +945,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   // ─────────────────────────────────────────
   if (currentStep === 10) {
     return (
-      <div className="quiz-page" style={{ display: "flex", flexDirection: "column", minHeight: "100vh", background: "#08080c", color: "#ffffff" }}>
+      <div className="quiz-page" style={{ display: "flex", flexDirection: "column", minHeight: "100dvh", background: "#08080c", color: "#ffffff" }}>
         {renderToast()}
         {/* Header */}
         <div className="quiz-header" style={{ display: "flex", alignItems: "center", padding: "16px 20px", maxWidth: 600, margin: "0 auto", width: "100%" }}>
@@ -1039,7 +1039,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   const progressPercent = ((currentStep + 1) / (quizQuestions.length + 1)) * 100;
 
   return (
-    <div className="quiz-page" style={{ display: "flex", flexDirection: "column", minHeight: "100vh", background: "#08080c", color: "#ffffff" }}>
+    <div className="quiz-page" style={{ display: "flex", flexDirection: "column", minHeight: "100dvh", background: "#08080c", color: "#ffffff" }}>
       {/* Header */}
       <div className="quiz-header" style={{ display: "flex", alignItems: "center", padding: "16px 20px", maxWidth: 600, margin: "0 auto", width: "100%" }}>
         <button
